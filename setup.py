@@ -148,7 +148,8 @@ setup(
         'peppercorn',
         'Orange3>=3.29',
         'numpy',
-        'infixpy'
+        'infixpy',
+        'matplotlib'
     ],  # Optional
 
     # List additional groups of dependencies here (e.g. development
