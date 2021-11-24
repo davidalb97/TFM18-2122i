@@ -16,7 +16,6 @@ long_description = (here / 'README.md').read_text(encoding='utf-8')
 
 # Arguments marked as "Required" below must be included for upload to PyPI.
 # Fields marked as "Optional" may be commented out.
-
 setup(
     # This is the name of your project. The first time you publish this
     # package, this name will be registered for you. It will determine how
@@ -147,7 +146,9 @@ setup(
     # https://packaging.python.org/discussions/install-requires-vs-requirements/
     install_requires=[
         'peppercorn',
-        'Orange3>=3.29'
+        'Orange3>=3.29',
+        'numpy',
+        'infixpy'
     ],  # Optional
 
     # List additional groups of dependencies here (e.g. development
@@ -203,3 +204,4 @@ setup(
         'Source': 'https://github.com/davidalb97/TFM18-2122i/',
     },
 )
+
