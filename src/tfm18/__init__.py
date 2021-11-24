@@ -1,3 +1,12 @@
+import BasicApproach
+from src.tfm18 import DatasetReader
+
+
 def main():
-    """Entry point for the application script"""
-    print("Call your main application code here")
+    DatasetReader.find_valid_trips('../../data/ved_dynamic_data')
+
+    return
+
+
+if __name__ == "__main__":
+    main()
