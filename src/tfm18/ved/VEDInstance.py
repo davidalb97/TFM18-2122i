@@ -47,12 +47,12 @@ class VEDInstance:
         self.air_conditioning_power_w: float = instance[13]
         self.heater_power_w: float = instance[13]
         self.hv_battery_current_amperes: float = instance[14]
-        self.hv_battery_SOC: float = instance[15]
-        self.hv_battery_voltage: float = instance[16]
-        self.short_term_fuel_trim_bank_1: float = instance[17]
-        self.short_term_fuel_trim_bank_2: float = instance[18]
-        self.long_term_fuel_trim_bank_1: float = instance[19]
-        self.long_term_fuel_trim_bank_2: float = instance[20]
+        self.hv_battery_SOC: float = instance[16]
+        self.hv_battery_voltage: float = instance[17]
+        self.short_term_fuel_trim_bank_1: float = instance[18]
+        self.short_term_fuel_trim_bank_2: float = instance[19]
+        self.long_term_fuel_trim_bank_1: float = instance[20]
+        self.long_term_fuel_trim_bank_2: float = instance[21]
 
     def to_csv(self) -> str:
         retStr: str = "%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s\n" % (

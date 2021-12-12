@@ -1,9 +1,9 @@
 import BasicApproach
-from src.tfm18 import DatasetReader
+from src.tfm18.ved import VEDDatasetReader
+from src.tfm18.Aliases import OrangeTable
 
 
 def main():
-    DatasetReader.find_valid_trips('../../data/ved_dynamic_data')
 
     return
 
