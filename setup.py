@@ -149,7 +149,8 @@ setup(
         'Orange3>=3.29',
         'numpy',
         'infixpy',
-        'matplotlib'
+        'matplotlib',
+        'emobpy'
     ],  # Optional
 
     # List additional groups of dependencies here (e.g. development
