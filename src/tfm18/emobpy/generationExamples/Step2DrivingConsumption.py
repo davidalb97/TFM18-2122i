@@ -1,13 +1,11 @@
 from emobpy import Consumption, HeatInsulation, BEVspecs, DataBase, ModelSpecs
 
-from src.tfm18.emobpy.generationExamples.EmobpyUtil import fixed_set_seed
+from src.tfm18.emobpy.generationExamples.EmobpyUtil import fixed_set_seed, db_location
 
 # Initialize seed
 fixed_set_seed()
 
 if __name__ == '__main__':
-    db_location = "../../../../data/emobpy_data/db"
-
     # Instance of profiles' database whose input is the pickle files' folder
     DB = DataBase(
         folder=db_location
