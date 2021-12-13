@@ -55,7 +55,7 @@ class VEDInstance:
         self.long_term_fuel_trim_bank_2: float = instance[21]
 
     def to_csv(self) -> str:
-        retStr: str = "%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s\n" % (
+        ret_str: str = "%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s\n" % (
             self.day_num,
             csv_splitter,
             self.veh_id,
@@ -102,4 +102,4 @@ class VEDInstance:
         )
 
         # Fix Orange replacing NaN with ?
-        return retStr.replace("?", 'NaN')
+        return ret_str.replace("?", 'NaN')

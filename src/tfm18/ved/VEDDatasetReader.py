@@ -5,12 +5,12 @@ from typing import IO
 import matplotlib.pyplot as plt
 from Orange.data import Domain, Instance
 
-from src.tfm18 import OrangeTable
+from src.tfm18.Aliases import OrangeTable
 from src.tfm18.ved import VEDInstance
 from src.tfm18.ved.VEDInstance import csv_header
 
-ved_dataset_path = '../../../data/ved_dynamic_data'
-valid_trip_dataset_path = '../../../data/valid_trip_data'
+ved_dataset_path = '../../../data/ved_data/ved_dynamic_data'
+valid_trip_dataset_path = '../../../data/ved_data/ved_valid_trip_data'
 NaN_variable = '?'
 
 
@@ -139,7 +139,6 @@ def read_valid_trip():
         timestamps.append(ved_instance.timestamp_ms)
         watts.append(ved_instance.hv_battery_current_amperes * ved_instance.hv_battery_voltage)
         socs.append(ved_instance.hv_battery_SOC)
-
 
     plt.plot(timestamps, socs)
     plt.xlabel('timestamps (ms)')
