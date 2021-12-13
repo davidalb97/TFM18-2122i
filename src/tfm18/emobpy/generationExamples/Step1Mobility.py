@@ -1,6 +1,6 @@
 from emobpy import Mobility
 
-from src.tfm18.emobpy.generationExamples.EmobpyUtil import fixed_set_seed
+from src.tfm18.emobpy.generationExamples.EmobpyUtil import fixed_set_seed, db_location, config_folder
 
 # Initialize seed
 fixed_set_seed()
@@ -8,11 +8,9 @@ fixed_set_seed()
 hrs = 168  # one week
 steps = 0.25  # 15 minutes
 
-# https://diw-evu.gitlab.io/emobpy/emobpy/_static/0/basecase/Time-series_generation.html
 if __name__ == '__main__':
-    db_location = "../../../../data/emobpy_data/db"
     mobility = Mobility(
-        config_folder="../../../../data/emobpy_data/config_files"
+        config_folder=config_folder
     )
     mobility.set_params(
         name_prefix="Step1Mobility",
