@@ -1,6 +1,6 @@
 from emobpy import Consumption, HeatInsulation, BEVspecs, DataBase, ModelSpecs
 
-from src.tfm18.emobpy.generationExamples.EmobpyUtil import fixed_set_seed, db_location
+from src.tfm18.emobpy.generationExamples import fixed_set_seed, emobpy_db_location
 
 # Initialize seed
 fixed_set_seed()
@@ -8,7 +8,7 @@ fixed_set_seed()
 if __name__ == '__main__':
     # Instance of profiles' database whose input is the pickle files' folder
     DB = DataBase(
-        folder=db_location
+        folder=emobpy_db_location
     )
 
     # loading mobility pickle files to the database
@@ -61,6 +61,7 @@ if __name__ == '__main__':
         road_slope=0
     )
     consumption.save_profile(
-        folder=db_location,
+        folder=emobpy_db_location,
         description="Example Step2DrivingConsumption profile description"
     )
+

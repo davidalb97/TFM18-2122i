@@ -1,0 +1,38 @@
+{
+  'user_defined': {
+    'weekday': {
+      '_trip_out': [ 1 ],
+      'last_trip_to': {
+        'home': False
+      },
+      'overall_min_time_at': {
+        'home': 0
+      },
+      'min_state_duration': {
+        'home': 0.0,
+        'errands': 0.0,
+        'escort': 0.0,
+        'shopping': 0.0,
+        'leisure': 0.0,
+        'driving': 1.0
+      },
+    },
+    'weekend': {
+      'n_trip_out': [ 1 ],
+      'last_trip_to': {
+        'home': False
+      },
+      'overall_min_time_at': {
+        'home': 0
+      },
+      'min_state_duration': {
+        'home': 0.0,
+        'errands': 0.0,
+        'escort': 0.0,
+        'shopping': 0.0,
+        'leisure': 0.0,
+        'driving': 1.0
+      }
+    }
+  }
+}

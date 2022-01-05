@@ -1,0 +1,125 @@
+Collecting Orange3
+  Using cached Orange3-3.31.0-cp310-cp310-linux_x86_64.whl
+Requirement already satisfied: pyqtgraph>=0.11.1 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (0.12.3)
+Collecting keyrings.alt
+  Using cached keyrings.alt-4.1.0-py3-none-any.whl (20 kB)
+Requirement already satisfied: PyQt5!=5.15.1,>=5.12 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (5.15.6)
+Collecting keyring
+  Using cached keyring-23.5.0-py3-none-any.whl (33 kB)
+Requirement already satisfied: python-louvain>=0.13 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (0.15)
+Collecting httpx<0.20,>=0.14.0
+  Using cached httpx-0.19.0-py3-none-any.whl (77 kB)
+Requirement already satisfied: numpy>=1.16.0 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (1.22.0)
+Collecting openTSNE>=0.6.1
+  Using cached openTSNE-0.6.1.tar.gz (909 kB)
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Requirement already satisfied: joblib>=0.9.4 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (1.1.0)
+Collecting openpyxl
+  Using cached openpyxl-3.0.9-py2.py3-none-any.whl (242 kB)
+Requirement already satisfied: orange-widget-base>=4.16.1 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (4.16.1)
+Requirement already satisfied: pip>=9.0 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (21.3.1)
+Requirement already satisfied: qtconsole>=4.7.2 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (5.2.2)
+Requirement already satisfied: pandas>=1.1.0 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (1.3.5)
+Collecting baycomp>=1.0.2
+  Using cached baycomp-1.0.2-py3-none-any.whl (17 kB)
+Requirement already satisfied: orange-canvas-core<0.2a,>=0.1.24 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (0.1.24)
+Requirement already satisfied: xlrd>=0.9.2 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (2.0.1)
+Requirement already satisfied: xlsxwriter in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (3.0.2)
+Requirement already satisfied: networkx in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (2.6.3)
+Requirement already satisfied: scipy>=0.16.1 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (1.7.3)
+Requirement already satisfied: pyyaml in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (6.0)
+Requirement already satisfied: AnyQt>=0.0.11 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (0.0.13)
+Requirement already satisfied: requests in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (2.27.1)
+Collecting bottleneck>=1.0.0
+  Using cached Bottleneck-1.3.2.tar.gz (88 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'error'
+  Using cached Bottleneck-1.3.1.tar.gz (88 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'error'
+  Using cached Bottleneck-1.3.0.tar.gz (87 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'error'
+  Using cached Bottleneck-1.2.1.tar.gz (105 kB)
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Requirement already satisfied: scikit-learn!=1.0.0,>0.23.0 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (1.0.2)
+Requirement already satisfied: serverfiles in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (0.3.1)
+Requirement already satisfied: matplotlib>=2.0.0 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (3.5.1)
+Requirement already satisfied: PyQtWebEngine>=5.12 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (5.15.5)
+Requirement already satisfied: pygments>=2.8.0 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (2.11.1)
+Collecting chardet>=3.0.2
+  Using cached chardet-4.0.0-py2.py3-none-any.whl (178 kB)
+Requirement already satisfied: setuptools>=36.3 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from Orange3) (57.0.0)
+Requirement already satisfied: sniffio in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from httpx<0.20,>=0.14.0->Orange3) (1.2.0)
+Requirement already satisfied: certifi in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from httpx<0.20,>=0.14.0->Orange3) (2021.10.8)
+Requirement already satisfied: charset-normalizer in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from httpx<0.20,>=0.14.0->Orange3) (2.0.10)
+Requirement already satisfied: httpcore<0.14.0,>=0.13.3 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from httpx<0.20,>=0.14.0->Orange3) (0.13.7)
+Requirement already satisfied: rfc3986[idna2008]<2,>=1.3 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from httpx<0.20,>=0.14.0->Orange3) (1.5.0)
+Requirement already satisfied: cycler>=0.10 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from matplotlib>=2.0.0->Orange3) (0.11.0)
+Requirement already satisfied: fonttools>=4.22.0 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from matplotlib>=2.0.0->Orange3) (4.28.5)
+Requirement already satisfied: kiwisolver>=1.0.1 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from matplotlib>=2.0.0->Orange3) (1.3.2)
+Requirement already satisfied: pillow>=6.2.0 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from matplotlib>=2.0.0->Orange3) (9.0.0)
+Requirement already satisfied: pyparsing>=2.2.1 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from matplotlib>=2.0.0->Orange3) (3.0.6)
+Requirement already satisfied: python-dateutil>=2.7 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from matplotlib>=2.0.0->Orange3) (2.8.2)
+Requirement already satisfied: packaging>=20.0 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from matplotlib>=2.0.0->Orange3) (21.3)
+Requirement already satisfied: dictdiffer in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from orange-canvas-core<0.2a,>=0.1.24->Orange3) (0.9.0)
+Requirement already satisfied: docutils in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from orange-canvas-core<0.2a,>=0.1.24->Orange3) (0.18.1)
+Requirement already satisfied: commonmark>=0.8.1 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from orange-canvas-core<0.2a,>=0.1.24->Orange3) (0.9.1)
+Requirement already satisfied: qasync in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from orange-canvas-core<0.2a,>=0.1.24->Orange3) (0.22.0)
+Requirement already satisfied: cachecontrol[filecache] in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from orange-canvas-core<0.2a,>=0.1.24->Orange3) (0.12.10)
+Requirement already satisfied: typing-extensions>=3.7.4.3 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from orange-widget-base>=4.16.1->Orange3) (4.0.1)
+Requirement already satisfied: pytz>=2017.3 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from pandas>=1.1.0->Orange3) (2021.3)
+Requirement already satisfied: PyQt5-sip<13,>=12.8 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from PyQt5!=5.15.1,>=5.12->Orange3) (12.9.0)
+Requirement already satisfied: PyQt5-Qt5>=5.15.2 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from PyQt5!=5.15.1,>=5.12->Orange3) (5.15.2)
+Requirement already satisfied: PyQtWebEngine-Qt5>=5.15.2 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from PyQtWebEngine>=5.12->Orange3) (5.15.2)
+Requirement already satisfied: jupyter-client>=4.1 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from qtconsole>=4.7.2->Orange3) (7.1.0)
+Requirement already satisfied: jupyter-core in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from qtconsole>=4.7.2->Orange3) (4.9.1)
+Requirement already satisfied: ipykernel>=4.1 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from qtconsole>=4.7.2->Orange3) (6.6.1)
+Requirement already satisfied: pyzmq>=17.1 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from qtconsole>=4.7.2->Orange3) (22.3.0)
+Requirement already satisfied: ipython-genutils in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from qtconsole>=4.7.2->Orange3) (0.2.0)
+Requirement already satisfied: traitlets in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from qtconsole>=4.7.2->Orange3) (5.1.1)
+Requirement already satisfied: qtpy in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from qtconsole>=4.7.2->Orange3) (2.0.0)
+Requirement already satisfied: threadpoolctl>=2.0.0 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from scikit-learn!=1.0.0,>0.23.0->Orange3) (3.0.0)
+Requirement already satisfied: jeepney>=0.4.2 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from keyring->Orange3) (0.7.1)
+Requirement already satisfied: importlib-metadata>=3.6 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from keyring->Orange3) (4.10.0)
+Requirement already satisfied: SecretStorage>=3.2 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from keyring->Orange3) (3.3.1)
+Requirement already satisfied: et-xmlfile in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from openpyxl->Orange3) (1.1.0)
+Requirement already satisfied: idna<4,>=2.5 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from requests->Orange3) (3.3)
+Requirement already satisfied: urllib3<1.27,>=1.21.1 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from requests->Orange3) (1.26.7)
+Requirement already satisfied: h11<0.13,>=0.11 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from httpcore<0.14.0,>=0.13.3->httpx<0.20,>=0.14.0->Orange3) (0.12.0)
+Requirement already satisfied: anyio==3.* in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from httpcore<0.14.0,>=0.13.3->httpx<0.20,>=0.14.0->Orange3) (3.4.0)
+Requirement already satisfied: zipp>=0.5 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from importlib-metadata>=3.6->keyring->Orange3) (3.7.0)
+Requirement already satisfied: nest-asyncio in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from ipykernel>=4.1->qtconsole>=4.7.2->Orange3) (1.5.4)
+Requirement already satisfied: debugpy<2.0,>=1.0.0 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from ipykernel>=4.1->qtconsole>=4.7.2->Orange3) (1.5.1)
+Requirement already satisfied: tornado<7.0,>=4.2 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from ipykernel>=4.1->qtconsole>=4.7.2->Orange3) (6.1)
+Requirement already satisfied: ipython>=7.23.1 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from ipykernel>=4.1->qtconsole>=4.7.2->Orange3) (7.31.0)
+Requirement already satisfied: matplotlib-inline<0.2.0,>=0.1.0 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from ipykernel>=4.1->qtconsole>=4.7.2->Orange3) (0.1.3)
+Requirement already satisfied: entrypoints in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from jupyter-client>=4.1->qtconsole>=4.7.2->Orange3) (0.3)
+Requirement already satisfied: six>=1.5 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from python-dateutil>=2.7->matplotlib>=2.0.0->Orange3) (1.16.0)
+Requirement already satisfied: cryptography>=2.0 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from SecretStorage>=3.2->keyring->Orange3) (36.0.1)
+Requirement already satisfied: msgpack>=0.5.2 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from cachecontrol[filecache]->orange-canvas-core<0.2a,>=0.1.24->Orange3) (1.0.3)
+Requirement already satisfied: lockfile>=0.9 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from cachecontrol[filecache]->orange-canvas-core<0.2a,>=0.1.24->Orange3) (0.12.2)
+Requirement already satisfied: cffi>=1.12 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from cryptography>=2.0->SecretStorage>=3.2->keyring->Orange3) (1.15.0)
+Requirement already satisfied: pexpect>4.3 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from ipython>=7.23.1->ipykernel>=4.1->qtconsole>=4.7.2->Orange3) (4.8.0)
+Requirement already satisfied: pickleshare in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from ipython>=7.23.1->ipykernel>=4.1->qtconsole>=4.7.2->Orange3) (0.7.5)
+Requirement already satisfied: decorator in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from ipython>=7.23.1->ipykernel>=4.1->qtconsole>=4.7.2->Orange3) (5.1.0)
+Requirement already satisfied: backcall in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from ipython>=7.23.1->ipykernel>=4.1->qtconsole>=4.7.2->Orange3) (0.2.0)
+Requirement already satisfied: prompt-toolkit!=3.0.0,!=3.0.1,<3.1.0,>=2.0.0 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from ipython>=7.23.1->ipykernel>=4.1->qtconsole>=4.7.2->Orange3) (3.0.24)
+Requirement already satisfied: jedi>=0.16 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from ipython>=7.23.1->ipykernel>=4.1->qtconsole>=4.7.2->Orange3) (0.18.1)
+Requirement already satisfied: pycparser in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from cffi>=1.12->cryptography>=2.0->SecretStorage>=3.2->keyring->Orange3) (2.21)
+Requirement already satisfied: parso<0.9.0,>=0.8.0 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from jedi>=0.16->ipython>=7.23.1->ipykernel>=4.1->qtconsole>=4.7.2->Orange3) (0.8.3)
+Requirement already satisfied: ptyprocess>=0.5 in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from pexpect>4.3->ipython>=7.23.1->ipykernel>=4.1->qtconsole>=4.7.2->Orange3) (0.7.0)
+Requirement already satisfied: wcwidth in /home/apple/Repos/TFM18-2122i/venv/lib/python3.10/site-packages (from prompt-toolkit!=3.0.0,!=3.0.1,<3.1.0,>=2.0.0->ipython>=7.23.1->ipykernel>=4.1->qtconsole>=4.7.2->Orange3) (0.2.5)
+Building wheels for collected packages: bottleneck, openTSNE
+  Building wheel for bottleneck (setup.py): started
+  Building wheel for bottleneck (setup.py): finished with status 'error'
+  Running setup.py clean for bottleneck
+  Building wheel for openTSNE (setup.py): started
+  Building wheel for openTSNE (setup.py): finished with status 'error'
+  Running setup.py clean for openTSNE
+Failed to build bottleneck openTSNE
+Installing collected packages: openTSNE, openpyxl, keyrings.alt, keyring, httpx, chardet, bottleneck, baycomp, Orange3
+    Running setup.py install for openTSNE: started
+    Running setup.py install for openTSNE: finished with status 'error'
