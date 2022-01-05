@@ -1,6 +1,6 @@
 from emobpy import Charging, DataBase
 
-from src.tfm18.emobpy.generationExamples.EmobpyUtil import fixed_set_seed, db_location
+from src.tfm18.emobpy.generationExamples import fixed_set_seed, emobpy_db_location
 
 # Initialize seed
 fixed_set_seed()
@@ -9,7 +9,7 @@ if __name__ == "__main__":
 
     # Instance of profiles' database whose input is the pickle files' folder
     DB = DataBase(
-        folder=db_location
+        folder=emobpy_db_location
     )
 
     # loading availability pickle files to the database
@@ -38,6 +38,6 @@ if __name__ == "__main__":
         )
         charging.run()
         charging.save_profile(
-            folder=db_location,
+            folder=emobpy_db_location,
             description="Example Step4GridDemand profile description"
         )
