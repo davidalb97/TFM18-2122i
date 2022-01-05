@@ -145,13 +145,13 @@ setup(
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/discussions/install-requires-vs-requirements/
     install_requires=[
-        'peppercorn',
-        'Orange3>=3.31',
-        'numpy',
-        'infixpy',
-        'matplotlib',
-        'emobpy',
-        'pandas'
+        'peppercorn=0.6',
+        'Orange3=3.31.0',
+        'numpy=1.20.3',
+        'infixpy=0.0.6',
+        'matplotlib=3.5.1',
+        'emobpy=0.6.2',
+        'pandas=1.3.5'
     ],  # Optional
 
     # List additional groups of dependencies here (e.g. development
