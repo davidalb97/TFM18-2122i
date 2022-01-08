@@ -1,6 +1,6 @@
 from emobpy import Availability, DataBase
 
-from src.tfm18.emobpy.generationExamples import fixed_set_seed, emobpy_db_location
+from tfm18.src.main.emobpy.generationExamples import fixed_set_seed, emobpy_db_location
 
 # Initialize seed
 fixed_set_seed()

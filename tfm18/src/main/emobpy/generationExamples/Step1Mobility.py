@@ -1,7 +1,7 @@
 from emobpy import Mobility
 
-from src.tfm18.emobpy.generationExamples import fixed_set_seed, emobpy_db_location
-from src.tfm18.emobpy.generationExamples.EmobpyUtil import emobpy_config_folder
+from tfm18.src.main.emobpy.generationExamples import fixed_set_seed, emobpy_db_location
+from tfm18.src.main.emobpy.util.EmobpyUtil import emobpy_config_folder
 
 # Initialize seed
 fixed_set_seed()

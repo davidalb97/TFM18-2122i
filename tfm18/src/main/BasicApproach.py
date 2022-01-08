@@ -1,4 +1,3 @@
-
 def get_instant_RDD(FBD_AcS: float, RBE: float, FBE: float) -> float:
     """
     Gets the instant RDD (Remaining driving distance) in kilometers.
@@ -27,4 +26,4 @@ def get_instant_SOC(RBE: float, FBE: float) -> float:
     :param FBE: Full battery energy in kWh.
     :return: Instant SOC (State of charge or relative level of charge) in percentage points.
     """
-    return RBE/FBE * 100
+    return RBE / FBE * 100

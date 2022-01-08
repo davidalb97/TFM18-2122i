@@ -5,9 +5,9 @@ from typing import IO
 import matplotlib.pyplot as plt
 from Orange.data import Domain, Instance
 
-from src.tfm18.Aliases import OrangeTable
-from src.tfm18.ved import VEDInstance
-from src.tfm18.ved.VEDInstance import csv_header
+from tfm18.src.main.util.Aliases import OrangeTable
+from tfm18.src.main.ved import VEDInstance
+from tfm18.src.main.ved.VEDInstance import csv_header
 
 ved_dataset_path = '../../../data/ved_data/ved_dynamic_data'
 valid_trip_dataset_path = '../../../data/ved_data/ved_valid_trip_data'
