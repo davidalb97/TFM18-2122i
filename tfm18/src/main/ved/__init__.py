@@ -1,5 +1,5 @@
-from src.tfm18.ved import VEDDatasetReader
-from.. import BasicApproach
+from tfm18.src.main.ved import VEDDatasetReader
+
 
 def main():
     #VEDDatasetReader.generate_valid_trips()

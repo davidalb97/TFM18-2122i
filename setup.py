@@ -8,6 +8,7 @@ https://github.com/pypa/sampleproject
 # Always prefer setuptools over distutils
 from setuptools import setup, find_packages
 import pathlib
+import os
 
 here = pathlib.Path(__file__).parent.resolve()
 
@@ -16,6 +17,11 @@ long_description = (here / 'README.md').read_text(encoding='utf-8')
 
 # Arguments marked as "Required" below must be included for upload to PyPI.
 # Fields marked as "Optional" may be commented out.
+
+packages = find_packages('tfm18')
+
+
+
 setup(
     # This is the name of your project. The first time you publish this
     # package, this name will be registered for you. It will determine how
@@ -28,7 +34,7 @@ setup(
     # There are some restrictions on what makes a valid project name
     # specification here:
     # https://packaging.python.org/specifications/core-metadata/#name
-    name='TFM18',  # Required
+    name='tfm18',  # Required
 
     # Versions should comply with PEP 440:
     # https://www.python.org/dev/peps/pep-0440/
@@ -118,7 +124,10 @@ setup(
 
     # When your source code is in a subdirectory under the project root, e.g.
     # `src/`, it is necessary to specify the `package_dir` argument.
-    package_dir={'': 'src'},  # Optional
+    # package_dir={'': 'src'},  # Optional
+    package_dir={
+        '': 'tfm18'
+    },  # Optional
 
     # You can just specify package directories manually here if your project is
     # simple. Or you can use find_packages().
@@ -129,14 +138,20 @@ setup(
     #
     #   py_modules=["my_module"],
     #
-    packages=find_packages(where='src'),  # Required
+    # packages=find_packages(),  # Required
+    # packages=find_packages(include=['tfm18/src']),  # Required
+    # packages=find_packages(where='tfm18'),  # Required
+    packages=find_packages('tfm18'),  # Required
+    # packages=['tfm18'],  # Required
+    # packages=['src.main'],  # Required
+    # packages=['src.main', "src.tests"],  # Required
 
     # Specify which Python versions you support. In contrast to the
     # 'Programming Language' classifiers above, 'pip install' will check this
     # and refuse to install the project if the version does not match. See
     # https://packaging.python.org/guides/distributing-packages-using-setuptools/#python-requires
     # Minimum is 3.5 for type hints support
-    python_requires='>=3.5, <=3.9',
+    python_requires='>=3.5, <3.10',
 
     # This field lists other packages that your project depends on to run.
     # Any package you put here will be installed by pip when your project is
@@ -145,14 +160,16 @@ setup(
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/discussions/install-requires-vs-requirements/
     install_requires=[
-        'peppercorn=0.6',
-        'Orange3=3.31.0',
-        'numpy=1.20.3',
-        'infixpy=0.0.6',
-        'matplotlib=3.5.1',
-        'emobpy=0.6.2',
-        'pandas=1.3.5'
+        'peppercorn==0.6',
+        'Orange3==3.31.0',
+        'numpy==1.20.3',
+        'matplotlib==3.5.1',
+        'emobpy==0.6.2',
+        'pandas==1.3.5',
+        'infixpy==0.0.4'
+        # 'check-python-versions=='
     ],  # Optional
+    # install_requires=[],
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
@@ -162,15 +179,17 @@ setup(
     #
     # Similar to `install_requires` above, these must be valid existing
     # projects.
-    extras_require={  # Optional
-        'dev': ['check-manifest'],
-        'test': ['coverage'],
-    },
+    # extras_require={  # Optional
+    #     'dev': ['check-manifest'],
+    #     'test': ['coverage'],
+    # },
+
+    include_package_data=True,
 
     # If there are data files included in your packages that need to be
     # installed, specify them here.
     package_data={  # Optional
-        'tfm18': ['package_data.dat'],
+        'tfm18': ['data/*']
     },
 
     # Although 'package_data' is the preferred approach, in some case you may
@@ -178,7 +197,7 @@ setup(
     # http://docs.python.org/distutils/setupscript.html#installing-additional-files
     #
     # In this case, 'data_file' will be installed into '<sys.prefix>/my_data'
-    data_files=[('my_data', ['data/data_file'])],  # Optional
+    # data_files=[('data', ['data/*'])],  # Optional
 
     # To provide executable scripts, use entry points in preference to the
     # "scripts" keyword. Entry points provide cross-platform support and allow
@@ -207,4 +226,3 @@ setup(
         'Source': 'https://github.com/davidalb97/TFM18-2122i/',
     },
 )
-

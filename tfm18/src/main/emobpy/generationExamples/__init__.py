@@ -1,10 +1,8 @@
-from typing import List, Any
-
-from emobpy import DataBase, Mobility, BEVspecs
+from emobpy import DataBase, Mobility
 from emobpy.plot import NBplot
 from plotly.graph_objs import Figure
 
-from src.tfm18.emobpy.generationExamples.EmobpyUtil import fixed_set_seed, emobpy_db_location
+from tfm18.src.main.emobpy.util.EmobpyUtil import fixed_set_seed, emobpy_db_location
 
 
 def plot_values():

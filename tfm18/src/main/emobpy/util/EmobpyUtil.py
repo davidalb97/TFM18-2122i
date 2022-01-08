@@ -12,10 +12,11 @@ from emobpy import DataBase
 from emobpy.tools import set_seed
 from infixpy import *
 from pandas import DataFrame
+from tfm18.src.main.util.DataPathUtil import data_dir_path
 
-emobpy_data_location = "../../../../data/emobpy_data"
-emobpy_db_location = "../../../../data/emobpy_data/db"
-emobpy_config_folder = "../../../../data/emobpy_data/config_files"
+emobpy_data_location = data_dir_path("emobpy_data")
+emobpy_db_location = os.path.join(emobpy_data_location, "db")
+emobpy_config_folder = os.path.join(emobpy_data_location, "config_files")
 
 
 def fixed_set_seed() -> None:
