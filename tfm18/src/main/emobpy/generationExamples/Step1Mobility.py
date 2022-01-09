@@ -1,7 +1,5 @@
 from emobpy import Mobility
-
-from tfm18.src.main.emobpy.generationExamples import fixed_set_seed, emobpy_db_location
-from tfm18.src.main.emobpy.util.EmobpyUtil import emobpy_config_folder
+from tfm18.src.main.emobpy.util.EmobpyUtil import fixed_set_seed, emobpy_config_folder, emobpy_db_location
 
 # Initialize seed
 fixed_set_seed()
@@ -22,10 +20,10 @@ if __name__ == '__main__':
         reference_date="03/01/2020"
     )
     mobility.set_stats(
-        # stat_ntrip_path="TripsPerDay.csv",
-        stat_ntrip_path="TripsPerDay-OneTrip.csv",
-        # stat_dest_path="DepartureDestinationTrip.csv",
-        stat_dest_path="DepartureDestinationTrip-OneTrip.csv",
+        stat_ntrip_path="TripsPerDay.csv",
+        # stat_ntrip_path="TripsPerDay-OneTrip.csv",
+        stat_dest_path="DepartureDestinationTrip.csv",
+        # stat_dest_path="DepartureDestinationTrip-OneTrip.csv",
         stat_km_duration_path="DistanceDurationTrip.csv",
     )
     mobility.set_rules(

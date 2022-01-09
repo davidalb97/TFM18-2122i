@@ -1,7 +1,5 @@
-import importlib.resources
-
 import pkg_resources
-from pkg_resources import *
+
 
 class TripHalfHour:
     days: str # day type, can be 'saturday', 'sunday' or 'weekdays'

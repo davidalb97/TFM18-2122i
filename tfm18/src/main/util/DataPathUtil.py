@@ -1,9 +1,9 @@
-import collections.abc
 import os.path
 
 import pkg_resources
 from infixpy import *
-from Aliases import Function
+
+from tfm18.src.main.util.Aliases import Function
 
 module_name = "tfm18"
 data_submodule_prefix = 'data/'
