@@ -2,6 +2,7 @@
 # https://diw-evu.gitlab.io/emobpy/emobpy/_static/0/basecase/Time-series_generation.html
 # https://emobpy.readthedocs.io/en/latest/_static/0/basecase/Visualize_and_Export.html
 # https://emobpy.readthedocs.io/en/latest/_static/0/example1/example1.html
+# https://emobpy.readthedocs.io/en/latest/src/emobpy.html#module-emobpy.mobility
 
 import glob
 import os
@@ -12,11 +13,12 @@ from emobpy import DataBase
 from emobpy.tools import set_seed
 from infixpy import *
 from pandas import DataFrame
+
 from tfm18.src.main.util.DataPathUtil import data_dir_path
 
-emobpy_data_location = data_dir_path("emobpy_data")
-emobpy_db_location = os.path.join(emobpy_data_location, "db")
-emobpy_config_folder = os.path.join(emobpy_data_location, "config_files")
+emobpy_data_location: str = data_dir_path("emobpy_data")
+emobpy_db_location: str = os.path.join(emobpy_data_location, "db")
+emobpy_config_folder: str = os.path.join(emobpy_data_location, "config_files")
 
 
 def fixed_set_seed() -> None:
