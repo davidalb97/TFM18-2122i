@@ -7,14 +7,15 @@ from tfm18.src.main.util.MulticoreUtil import core_count
 
 fixed_set_seed()
 
-if __name__ == '__main__':
+
+def main():
     # Instance of profiles' database whose input is the pickle files' folder
-    DB = DataBase(
+    database = DataBase(
         folder=emobpy_db_location
     )
 
     # loading consumption pickle files to the database
-    DB.loadfiles_batch(
+    database.loadfiles_batch(
         kind="consumption",
         batch=10,
         nr_workers=core_count,
@@ -23,7 +24,7 @@ if __name__ == '__main__':
 
     # getting the id of the first consumption profile
 
-    column_name = list(DB.db.keys())[0]
+    column_name = list(database.db.keys())[0]
 
     station_distribution = {
         # Dictionary with charging stations type probability distribution
@@ -52,7 +53,7 @@ if __name__ == '__main__':
 
     ga = Availability(
         inpt=column_name,
-        db=DB
+        db=database
     )
     ga.set_scenario(
         charging_data=station_distribution
@@ -62,3 +63,6 @@ if __name__ == '__main__':
         folder=emobpy_db_location,
         description="Example Step3GridAvailability profile description"
     )
+
+if __name__ == '__main__':
+    main()

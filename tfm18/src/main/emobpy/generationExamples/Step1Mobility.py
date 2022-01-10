@@ -6,8 +6,7 @@ from tfm18.src.main.emobpy.util.EmobpyUtil import fixed_set_seed, emobpy_config_
 # Initialize seed
 fixed_set_seed()
 
-if __name__ == '__main__':
-
+def main():
     mobility = Mobility(
         config_folder=emobpy_config_folder
     )
@@ -20,8 +19,8 @@ if __name__ == '__main__':
     # steps = 0.5     # 30m
     # steps = 0.25    # 15m
     # steps = 0.125   # 450s
-    # steps = 1/60    # 60s
-    steps = 1/3600  # 1s
+    steps = 1/60    # 60s
+    # steps = 1/3600  # 1s
     mobility.set_params(
         name_prefix="Step1Mobility",
         total_hours=hrs,
@@ -50,3 +49,6 @@ if __name__ == '__main__':
         description="Example Step1Mobility profile description"
     )
 
+
+if __name__ == '__main__':
+    main()
