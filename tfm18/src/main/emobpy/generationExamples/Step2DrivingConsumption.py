@@ -64,4 +64,3 @@ if __name__ == '__main__':
         folder=emobpy_db_location,
         description="Example Step2DrivingConsumption profile description"
     )
-
