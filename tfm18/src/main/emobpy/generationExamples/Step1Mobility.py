@@ -31,15 +31,18 @@ if __name__ == '__main__':
     )
     mobility.set_stats(
         # stat_ntrip_path="TripsPerDay.csv",
-        stat_ntrip_path="TripsPerDay-TwoTrips.csv",
+        stat_ntrip_path="TripsPerDay-OneTrip.csv",
+        # stat_ntrip_path="TripsPerDay-TwoTrips.csv",
         # stat_dest_path="DepartureDestinationTrip.csv",
+        # stat_dest_path="DepartureDestinationTrip-OneTrip.csv", # Crashes, always required a trip with 0
         stat_dest_path="DepartureDestinationTrip-TwoTrips.csv",
         stat_km_duration_path="DistanceDurationTrip.csv",
     )
     mobility.set_rules(
         rule_key="user_defined",
         # rules_path="rules.yml"
-        rules_path="rules_two_trips.yml"
+        rules_path="rules_one_trip.yml"
+        # rules_path="rules_two_trips.yml"
     )
     mobility.run()
     mobility.save_profile(
