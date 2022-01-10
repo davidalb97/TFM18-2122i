@@ -8,6 +8,7 @@ import glob
 import os
 from collections.abc import Callable
 
+import emobpy
 import pandas
 from emobpy import DataBase
 from emobpy.tools import set_seed
@@ -16,6 +17,8 @@ from pandas import DataFrame
 
 from tfm18.src.main.util.DataPathUtil import data_dir_path
 
+
+emobpy.msg_disable(0)
 emobpy_data_location: str = data_dir_path("emobpy_data")
 emobpy_db_location: str = os.path.join(emobpy_data_location, "db")
 emobpy_config_folder: str = os.path.join(emobpy_data_location, "config_files")
