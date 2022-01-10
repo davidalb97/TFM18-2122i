@@ -151,6 +151,7 @@ setup(
     # and refuse to install the project if the version does not match. See
     # https://packaging.python.org/guides/distributing-packages-using-setuptools/#python-requires
     # Minimum is 3.5 for type hints support
+    # Minimum is 3.7 for postponed evaluation of annotations (type hints for self return type)
     python_requires='>=3.5, <3.10',
 
     # This field lists other packages that your project depends on to run.
@@ -166,7 +167,8 @@ setup(
         'matplotlib==3.5.1',
         'emobpy==0.6.2',
         'pandas==1.3.5',
-        'infixpy==0.0.4'
+        'infixpy==0.0.4',
+        "chart_studio"  # Might be useful for emobpy pandas dataframe iplot()?
         # 'check-python-versions=='
     ],  # Optional
     # install_requires=[],
