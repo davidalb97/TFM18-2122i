@@ -86,7 +86,7 @@ def print_all_dataframes(profile_idx) -> None:
 
     for driving_consumption_profile_var_name in list(driving_consumption_profile.keys()):
         driving_consumption_profile_var = driving_consumption_profile[driving_consumption_profile_var_name]
-        with pandas.option_context('display.max_rows', None, 'display.max_columns', None):
+        with pandas.option_context('display.max_rows', None, 'display.max_columns', None, 'display.width', None):
             print("/////////" + driving_consumption_profile_var_name + ":")
             print(driving_consumption_profile_var)
 
