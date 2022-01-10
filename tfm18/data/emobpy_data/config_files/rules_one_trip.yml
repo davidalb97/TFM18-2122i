@@ -3,7 +3,7 @@
     'weekday': {
       '_trip_out': [ 1 ],
       'last_trip_to': {
-        'home': False
+        'home': True
       },
       'overall_min_time_at': {
         'home': 0
@@ -20,7 +20,7 @@
     'weekend': {
       'n_trip_out': [ 1 ],
       'last_trip_to': {
-        'home': False
+        'home': True
       },
       'overall_min_time_at': {
         'home': 0
