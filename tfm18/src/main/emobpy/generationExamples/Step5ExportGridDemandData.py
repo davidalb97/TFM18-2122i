@@ -5,7 +5,8 @@ from tfm18.src.main.emobpy.generationExamples import fixed_set_seed, emobpy_db_l
 # Initialize seed
 fixed_set_seed()
 
-if __name__ == '__main__':
+
+def main():
 
     # Instance of profiles' database whose input is the pickle files' folder
     database = DataBase(
@@ -17,7 +18,9 @@ if __name__ == '__main__':
     export.loaddata(database)
     export.to_csv()
     export.save_files(
-        # repository=emobpy_db_location
+        repository=emobpy_db_location
     )
 
 
+if __name__ == '__main__':
+    main()

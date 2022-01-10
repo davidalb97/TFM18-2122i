@@ -7,14 +7,15 @@ from tfm18.src.main.util.MulticoreUtil import core_count
 
 fixed_set_seed()
 
-if __name__ == '__main__':
+
+def main():
     # Instance of profiles' database whose input is the pickle files' folder
-    DB = DataBase(
+    database = DataBase(
         folder=emobpy_db_location
     )
 
     # loading mobility pickle files to the database
-    DB.loadfiles_batch(
+    database.loadfiles_batch(
         kind="driving",
         loaddir='',
         batch=10,
@@ -23,7 +24,7 @@ if __name__ == '__main__':
     )
 
     # getting the id of the first mobility profile
-    column_name = list(DB.db.keys())[0]
+    column_name = list(database.db.keys())[0]
 
     # Creating the heat insulation configuration by copying the default configuration
     heat_insulation = HeatInsulation(
@@ -47,7 +48,7 @@ if __name__ == '__main__':
         ev_model=VW_ID3_model_spec
     )
     consumption.load_setting_mobility(
-        DataBase=DB
+        DataBase=database
     )
     consumption.run(
         heat_insulation=heat_insulation,
@@ -66,3 +67,6 @@ if __name__ == '__main__':
         folder=emobpy_db_location,
         description="Example Step2DrivingConsumption profile description"
     )
+
+if __name__ == '__main__':
+    main()

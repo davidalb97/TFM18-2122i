@@ -7,15 +7,16 @@ from tfm18.src.main.util.MulticoreUtil import core_count
 
 fixed_set_seed()
 
-if __name__ == "__main__":
+
+def main():
 
     # Instance of profiles' database whose input is the pickle files' folder
-    DB = DataBase(
+    database = DataBase(
         folder=emobpy_db_location
     )
 
     # loading availability pickle files to the database
-    DB.loadfiles_batch(
+    database.loadfiles_batch(
         kind="availability",
         loaddir='',
         batch=10,
@@ -24,7 +25,7 @@ if __name__ == "__main__":
     )
 
     # getting the id of the first availability profile
-    column_name = list(DB.db.keys())[0]
+    column_name = list(database.db.keys())[0]
 
     strategies = ["immediate", "balanced", "from_0_to_24_at_home", "from_23_to_8_at_home"]
 
@@ -33,7 +34,7 @@ if __name__ == "__main__":
             inpt=column_name
         )
         charging.load_scenario(
-            database=DB
+            database=database
         )
         charging.set_sub_scenario(
             option=option
@@ -43,3 +44,6 @@ if __name__ == "__main__":
             folder=emobpy_db_location,
             description="Example Step4GridDemand profile description"
         )
+
+if __name__ == '__main__':
+    main()
