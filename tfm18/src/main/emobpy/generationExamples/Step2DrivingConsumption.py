@@ -3,6 +3,8 @@ from emobpy import Consumption, HeatInsulation, BEVspecs, DataBase, ModelSpecs
 from tfm18.src.main.emobpy.generationExamples import fixed_set_seed, emobpy_db_location
 
 # Initialize seed
+from tfm18.src.main.util.MulticoreUtil import core_count
+
 fixed_set_seed()
 
 if __name__ == '__main__':
@@ -16,7 +18,7 @@ if __name__ == '__main__':
         kind="driving",
         loaddir='',
         batch=10,
-        nr_workers=4,
+        nr_workers=core_count,
         add_variables=[]
     )
 
