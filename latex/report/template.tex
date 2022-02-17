@@ -45,7 +45,8 @@
     msc,        % (*) msc, prepmsc, bsc, prepbsc - degree
 % prepbsc(msc) Preparation of BSc (MSc) dissertation
 % bsc(msc) BSc graduation report/ MSc dissertation
-    pt,             % (*) pt, en - languages
+%    pt,             % (*) pt, en - languages
+    en,             % (*) pt, en - languages
     twoside,        % (*) twoside, oneside - single or double sided printing
     12pt,           % (*) 12pt, 11pt, 10pt - use font size
     a4paper,        % Paper size/format
@@ -163,32 +164,45 @@
 % 
 % TEX CHAPTERS:
 % syntax: \chapterfile{file}
-\chapterfile{chapter1}
-\chapterfile{chapter2}
-\chapterfile{chapter3}
+\chapterfile{chapter1-introduction}
+\chapterfile{chapter2-stateOfArt}
+\chapterfile{chapter3-delopment}
+\chapterfile{chapter4-planning}
+%\chapterfile{chapter2}
+%\chapterfile{chapter3}
 
 %% ------------------------------------------------------------
 %% Bibliography style
 %% ------------------------------------------------------------
 % If you want to change some parameters
-%\usepackage[
+\usepackage[
 %style={ieee, numeric, alphabetic, authoryear, authortitle, verbose, apa, chem-acs, chem-angew, mla, nature, science, nejm, phys},
 %sorting={none, nty, nyt, nyvt, anyt, anyvt, ynt, debug},
 %backend={biber,bibtext}
+%backend=bibtext
 %url=false,%
 %isbn=false,%
 %urldate=long,
 %uniquename=false,
 %uniquelist=false
-%]{biblatex}
+]{biblatex}
 %
 \addbibresource{bibliography.bib}
+
 %% ------------------------------------------------------------
 %% Text appendixes
 %% ------------------------------------------------------------
 % Comment if not needed
 % sintax: \appendixfile{file}
-\appendixfile{appendix1}
+\appendixfile{appendix2}
+
+% TODOS already implemented on an external package,
+% So this is not needed
+%\usepackage{xassoccnt} % Count \todo{} calls
+%\newcounter{todocount}
+%\DeclareTotalAssociatedCounters{todocount}{totalTodoCount}
+%\newcommand\todo[1]{\refstepcounter{todocount}\textcolor{red}{\textbf{TODO} #1}}
+%\newcommand{\TODOcount}{\huge{\textbf{\textcolor{red} {Number of TODOs:} \TotalValue{totalTodoCount}}}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
