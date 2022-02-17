@@ -7,6 +7,7 @@ tfm18/data/emobpy_data/db/
 # Intellij
 .idea/
 *.iml
+#out/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -146,7 +147,6 @@ dmypy.json
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
-*.log
 *.lot
 *.fls
 *.out
