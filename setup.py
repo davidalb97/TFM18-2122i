@@ -162,13 +162,13 @@ setup(
     # https://packaging.python.org/discussions/install-requires-vs-requirements/
     install_requires=[
         'peppercorn==0.6',
-        'Orange3==3.31.0',
-        'numpy==1.20.3',
+        'Orange3==3.31.1',
+        'numpy==1.22.2',
         'matplotlib==3.5.1',
         'emobpy==0.6.2',
-        'pandas==1.3.5',
+        'pandas==1.4.1',
         'infixpy==0.0.4',
-        "chart_studio"  # Might be useful for emobpy pandas dataframe iplot()?
+        "chart_studio==1.1.0"  # Might be useful for emobpy pandas dataframe iplot()?
         # 'check-python-versions=='
     ],  # Optional
     # install_requires=[],
