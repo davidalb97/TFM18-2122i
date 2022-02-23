@@ -176,7 +176,7 @@
 \usepackage{amsmath, amssymb, amsfonts, verbatim, mathabx}
 \usepackage{spverbatim}
 % underline  
-\usepackage{ulem}
+\usepackage[normalem]{ulem}
 
 % Provides the inparaenum environment (with an optional formatting specification in square brackets)
 \usepackage{paralist}
@@ -1059,6 +1059,7 @@ de Mestre \\em \@majorfield}
 %http://tex.stackexchange.com/questions/15971/bibliography-with-page-numbers
 %URL linebreak in footnote
 %\usepackage{breakurl}
+
 \usepackage[
 style=ieee, %{ieee, numeric, alphabetic, authoryear, authortitle, verbose, apa, chem-acs, chem-angew, mla, nature, science, nejm, phys},
 %defernumbers=true, 
@@ -1066,9 +1067,9 @@ backend=bibtex, %{bibtex, biber}
 sorting=debug, %{none, nty, nyt, nyvt, anyt, anyvt, ynt, debug},
 %dashed=false,
 maxnames=20,
-maxcitenames=3,
+maxcitenames=1,
 giveninits=false,
-citestyle=nature,
+citestyle=authoryear,
 natbib=true,%
 doi=true,%
 %url=false,%
@@ -1077,6 +1078,8 @@ isbn=true,%
 %uniquename=false,
 %uniquelist=false
 ]{biblatex}
+
+%\bibliographystyle{apacite}
 
 %%%% The important part:
 \DefineBibliographyStrings{portuguese}{%
