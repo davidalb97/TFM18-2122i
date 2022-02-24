@@ -61,14 +61,21 @@ problem with the use of \gls{machineLearning} based
 model to increase its accuracy.
 
 %\todo[inline]{What will be done}
-The proposed model is divided into two phases: 
-a learning phase and an estimation phase.
-On the learning phase, the model receives 
-an external \gls{dataset} containing multiple
-trips and their respective vehicle power consumption [kW]
+The proposed solution is divided into three phases: 
+a \gls{dataset} generation phase, a learning phase
+and an estimation phase.
+On the \gls{dataset} generation phase, a \gls{dataset}
+will be created from existing data retrieved from
+real vehicle trips both personally recorded and 
+external \citep{vedDataset} \todo{remove VED dataset if not valid}
+as well was an external library that generates 
+\gls{EV} trip and consumption \gls{timeSeries} \citep{emobpy}.
+The resulting dataset contains multiple
+trips with their respective vehicle power consumption [kW]
 and the vehicle speed [km/h] in a  \gls{timeSeries} format.
 This \gls{dataset} will be used to train the model
-through machine learning, allowing it to learn estimation of 
+on the learning phase through machine learning, 
+allowing it to learn the estimation of 
 the \gls{eRange} for each trip on the \gls{dataset}.
 After training the model with the dataset,
 the estimation phase performs the \gls{eRange} prediction
@@ -86,7 +93,13 @@ The following figures represent an overview of the system:
 
 \begin{figure}[H]
     \begin{center}
-        %! suppress = MissingLabel
+        \includegraphics[scale=1.0]{../figures/generic_diagram_dataset_generation_phase}
+        \caption{System overview - Dataset generation}
+    \end{center}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{center}
         \includegraphics[scale=1.0]{../figures/generic_diagram_learn_phase}
         \caption{System overview - Learning phase.}
     \end{center}
@@ -94,7 +107,6 @@ The following figures represent an overview of the system:
 
 \begin{figure}[H]
     \begin{center}
-        %! suppress = MissingLabel
         \includegraphics[scale=1.0]{../figures/generic_diagram_estimation_phase}
         \caption{System overview - Estimation phase.}
     \end{center}
