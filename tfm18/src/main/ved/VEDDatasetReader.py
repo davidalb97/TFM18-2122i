@@ -23,6 +23,7 @@ def generate_valid_trips():
     ved_dataset_files.sort()
     electric_vehicle_ids: list[int] = [10, 455, 541]
     len_ved_dataset_files: int = len(ved_dataset_files)
+    debug_old_dataset_file_path: str = None
     for filename_index in range(len_ved_dataset_files):
 
         filename = ved_dataset_files[filename_index]
@@ -87,6 +88,11 @@ def generate_valid_trips():
                 ved_instance.veh_id,
                 "ON" if has_air_conditioner else "OFF"
             )
+
+            if ved_instance.hv_battery_SOC < 0:
+                if dataset_file_path != debug_old_dataset_file_path:
+                    debug_old_dataset_file_path = dataset_file_path
+                    print("EV file: %s" % dataset_file_path)
 
             # If trip changed, close old file and create a new one
             if previous_trip_file_path is None or previous_trip_file_path != current_trip_file_path:
