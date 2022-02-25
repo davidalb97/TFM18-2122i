@@ -5,29 +5,49 @@
 \section{EV Range prediction}
 
 %Defenição do problema
+Previous studies have already tackled 
+various \gls{EV} related topics, for example, 
+the statistical measurement of charging \gls{EV}s
+\citep{EVScout2}.
+
 \todo[inline]{What is EV range prediction - the problem}
-As previously stated, the \gls{EV} range prediction
-problem has been a d
+In today's day and age, the \gls{EV} range prediction 
+problem has been previously studied before,
+prompting multiple ways to tackle the problem \citep{predictionOfeRange}.
 
+Existing work has demonstrated the use for 
+this feature on \gls{EV}s, showing the need
+different types of accuracy on \gls{eRange}
+estimation depending on the \gls{SOC} state \citep{eRange},
+this approach minimizes the performance impact
+of minimum cost route searching from high accuracy
+\gls{eRange} prediction.
 
+Other studies have focused on delivering 
+higher \gls{eRange} estimation accuracy,
+making use of more complex models. 
+The use of an adaptive history based model 
+approach \citep{classicEVX} that relies on
+(... \todo{descrever}).
 
-\todo[inline]{Dataset research - existing}
-Previous studies with \gls{EVs} have already gathered
-\gls{dataset}s containing driving \gls{timeSeries}
-such as the VED \gls{dataset} \citep{vedDataset}
+Another approach has used machine learning in a hybrid model
+of \gls{SOM} integrating \gls{RTs} \citep{hybridMachineLearningERange}
+ (... \todo{descrever}).
 
+The \gls{dataset} used to obtain the results
+from past studies have an important role
+in determining the effectiveness of the chosen 
+solution.
 
-\todo[inline]{Dataset research - generation}
-\todo{site online}
-\todo{Emobpy}
-\citep{emobpy}
+To this end, existing \gls{dataset} solutions
+already exist such as the VED \gls{dataset} \citep{vedDataset}
+(althouth containing only three electric vehicles
+\- model 2013 \textit{Nissan leaf}).
 
-\todo[inline]{EV range prediction articles}
-\citep {predictionOfeRange}
-\citep{EVScout2}
-
-\todo[inline]{EV range prediction with history based model}
-\citep{classicEVX}
+Another adopted \gls{dataset} solution is the use of 
+a \gls{python} tool \textit{Emobpy} \citep{emobpy}
+that generates multiple trips for charging and driving
+studies on \gls{EVs}  (... \todo{descrever}).
 
 \section{Machine Learning and EV Range prediction}
 
@@ -39,4 +59,5 @@ such as the VED \gls{dataset} \citep{vedDataset}
 \todo{referir as técnicas mas especificar noutros capítulos}
 \todo{resumo das técnicas usadas no fim do state of the art}
 \todo[inline]{classicEVX history based comparisson}
+
 

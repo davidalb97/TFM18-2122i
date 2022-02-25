@@ -53,9 +53,9 @@ is vast and could be applied to most problems
 \citep{mitchelllearning}, the \gls{eRange}
  estimation problem could be one of which, 
 through the use of \gls{machineLearning}, 
-achieve better results, requiring an initial
-phase to learn from the model and then estimate
-through real-time \gls{SOC} variations.
+achieve better results \cite{predictionOfeRange},
+requiring an initial phase to learn from 
+the model and then estimate through real-time \gls{SOC} variations.
 This project approaches the \gls{eRange} estimation
 problem with the use of \gls{machineLearning} based
 model to increase its accuracy.
@@ -65,9 +65,10 @@ The proposed solution is divided into three phases:
 a \gls{dataset} generation phase, a learning phase
 and an estimation phase.
 On the \gls{dataset} generation phase, a \gls{dataset}
-will be created from existing data retrieved from
-real vehicle trips both personally recorded and 
-external \citep{vedDataset} \todo{remove VED dataset if not valid}
+will be created from historical traffic dataset
+from personally recorded vehicle trips as well as
+external existing datasets such as \textit{VED} \citep{vedDataset}
+ \todo{remove VED dataset if not valid}
 as well was an external library that generates 
 \gls{EV} trip and consumption \gls{timeSeries} \citep{emobpy}.
 The resulting dataset contains multiple
@@ -94,7 +95,7 @@ The following figures represent an overview of the system:
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=1.0]{../figures/generic_diagram_dataset_generation_phase}
-        \caption{System overview - Dataset generation}
+        \caption{System overview - Dataset generation.}
     \end{center}
 \end{figure}
 
