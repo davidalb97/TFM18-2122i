@@ -20,7 +20,7 @@ A vehicle's autonomy also known as \gls{eRange},
 allows consumers to know an estimate on the
 remaining driving distance for the existing \gls{EV}
 battery power, easing driver's anxiety for the duration
-of a trip to a charging station.
+of a trip to a charging station \citep{eRangeFactors}.
 
 The \gls{eRange} can be estimated through many
 driving data parameters,
@@ -33,24 +33,20 @@ however, is a complex problem which has prompted
 previous studies in the past to provide a solution 
 \citep{classicEVX, predictionOfeRange}.
 
-\vbox {
-    \todo[inline]{relate with "Prediction of electric
-    vehicle range: A comprehensive review of current issues and challenges"}
-    Prior work \citep{classicEVX} on \gls{eRange}
-    estimation demonstrated that using a
-    history-based algorithm on am adaptive model
-    provides a more reliable \gls{eRange} prediction
-    than a basic \gls{SOC} - manufacturer data relation,
-    this is mainly due to taking into account the
-    vehicle's driving history.
-}
+\todo[inline]{relate with "Prediction of electric vehicle range: A comprehensive review of current issues and challenges"}
+Prior work \citep{classicEVX} on \gls{eRange}
+estimation demonstrated that using a
+history-based algorithm on am adaptive model
+provides a more reliable \gls{eRange} prediction
+than a basic \gls{SOC} - manufacturer data relation,
+this is mainly due to taking into account the
+vehicle's driving history.
 
-%\todo[inline]{TODO: Mensionar IA na atualidade}
 Machine learning is often a viable tool for complex
 problems, this is due to its nature of 
 learning from previous data to 
 gradually achieve better results.
-As its broad use on a large variaty of problems 
+As its broad use on a large variety of problems 
 is vast and could be applied to most problems
 \citep{mitchelllearning}, the \gls{eRange}
  estimation problem could be one of which, 
@@ -62,7 +58,6 @@ This project approaches the \gls{eRange} estimation
 problem with the use of \gls{machineLearning} based
 model to increase its accuracy.
 
-%\todo[inline]{What will be done}
 The proposed solution is divided into three phases: 
 a \gls{dataset} generation phase, a learning phase
 and an estimation phase.
