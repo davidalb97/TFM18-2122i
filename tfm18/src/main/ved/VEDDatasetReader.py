@@ -121,8 +121,8 @@ def generate_valid_trips():
     print()
 
 
-def read_valid_trip():
-    dataset_file_path: str = os.path.join(valid_trip_dataset_path, 'E0/1558_10-AC_ON.csv')
+def read_valid_trip(path: str):
+    dataset_file_path: str = os.path.join(valid_trip_dataset_path, path)
     print("Reading file %s" % dataset_file_path)
 
     orange_table: OrangeTable = load_file(dataset_file_path)
