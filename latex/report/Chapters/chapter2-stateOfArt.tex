@@ -2,18 +2,46 @@
 \chapter{State of Art}
 \label{cha:stateOfArt}
 
-\section{EV Range prediction}
+\section{EV Range prediction} 
 
-%Defenição do problema
 Previous studies have already tackled 
 various \gls{EV} related topics, for example, 
 the statistical measurement of charging \gls{EV}s
 \citep{EVScout2}.
 
-\todo[inline]{What is EV range prediction - the problem}
 In today's day and age, the \gls{EV} range prediction 
-problem has been previously studied before,
-prompting multiple ways to tackle the problem \citep{predictionOfeRange}.
+is an important \gls{EV} feature to present 
+to consumers as it reduces the driver's anxiety
+while driving. This problem has been
+previously studied before,
+prompting multiple ways to tackle the problem
+\citep{predictionOfeRange}.
+
+When proving a solution to the \gls{eRange}
+prediction problem, valid \gls{EV} driving data 
+in the form of a \gls{dataset} is required to test
+the proposed model and compare it to existing
+alternatives, making it indispensable in 
+determining the effectiveness of the chosen 
+solution. \todo{citar}
+
+To this end, existing \gls{dataset} solutions
+such as the \textit{VED} \gls{dataset} \citep{vedDataset}
+although providing sufficient \gls{EV} driving
+data for estimation, there are only three dinstinct 
+\gls{EVs} present on the \gls{dataset}, all from the 
+same model 2013 \textit{Nissan leaf}.
+
+\todo[inline]{Mencionar datasets inválidos}
+
+Another \gls{dataset} solution is the use of 
+a \gls{python} tool \textit{Emobpy} \citep{emobpy}
+that generates multiple trips for charging and driving
+studies on \gls{EVs}, providing a \gls{dataset}
+based on empirical mobility statistics and 
+customizable assumptions.
+
+%Defenição do problema
 
 Existing work has demonstrated the use for 
 this feature on \gls{EV}s, showing the need
@@ -28,36 +56,38 @@ higher \gls{eRange} estimation accuracy,
 making use of more complex models. 
 The use of an adaptive history based model 
 approach \citep{classicEVX} that relies on
-(... \todo{descrever}).
-
-Another approach has used machine learning in a hybrid model
-of \gls{SOM} integrating \gls{RTs} \citep{hybridMachineLearningERange}
- (... \todo{descrever}).
-
-The \gls{dataset} used to obtain the results
-from past studies have an important role
-in determining the effectiveness of the chosen 
-solution.
-
-To this end, existing \gls{dataset} solutions
-already exist such as the VED \gls{dataset} \citep{vedDataset}
-(althouth containing only three electric vehicles
-\- model 2013 \textit{Nissan leaf}).
-
-Another adopted \gls{dataset} solution is the use of 
-a \gls{python} tool \textit{Emobpy} \citep{emobpy}
-that generates multiple trips for charging and driving
-studies on \gls{EVs}  (... \todo{descrever}).
+past information about vehicle's instant 
+consumption energy, to determine an
+adaptive average energy consumption.
 
 \section{Machine Learning and EV Range prediction}
 
-\todo[inline]{Machine learning usage on complex problems}
+The use of machine learning for a multitude
+of cases \citep{machineLearningCaseStudy} in fields such as 
+big data \citep{machineLearningBigData, machineLearningBigData2}
+and data mining \citep{businessDataMining} has 
+proven its robustness on solving complex problems.
 
-\todo[inline]{Machine learning usage EV world}
+As a result, some approaches for the \gls{eRange}
+problem have already applied machine learning 
+for solving it, most commonly using \gls{RTs}
+ and (...especificar) \todo{especificar}.
 
-\todo[inline]{Machine learning algorithms for }
-\todo{referir as técnicas mas especificar noutros capítulos}
+One example of \gls{RTs} usage in a hybrid model of \gls{SOM} 
+integrating \gls{RTs} has been studied as a solution 
+for keeping meaningful knowledge extraction on bushy trees.
+
+\gls{DT}, \gls{RF}, and \gls{KNN}, have already been 
+used in ensemble stacked generalization (ESG) approach 
+\citep{eRangeMachineLearningEnsemble} proving its 
+effectiveness.
+
+Another similar approach uses gradient boosting 
+to provide better predictive performance from
+ensemble methods when using multiple learning algorithms
+such as of \gls{XGBoost} and \gls{LightGBM}
+\citep{machineLearningERange}.
+
 \todo{resumo das técnicas usadas no fim do state of the art}
-\todo[inline]{classicEVX history based comparisson}
 
 

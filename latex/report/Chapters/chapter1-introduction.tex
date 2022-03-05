@@ -10,17 +10,17 @@ incentivizing many car manufacturers to introduce
 \gls{EVs} as the eco-friendly
 solution for sustainable transport for the future.
 
-As \gls{EVs} have been growing in popularity in
-recent years, car manufacturers have
+\gls{EVs} have been growing in popularity in
+recent years and as a result, car manufacturers have
 increased competitiveness on vehicle's performance
 \citep{evCompetitiveness}, a decisive factor 
 for consumers \citep{EGBUE2012717}.
 
-A vehicle's autonomy also known as \gls{eRange},
-allows consumers to know an estimate on the
+The \gls{EV}'s autonomy also known as \gls{eRange},
+allows consumers to know an estimate of the
 remaining driving distance for the existing \gls{EV}
 battery power, easing driver's anxiety for the duration
-of a trip to a charging station \citep{eRangeFactors}.
+of a trip to a charging station \citep{eRangeFactors, driverAnxiety}.
 
 The \gls{eRange} can be estimated through many
 driving data parameters,
@@ -29,56 +29,83 @@ road inclination and \gls{SOC} estimation.
 The \gls{eRange} accuracy allows consumers to rely
 on its vehicle for longer travel time and efficient
 charging plans, \gls{eRange} estimation
-however, is a complex problem which has prompted
-previous studies in the past to provide a solution 
-\citep{classicEVX, predictionOfeRange}.
+however, is a complex problem with multiple influencing
+factors \citep{predictionOfeRange}, fueling previous
+studies in the past to provide a solution for this challenge.
 
-\todo[inline]{relate with "Prediction of electric vehicle range: A comprehensive review of current issues and challenges"}
-Prior work \citep{classicEVX} on \gls{eRange}
-estimation demonstrated that using a
-history-based algorithm on am adaptive model
-provides a more reliable \gls{eRange} prediction
-than a basic \gls{SOC} - manufacturer data relation,
-this is mainly due to taking into account the
-vehicle's driving history.
+% Prior work \citep{classicEVX} on \gls{eRange}
+% estimation demonstrated that using a
+% history-based algorithm on am adaptive model
+% provides a more reliable \gls{eRange} prediction
+% than a basic \gls{SOC} - manufacturer data relation,
+% this is mainly due to taking into account the
+% vehicle's driving history.
+The rise in popularity of \gls{machineLearning}
+\citep{machineLearningCaseStudy}
+has demonstrated its effectiveness in the
+past with a variety of fields such as \gls{bigData}
+\citep{machineLearningBigData, machineLearningBigData2},
+pattern recognition analysis and data mining
+\citep{businessDataMining}.  
+This is due to its nature of learning 
+from previous data to gradually achieve
+better results making it a widely 
+recognized tool for complex problems 
+\citep{mitchelllearning}.
+As a result, \gls{machineLearning}, 
+has been chosen in the past 
+as one of the adopted solutions for 
+the \gls{eRange} estimation problem,
+making it a more accurate solution.  
+% As this type of solution can be applied to
+% a large variety of problems is vast and 
+% could be applied to most problems
+%  the \gls{eRange} estimation problem could be one of which, 
+% through the use of \gls{machineLearning}, 
+% achieve better results \cite{predictionOfeRange},
+% requiring an initial phase to learn from 
+% the model and then estimate through real-time 
+% \gls{SOC} variations.
 
-Machine learning is often a viable tool for complex
-problems, this is due to its nature of 
-learning from previous data to 
-gradually achieve better results.
-As its broad use on a large variety of problems 
-is vast and could be applied to most problems
-\citep{mitchelllearning}, the \gls{eRange}
- estimation problem could be one of which, 
-through the use of \gls{machineLearning}, 
-achieve better results \cite{predictionOfeRange},
-requiring an initial phase to learn from 
-the model and then estimate through real-time \gls{SOC} variations.
 This project approaches the \gls{eRange} estimation
-problem with the use of \gls{machineLearning} based
-model to increase its accuracy.
+problem through the use of a \gls{machineLearning}
+based model, being comprised by three distinct phases: 
+the \gls{dataset} generation phase, the learning phase
+and the estimation phase.
 
-The proposed solution is divided into three phases: 
-a \gls{dataset} generation phase, a learning phase
-and an estimation phase.
-On the \gls{dataset} generation phase, a \gls{dataset}
-will be created from historical traffic dataset
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1.0]{../figures/generic_diagram_dataset_generation_phase}
+        \caption{System overview - Dataset generation.}
+        \label{fig:generic_diagram_dataset_generation_phase}
+    \end{center}
+\end{figure}
+
+On the \gls{dataset} generation phase
+\figref{fig:generic_diagram_dataset_generation_phase}
+a \gls{dataset} will be created from historical traffic dataset
 from personally recorded vehicle trips as well as
-external existing datasets such as \textit{VED} \citep{vedDataset}
- \todo{remove VED dataset if not valid}
-as well was an external library that generates 
-\gls{EV} trip and consumption \gls{timeSeries} \citep{emobpy}.
+external existing datasets such as \textit{VED} 
+\citep{vedDataset} as well \textit{Emobpy}, an external 
+library that provides the generation of \gls{EV} 
+trip and consumption \gls{timeSeries} \citep{emobpy}.
 The resulting dataset contains multiple
 trips with their respective vehicle power consumption [kW]
 and the vehicle speed [km/h] in a  \gls{timeSeries} format.
-This \gls{dataset} will be used to train the model
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1.0]{../figures/generic_diagram_learn_phase}
+        \caption{System overview - Learning phase.}
+        \label{fig:generic_diagram_learn_phase}
+    \end{center}
+\end{figure}
+
+This \gls{dataset} will then be used to train the model
 on the learning phase through machine learning, 
 allowing it to learn the estimation of 
-the \gls{eRange} for each trip on the \gls{dataset}.
-After training the model with the dataset,
-the estimation phase performs the \gls{eRange} prediction
-on live \gls{SOC} monitoring of a driving \gls{EV}.
-The following figures represent an overview of the system:
+the \gls{eRange} for each trip on the \gls{dataset}
+\figref{fig:generic_diagram_learn_phase}.
 
 %! suppress = MissingLabel
 % \begin{figure}[H]
@@ -91,21 +118,22 @@ The following figures represent an overview of the system:
 
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=1.0]{../figures/generic_diagram_dataset_generation_phase}
-        \caption{System overview - Dataset generation.}
-    \end{center}
-\end{figure}
-
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[scale=1.0]{../figures/generic_diagram_learn_phase}
-        \caption{System overview - Learning phase.}
-    \end{center}
-\end{figure}
-
-\begin{figure}[H]
-    \begin{center}
         \includegraphics[scale=1.0]{../figures/generic_diagram_estimation_phase}
         \caption{System overview - Estimation phase.}
+        \label{fig:generic_diagram_estimation_phase}
     \end{center}
 \end{figure}
+
+After training the model with the dataset,
+the estimation phase performs the \gls{eRange} prediction
+on live \gls{SOC} monitoring of a driving \gls{EV}
+\figref{fig:generic_diagram_estimation_phase}.
+
+The remainder of this report is structured as follows: 
+the referencing of existing solutions of the \gls{eRange}
+estimation problem and their reliance on available
+\gls{dataset}s in Section 2.1. 
+Section 2.2 mentions \gls{machineLearning} and its 
+usability in existing \gls{eRange} estimation solutions.
+On Section 3 will be discussed the future work and
+planning for the next stage in the development. 
