@@ -4,18 +4,18 @@
 
 \section{EV Range prediction} 
 
-Previous studies have already tackled 
-various \gls{EV} related topics, for example, 
-the statistical measurement of charging \gls{EV}s
-\citep{EVScout2}.
+In today's day and age, \gls{EV}s have spired
+multiple studies, such as statistical
+measurement of charging \citep{EVScout2},
+regenerative braking \citep{regenerativeBraking},
+charging topologies \citep{batteryChargerTopologies} 
+and \gls{eRange} prediction \citep{predictionOfeRange}.
 
-In today's day and age, the \gls{EV} range prediction 
-is an important \gls{EV} feature to present 
-to consumers as it reduces the driver's anxiety
-while driving. This problem has been
-previously studied before,
-prompting multiple ways to tackle the problem
-\citep{predictionOfeRange}.
+The \gls{eRange} prediction is an important 
+\gls{EV} feature to present to consumers as
+it reduces driver's anxiety while driving,
+This problem has been previously studied before,
+prompting multiple ways to tackle the problem.
 
 When proving a solution to the \gls{eRange}
 prediction problem, valid \gls{EV} driving data 
@@ -23,11 +23,11 @@ in the form of a \gls{dataset} is required to test
 the proposed model and compare it to existing
 alternatives, making it indispensable in 
 determining the effectiveness of the chosen 
-solution. \todo{citar}
+solution.
 
 To this end, existing \gls{dataset} solutions
 such as the \textit{VED} \gls{dataset} \citep{vedDataset}
-although providing sufficient \gls{EV} driving
+that although providing sufficient \gls{EV} driving
 data for estimation, there are only three dinstinct 
 \gls{EVs} present on the \gls{dataset}, all from the 
 same model 2013 \textit{Nissan leaf}.
@@ -70,24 +70,23 @@ proven its robustness on solving complex problems.
 
 As a result, some approaches for the \gls{eRange}
 problem have already applied machine learning 
-for solving it, most commonly using \gls{RTs}
- and (...especificar) \todo{especificar}.
+for solving it, most commonly using \gls{neuralNetworks}, 
+linear regression \citep{eRangeMachineLearningNeuralnetworkMLR},
+\gls{RTs} and \gls{SOM} \citep{eRangeMachineLearningGHSOM}.
 
-One example of \gls{RTs} usage in a hybrid model of \gls{SOM} 
-integrating \gls{RTs} has been studied as a solution 
-for keeping meaningful knowledge extraction on bushy trees.
-
-\gls{DT}, \gls{RF}, and \gls{KNN}, have already been 
+\gls{DTs}, \gls{RF}, and \gls{KNN}, have already been 
 used in ensemble stacked generalization (ESG) approach 
 \citep{eRangeMachineLearningEnsemble} proving its 
 effectiveness.
 
-Another similar approach uses gradient boosting 
-to provide better predictive performance from
+Approaches using \gls{RTs} with gradient boosting 
+provide better predictive performance from
 ensemble methods when using multiple learning algorithms
 such as of \gls{XGBoost} and \gls{LightGBM}
-\citep{machineLearningERange}.
+\citep{machineLearningERangeGradientBoostRts}.
 
-\todo{resumo das técnicas usadas no fim do state of the art}
-
+Studies in hybrid models of \gls{RTs} and \gls{SOM} 
+have improved upon previous solutions by
+keeping meaningful knowledge extraction on bushy trees
+\citep{machineLearningERangeSOMandRts}.
 

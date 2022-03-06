@@ -69,6 +69,28 @@
     abstract = {Electric Vehicles (EVs) are promoted as a viable near-term vehicle technology to reduce dependence on fossil fuels and resulting greenhouse gas (GHG) emissions associated with conventional vehicles (CVs). In spite of the benefits of EVs, several obstacles need to be overcome before EVs will be widely adopted. A major barrier is that consumers tend to resist new technologies that are considered alien or unproved, thus, policy decisions that consider their critical concerns will have a higher level of success. This research identifies potential socio-technical barriers to consumer adoption of EVs and determines if sustainability issues influence consumer decision to purchase an EV. This study provides valuable insights into preferences and perceptions of technology enthusiasts; individuals highly connected to technology development and better equipped to sort out the many differences between EVs and CVs. This group of individuals will likely be early adopters of EVs only if they perceive them to be superior in performance compared to CVs. These results can guide policymakers in crafting energy and transportation policy. It can also provide guidance to EV engineers' decision in incorporating consumer preference into EV engineering design.}
 }
 
+@INPROCEEDINGS{regenerativeBraking,
+  author={Yoong, M.K and Gan, Y.H and Gan, G.D and Leong, C.K and Phuan, Z.Y and Cheah, B.K and Chew, K.W},
+  booktitle={2010 IEEE Conference on Sustainable Utilization and Development in Engineering and Technology}, 
+  title={Studies of regenerative braking in electric vehicle}, 
+  year={2010},
+  volume={},
+  number={},
+  pages={40-45},
+  doi={10.1109/STUDENT.2010.5686984}
+}
+
+@ARTICLE{batteryChargerTopologies,
+  author={Yilmaz, Murat and Krein, Philip T.},
+  journal={IEEE Transactions on Power Electronics}, 
+  title={Review of Battery Charger Topologies, Charging Power Levels, and Infrastructure for Plug-In Electric and Hybrid Vehicles}, 
+  year={2013},
+  volume={28},
+  number={5},
+  pages={2151-2169},
+  doi={10.1109/TPEL.2012.2212917}
+}
+
 @Article{predictionOfeRange,
     AUTHOR = {Varga, Bogdan Ovidiu and Sagoian, Arsen and Mariasiu, Florin},
     TITLE = {Prediction of Electric Vehicle Range: A Comprehensive Review of Current Issues and Challenges},
@@ -109,7 +131,7 @@
     abstract = { AbstractThis manuscript focuses on the modeling of electric vehicle (EV) driver’s range anxiety, a fear that a vehicle does not have sufficient range, or state of charge (SOC) of the battery pack, to reach its destination and would strand its occupants. Despite numerous research studies on the modeling of charging behaviors, modeling efforts to understand at what battery percentages do EV drivers charge their vehicles, and what are the associated contributing factors, are rather limited. To this end, an ensemble learning model based on gradient boosting is developed. The model sequentially fits new predictors to new residuals of the previous prediction and, then, minimizes the loss when adding the latest prediction. A total of 18 features are defined and extracted from the multisource data, which cover information on driver, vehicles, stations, traffic conditions, as well as spatial-temporal context information of the charging events. The analyzed dataset includes 4.5-year’s charging event log data from 3,096 users and 468 public charging stations in Kansas City Missouri, and the macroscopic travel demand model maintained by the metropolitan planning organization. The result shows the proposed model achieved a satisfactory result with a R square value of 0.54 and root mean square error of 0.14, both better than multiple linear regression model and random forest model. To reduce range anxiety, it is suggested that the priorities of deploying new charging facilities should be given to the areas with higher daily traffic prediction, with more conservative EV users or that are further from residential areas. }
 }
 
-﻿@InProceedings{hybridMachineLearningERange,
+﻿@InProceedings{machineLearningERangeSOMandRts,
     author={Zheng, B. and He, P.  and Zhao, L. and Li, H.},
     title={A Hybrid Machine Learning Model for Range Estimation of Electric Vehicles},
     booktitle={2016 IEEE Global Communications Conference (GLOBECOM)},
@@ -120,7 +142,7 @@
     url={https://doi.org/10.1109/GLOCOM.2016.7841506}
 }
 
-@ARTICLE{machineLearningERange,
+@ARTICLE{machineLearningERangeGradientBoostRts,
   author={Zhao, Liang and Yao, Wei and Wang, Yu and Hu, Jie},
   journal={IEEE Access}, 
   title={Machine Learning-Based Method for Remaining Range Prediction of Electric Vehicles}, 
@@ -145,6 +167,32 @@
     eprint = {https://doi.org/10.1080/15435075.2021.1881902},
     abstract = { ABSTRACTIn this paper, we present an ensemble stacked generalization (ESG) approach for better prediction of electric vehicles (EVs) energy consumption. ESG is a weighted combination of multiple base regression models to one meta-regressor, which enhances the model prediction and decreases the model variance over a single regressor model. For the current study, we develop ESG by combining three individual base machine learning algorithms, i.e., Decision Tree (DT), Random Forest (RF), and K-Nearest Neighbor (KNN), to predict the EVs’ energy consumption. Tackling the challenge of predicting EVs’ energy consumption, the data were collected from Aichi Prefecture, Japan, combining the digital elevation map with long-term GPS tracking data. EVs energy consumption in terms of energy efficiency (kWh/km) was estimated using several important variables such as average trip speed (km/h), trip distance, nighttime lighting, air conditioner (A/C), heater usage ratio, and road gradient. Several statistical evaluation metrics were used to evaluate the performance of the proposed methods. The prediction results show that ESG is more robust in predicting EVs’ energy consumption and outperformed other models by yielding more acceptable values for proposed evaluation metrics. The results further demonstrate that the accuracy of predictive models for EVs energy consumption can be reasonably accomplished by adopting stacking techniques. The finding of this study could provide essential guidance to decision-makers and practitioners for planned development and optimal placing of EV charging infrastructures in urban areas. }
 }
+
+@Article{eRangeMachineLearningNeuralnetworkMLR,
+    AUTHOR = {De Cauwer, Cedric and Verbeke, Wouter and Coosemans, Thierry and Faid, Saphir and Van Mierlo, Joeri},
+    TITLE = {A Data-Driven Method for Energy Consumption Prediction and Energy-Efficient Routing of Electric Vehicles in Real-World Conditions},
+    JOURNAL = {Energies},
+    VOLUME = {10},
+    YEAR = {2017},
+    NUMBER = {5},
+    ARTICLE-NUMBER = {608},
+    URL = {https://www.mdpi.com/1996-1073/10/5/608},
+    ISSN = {1996-1073},
+    ABSTRACT = {Limited driving range remains one of the barriers for widespread adoption of electric vehicles (EVs). To address the problem of range anxiety, this paper presents an energy consumption prediction method for EVs, designed for energy-efficient routing. This data-driven methodology combines real-world measured driving data with geographical and weather data to predict the consumption over any given road in a road network. The driving data are linked to the road network using geographic information system software that allows to separate trips into segments with similar road characteristics. The energy consumption over road segments is estimated using a multiple linear regression (MLR) model that links the energy consumption with microscopic driving parameters (such as speed and acceleration) and external parameters (such as temperature). A neural network (NN) is used to predict the unknown microscopic driving parameters over a segment prior to departure, given the road segment characteristics and weather conditions. The complete proposed model predicts the energy consumption with a mean absolute error (MAE) of 12–14% of the average trip consumption, of which 7–9% is caused by the energy consumption estimation of the MLR model. This method allows for prediction of energy consumption over any route in the road network prior to departure, and enables cost-optimization algorithms to calculate energy efficient routes. The data-driven approach has the advantage that the model can easily be updated over time with changing conditions.},
+    DOI = {10.3390/en10050608}
+}
+
+@ARTICLE{eRangeMachineLearningGHSOM,
+  author={Lee, Chung-Hong and Wu, Chih-Hung},
+  journal={IEEE Access}, 
+  title={A Novel Big Data Modeling Method for Improving Driving Range Estimation of EVs}, 
+  year={2015},
+  volume={3},
+  number={},
+  pages={1980-1993},
+  doi={10.1109/ACCESS.2015.2492923}
+}
+
 
 @techreport{mitchelllearning,
   added-at = {2009-03-25T11:53:39.000+0100},
