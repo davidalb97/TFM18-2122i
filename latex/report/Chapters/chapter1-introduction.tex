@@ -13,8 +13,8 @@ solution for sustainable transport for the future.
 \gls{EVs} have been growing in popularity in
 recent years and as a result, car manufacturers have
 increased competitiveness on vehicle's performance
-\citep{evCompetitiveness}, a decisive factor 
-for consumers \citep{EGBUE2012717}.
+\citep{evCompetitiveness}, namely the driving range 
+capacity is a decisive factor for consumers \citep{EGBUE2012717}.
 
 The \gls{EV}'s autonomy also known as \gls{eRange},
 allows consumers to know an estimate of the
@@ -25,11 +25,11 @@ of a trip to a charging station \citep{eRangeFactors, driverAnxiety}.
 The \gls{eRange} can be estimated through many
 driving data parameters,
 such as vehicle design, driver's behavior, whether,
-road inclination and \gls{SOC} estimation.
-The \gls{eRange} accuracy allows consumers to rely
+road inclination and \gls{SOC} estimation and its
+accuracy allows consumers to rely
 on its vehicle for longer travel time and efficient
-charging plans, \gls{eRange} estimation
-however, is a complex problem with multiple influencing
+charging plans however \gls{eRange} estimation
+is a complex problem with multiple influencing
 factors \citep{predictionOfeRange}, fueling previous
 studies in the past to provide a solution for this challenge.
 
@@ -52,10 +52,11 @@ from previous data to gradually achieve
 better results making it a widely 
 recognized tool for complex problems 
 \citep{mitchelllearning}.
-As a result, \gls{machineLearning}, 
+As a result, \gls{machineLearning}
 has been chosen in the past 
 as one of the adopted solutions for 
-the \gls{eRange} estimation problem,
+the \gls{eRange} estimation problem 
+(will be shown in Chapter 2)
 making it a more accurate solution.  
 % As this type of solution can be applied to
 % a large variety of problems is vast and 
@@ -67,11 +68,11 @@ making it a more accurate solution.
 % the model and then estimate through real-time 
 % \gls{SOC} variations.
 
-This project approaches the \gls{eRange} estimation
+This project addresses the \gls{eRange} estimation
 problem through the use of a \gls{machineLearning}
 based model, being comprised by three distinct phases: 
-the \gls{dataset} generation phase, the learning phase
-and the estimation phase.
+the \gls{dataset} generation phase, the Learning phase
+and the Estimation phase.
 
 \begin{figure}[H]
     \begin{center}
@@ -83,15 +84,15 @@ and the estimation phase.
 
 On the \gls{dataset} generation phase
 \figref{fig:generic_diagram_dataset_generation_phase}
-a \gls{dataset} will be created from historical traffic dataset
-from personally recorded vehicle trips as well as
+a dataset will be created from historical traffic data
+from personally recorded vehicle trips, as well as
 external existing datasets such as \textit{VED} 
-\citep{vedDataset} as well \textit{Emobpy}, an external 
+\citep{vedDataset} or \textit{Emobpy}, an external 
 library that provides the generation of \gls{EV} 
 trip and consumption \gls{timeSeries} \citep{emobpy}.
 The resulting dataset contains multiple
 trips with their respective vehicle power consumption [kW]
-and the vehicle speed [km/h] in a  \gls{timeSeries} format.
+and the vehicle speed [km/h] in a time series format.
 
 \begin{figure}[H]
     \begin{center}
@@ -124,7 +125,7 @@ the \gls{eRange} for each trip on the \gls{dataset}
     \end{center}
 \end{figure}
 
-After training the model with the dataset,
+After training the model with the \gls{dataset},
 the estimation phase performs the \gls{eRange} prediction
 on live \gls{SOC} monitoring of a driving \gls{EV}
 \figref{fig:generic_diagram_estimation_phase}.
@@ -135,5 +136,5 @@ estimation problem and their reliance on available
 \gls{dataset}s in Section 2.1. 
 Section 2.2 mentions \gls{machineLearning} and its 
 usability in existing \gls{eRange} estimation solutions.
-On Section 3 will be discussed the future work and
+On \ref{cha:planning} will be discussed the future work and
 planning for the next stage in the development. 
