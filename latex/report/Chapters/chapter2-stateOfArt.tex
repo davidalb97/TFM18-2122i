@@ -5,28 +5,29 @@
 \section{EV Range prediction} 
 \label{sec:stateOfArtER}
 
-In today's day and age, \gls{EV}s have spired
-multiple studies, such as statistical
-measurement of charging \citep{EVScout2},
+Nowadays In today's day and age, 
+\glspl{EV} have spired multiple studies
+concerning related problems in this field,
+such as statistical measurement of charging \citep{EVScout2},
 regenerative braking \citep{regenerativeBraking},
 charging topologies \citep{batteryChargerTopologies} 
 and \gls{eRange} prediction \citep{predictionOfeRange}.
 
 The \gls{eRange} prediction is an important 
 \gls{EV} feature to present to consumers as
-it reduces driver's anxiety while driving,
-This problem has been previously studied before,
+it reduces driver's anxiety while driving.
+This has been previously studied before,
 prompting multiple ways to tackle the problem.
 
 When proving a solution to the \gls{eRange}
 prediction problem, valid \gls{EV} driving data 
-in the form of a \gls{dataset} is required to test
-the proposed model and compare it to existing
-alternatives, making it indispensable in 
-determining the effectiveness of the chosen 
-solution.
+in the form of a \gls{dataset} is required to 
+learn and test the proposed model,
+and compare it to existing alternatives, 
+making it indispensable in determining the
+effectiveness of the chosen solution.
 
-To this end, existing \gls{dataset} solutions
+To this end, existing \glspl{dataset}
 such as the \textit{VED} \gls{dataset} \citep{vedDataset}
 that although providing sufficient \gls{EV} driving
 data for estimation, there are only three dinstinct 
@@ -44,11 +45,12 @@ customizable assumptions.
 
 %Defenição do problema
 
-Existing work has demonstrated the use for 
-this feature on \glspl{EV}, showing the need
+Existing work has demonstrated the use of
+\gls{eRange} estimation on \glspl{EV}, showing the need
 different types of accuracy on \gls{eRange}
-estimation depending on the \gls{SOC} state \citep{eRange},
-this approach minimizes the performance impact
+estimation depending on the \gls{SOC} state,
+the proposed approach by \cite{eRange}
+minimizes the performance impact
 of minimum cost route searching from high accuracy
 \gls{eRange} prediction.
 
@@ -56,9 +58,9 @@ Other studies have focused on delivering
 higher \gls{eRange} estimation accuracy,
 making use of more complex models. 
 The use of an adaptive history based model 
-approach \citep{classicEVX} that relies on
-past information about vehicle's instant 
-consumption energy, to determine an
+approach was proposed by \cite{classicEVX},
+which relies on past information about
+vehicle's instant consumption energy, to determine an
 adaptive average energy consumption.
 
 \section{Machine Learning and EV Range prediction}
@@ -76,7 +78,7 @@ for solving it, most commonly using \gls{neuralNetworks},
 linear regression \citep{eRangeMachineLearningNeuralnetworkMLR},
 \glspl{RT} and \gls{SOM} \citep{eRangeMachineLearningGHSOM}.
 
-\glspl{DT}, \gls{RF}, and \gls{KNN}, have already been 
+\glspl{DT}, \gls{RF}, and \gls{KNN}, have been 
 used in ensemble stacked generalization (ESG) approach 
 \citep{eRangeMachineLearningEnsemble} proving its 
 effectiveness in yielding more acceptable values
@@ -93,3 +95,5 @@ have improved upon previous solutions by
 keeping meaningful knowledge extraction on bushy trees
 \citep{machineLearningERangeSOMandRts}.
 
+\todo[inline]{outras abordagens}
+\todo[inline]{conclusão}
