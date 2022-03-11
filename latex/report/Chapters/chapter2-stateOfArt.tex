@@ -3,6 +3,7 @@
 \label{cha:stateOfArt}
 
 \section{EV Range prediction} 
+\label{sec:stateOfArtER}
 
 In today's day and age, \gls{EV}s have spired
 multiple studies, such as statistical
@@ -29,7 +30,7 @@ To this end, existing \gls{dataset} solutions
 such as the \textit{VED} \gls{dataset} \citep{vedDataset}
 that although providing sufficient \gls{EV} driving
 data for estimation, there are only three dinstinct 
-\gls{EVs} present on the \gls{dataset}, all from the 
+\glspl{EV} present on the \gls{dataset}, all from the 
 same model 2013 \textit{Nissan leaf}.
 
 %\todo[inline]{Mencionar datasets inválidos}
@@ -37,14 +38,14 @@ same model 2013 \textit{Nissan leaf}.
 Another \gls{dataset} solution is the use of 
 a \gls{python} tool \textit{Emobpy} \citep{emobpy}
 that generates multiple trips for charging and driving
-studies on \gls{EVs}, providing a \gls{dataset}
+studies on \glspl{EV}, providing a \gls{dataset}
 based on empirical mobility statistics and 
 customizable assumptions.
 
 %Defenição do problema
 
 Existing work has demonstrated the use for 
-this feature on \gls{EV}s, showing the need
+this feature on \glspl{EV}, showing the need
 different types of accuracy on \gls{eRange}
 estimation depending on the \gls{SOC} state \citep{eRange},
 this approach minimizes the performance impact
@@ -61,6 +62,7 @@ consumption energy, to determine an
 adaptive average energy consumption.
 
 \section{Machine Learning and EV Range prediction}
+\label{sec:stateOfArtML}
 
 The use of machine learning for a multitude
 of cases \citep{machineLearningCaseStudy} in fields such as 
@@ -72,21 +74,21 @@ As a result, some approaches for the \gls{eRange}
 problem have already applied machine learning 
 for solving it, most commonly using \gls{neuralNetworks}, 
 linear regression \citep{eRangeMachineLearningNeuralnetworkMLR},
-\gls{RTs} and \gls{SOM} \citep{eRangeMachineLearningGHSOM}.
+\glspl{RT} and \gls{SOM} \citep{eRangeMachineLearningGHSOM}.
 
-\gls{DTs}, \gls{RF}, and \gls{KNN}, have already been 
+\glspl{DT}, \gls{RF}, and \gls{KNN}, have already been 
 used in ensemble stacked generalization (ESG) approach 
 \citep{eRangeMachineLearningEnsemble} proving its 
 effectiveness in yielding more acceptable values
 for proposed evaluation metrics.
 
-Approaches using \gls{RTs} with gradient boosting 
+Approaches using \glspl{RT} with gradient boosting 
 provide better predictive performance from
 ensemble methods when using multiple learning algorithms
 such as of \gls{XGBoost} and \gls{LightGBM}
 \citep{machineLearningERangeGradientBoostRts}.
 
-Studies in hybrid models of \gls{RTs} and \gls{SOM} 
+Studies in hybrid models of \glspl{RT} and \gls{SOM} 
 have improved upon previous solutions by
 keeping meaningful knowledge extraction on bushy trees
 \citep{machineLearningERangeSOMandRts}.

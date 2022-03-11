@@ -7,10 +7,10 @@ On today's day and age, the global concern on climate
 change has been a major focus on recent international agreements,
 such as the Paris Agreement \citep{parisAgreement},
 incentivizing many car manufacturers to introduce
-\gls{EVs} as the eco-friendly
+\glspl{EV} as the eco-friendly
 solution for sustainable transport for the future.
 
-\gls{EVs} have been growing in popularity in
+\glspl{EV} have been growing in popularity in
 recent years and as a result, car manufacturers have
 increased competitiveness on vehicle's performance
 \citep{evCompetitiveness}, namely the driving range 
@@ -28,7 +28,7 @@ such as vehicle design, driver's behavior, whether,
 road inclination and \gls{SOC} estimation and its
 accuracy allows consumers to rely
 on its vehicle for longer travel time and efficient
-charging plans however \gls{eRange} estimation
+charging plans however, \gls{eRange} estimation
 is a complex problem with multiple influencing
 factors \citep{predictionOfeRange}, fueling previous
 studies in the past to provide a solution for this challenge.
@@ -56,7 +56,7 @@ As a result, \gls{machineLearning}
 has been chosen in the past 
 as one of the adopted solutions for 
 the \gls{eRange} estimation problem 
-(will be shown in Chapter 2)
+(will be shown in section \ref{sec:stateOfArtML})
 making it a more accurate solution.  
 % As this type of solution can be applied to
 % a large variety of problems is vast and 
@@ -71,7 +71,7 @@ making it a more accurate solution.
 This project addresses the \gls{eRange} estimation
 problem through the use of a \gls{machineLearning}
 based model, being comprised by three distinct phases: 
-the \gls{dataset} generation phase, the Learning phase
+the Dataset generation phase, the Learning phase
 and the Estimation phase.
 
 \begin{figure}[H]
@@ -82,11 +82,11 @@ and the Estimation phase.
     \end{center}
 \end{figure}
 
-On the \gls{dataset} generation phase
+On the Dataset generation phase
 \figref{fig:generic_diagram_dataset_generation_phase}
-a dataset will be created from historical traffic data
+a \gls{dataset} will be created from historical traffic data
 from personally recorded vehicle trips, as well as
-external existing datasets such as \textit{VED} 
+external existing \glspl{dataset} such as \textit{VED} 
 \citep{vedDataset} or \textit{Emobpy}, an external 
 library that provides the generation of \gls{EV} 
 trip and consumption \gls{timeSeries} \citep{emobpy}.
@@ -102,11 +102,11 @@ and the vehicle speed [km/h] in a time series format.
     \end{center}
 \end{figure}
 
-This \gls{dataset} will then be used to train the model
-on the learning phase through machine learning, 
+The generated \gls{dataset} will then be used to train
+the model on the Learning phase through machine learning, 
 allowing it to learn the estimation of 
 the \gls{eRange} for each trip on the \gls{dataset}
-\figref{fig:generic_diagram_learn_phase}.
+as depicted in figure \ref{fig:generic_diagram_learn_phase}.
 
 %! suppress = MissingLabel
 % \begin{figure}[H]
@@ -125,16 +125,20 @@ the \gls{eRange} for each trip on the \gls{dataset}
     \end{center}
 \end{figure}
 
-After training the model with the \gls{dataset},
-the estimation phase performs the \gls{eRange} prediction
+After training and learning the model with the \gls{dataset},
+the Estimation phase performs the \gls{eRange} prediction
 on live \gls{SOC} monitoring of a driving \gls{EV}
 \figref{fig:generic_diagram_estimation_phase}.
 
-The remainder of this report is structured as follows: 
-the referencing of existing solutions of the \gls{eRange}
-estimation problem and their reliance on available
-\gls{dataset}s in Section 2.1. 
-Section 2.2 mentions \gls{machineLearning} and its 
-usability in existing \gls{eRange} estimation solutions.
-On \ref{cha:planning} will be discussed the future work and
-planning for the next stage in the development. 
+The remainder of this document is structured as follows: 
+Chapter \ref{cha:introduction} refers existing solutions 
+of the \gls{eRange} estimation problem and their reliance on available
+\glspl{dataset} (Section \ref{sec:stateOfArtER}) while
+mentioning \gls{machineLearning} and its usability 
+in existing \gls{eRange} estimation solutions 
+(Section \ref{sec:stateOfArtML}).
+On Chapter \ref{cha:planning} will be discussed the 
+work state (Section \ref{sec:planningIntro}) followed by 
+future work and planning for the next stage 
+in the development of this work 
+(Section \ref{sec:planningPlanning}). 
