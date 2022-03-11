@@ -63,6 +63,7 @@
 
 \newcommand{\figref}[1]{(Figure \ref{#1})}
 
+
 %================================================
 % Additional packages you may want to use (comment those not needed)
 %================================================
@@ -83,6 +84,9 @@
 }{%
 % File glossary.tex is not found, ignore
 }
+
+%\def\glslk#1{\lowercase{\gls{#1}}}
+%\newcommand{\glslk}[1]{\lowercase{\gls{#1}}}
 
 % To register TODO notes in the text
 \usepackage[textsize=footnotesize]{todonotes}
@@ -160,8 +164,12 @@
 \addlisttofrontmatter{\conditionalLoF}    % The List of Figures.
 \addlisttofrontmatter{\conditionalLoT}    % The List of Tables.
 \addlisttofrontmatter{\conditionalLoL}        % The List of Code Listings.
+
 \addlisttofrontmatter{\printnoidxglossary[type=acronym]} % The List of Abreviations 
-\addlisttofrontmatter{\printnoidxglossary} %  default: type=main,  Glossary. Comment to omit.						
+%\addlisttofrontmatter{\renewcommand{\glsnamefont}[1]{\MakeUppercase{#1}} \printnoidxglossary[type=acronym]} % The List of Abreviations 
+\addlisttofrontmatter{\renewcommand{\glsnamefont}[1]{\makefirstuc{#1}} \printnoidxglossary} %  default: type=main,  Glossary. Comment to omit.
+%\addlisttofrontmatter{\printnoidxglossary} %  default: type=main,  Glossary. Comment to omit.						
+
 %\printnoidxglossary[type=symbols] % only glossaries 
 % 
 % TEX CHAPTERS:

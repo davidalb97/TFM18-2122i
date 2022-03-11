@@ -278,7 +278,7 @@
     order = letter,         %or, word
     translate = babel,
     shortcuts,
-%nonumberlist, % do not show page numbers
+    nonumberlist, % do not show page numbers
     acronym,            % generate acronym listing
     toc                        % show listings as entries in table of contents
 ]                        % use section level for toc entries
