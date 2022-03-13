@@ -17,7 +17,8 @@
 	\Repeat{1}{\frontpage} 
 }	
 \else\if\@degreetype3{
-	\Repeat{2}{\frontpage}  
+	%TODO Duplicate front page? \Repeat{2}{\frontpage}  
+	\Repeat{1}{\frontpage}  
 }	
 \fi\fi\fi\fi
 }
