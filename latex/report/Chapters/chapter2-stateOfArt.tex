@@ -72,28 +72,44 @@ big data \citep{machineLearningBigData, machineLearningBigData2}
 and data mining \citep{businessDataMining} has 
 proven its robustness on solving complex problems.
 
-As a result, some approaches for the \gls{eRange}
-problem have already applied machine learning 
-for solving it, most commonly using \gls{neuralNetworks}, 
-linear regression \citep{eRangeMachineLearningNeuralnetworkMLR},
-\glspl{RT} and \gls{SOM} \citep{eRangeMachineLearningGHSOM}.
 
-\glspl{DT}, \gls{RF}, and \gls{KNN}, have been 
+As a result, some approaches for the \gls{eRange}
+problem have already applied machine learning,
+most notably supervised learning to achieve the estimation.
+%Supervised Learning:
+\Glspl{DT}, \gls{RF}, and \gls{KNN}, have been 
 used in ensemble stacked generalization (ESG) approach 
 \citep{eRangeMachineLearningEnsemble} proving its 
 effectiveness in yielding more acceptable values
 for proposed evaluation metrics.
-
-Approaches using \glspl{RT} with gradient boosting 
-provide better predictive performance from
-ensemble methods when using multiple learning algorithms
-such as of \gls{XGBoost} and \gls{LightGBM}
+Recent models using \gls{GBRT} have
+combined \gls{XGBoost} and \gls{LightGBM} 
+to provide better predictive performance
+from these ensemble methods 
 \citep{machineLearningERangeGradientBoostRts}.
 
-Studies in hybrid models of \glspl{RT} and \gls{SOM} 
-have improved upon previous solutions by
+Approaches using unsupervised clustering 
+of \glspl{SOM} for clustering \gls{bigData} 
+into driving patterns \citep{eRangeMachineLearningGHSOM}.
+A hybridised version of \gls{SOM} with \glspl{RT} 
+has used \gls{SOM}'s feature of its neurons
+storing related information being kept closely together
+to perform the \glspl{RT} locally, avoiding 
+bushy trees and improving upon previous solutions by
 keeping meaningful knowledge extraction on bushy trees
 \citep{machineLearningERangeSOMandRts}.
 
-\todo[inline]{outras abordagens}
-\todo[inline]{conclusão}
+%Reinforcement Learning + Supervised Learning
+Reinforcement learning in the form of \gls{neuralNetworks}
+has also been used for external energies 
+disturbances on the speed profile of a driving profiles 
+so that it could then be combined with \gls{MLR} 
+for the estimation \citep{eRangeMachineLearningNeuralnetworkMLR}.
+
+Although more complex than previous solutions, 
+the use of \gls{machineLearning} for the 
+\gls{eRange} estimation problem had reduced 
+the prediction error, and thus further justifying
+its usage in this project.  
+
+
