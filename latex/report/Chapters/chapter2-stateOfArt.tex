@@ -5,8 +5,7 @@
 \section{EV Range prediction} 
 \label{sec:stateOfArtER}
 
-Nowadays In today's day and age, 
-\glspl{EV} have spired multiple studies
+Nowadays, \glspl{EV} have spired multiple studies
 concerning related problems in this field,
 such as statistical measurement of charging \citep{EVScout2},
 regenerative braking \citep{regenerativeBraking},
@@ -46,8 +45,9 @@ customizable assumptions.
 %Defenição do problema
 
 Existing work has demonstrated the use of
-\gls{eRange} estimation on \glspl{EV}, showing the need
-different types of accuracy on \gls{eRange}
+\gls{eRange} estimation on \glspl{EV}, 
+showing the need for different types 
+of accuracy on \gls{eRange}
 estimation depending on the \gls{SOC} state,
 the proposed approach by \cite{eRange}
 minimizes the performance impact
@@ -89,14 +89,16 @@ from these ensemble methods
 \citep{machineLearningERangeGradientBoostRts}.
 
 Approaches using unsupervised clustering 
-of \glspl{SOM} for clustering \gls{bigData} 
-into driving patterns \citep{eRangeMachineLearningGHSOM}.
-A hybridised version of \gls{SOM} with \glspl{RT} 
-has used \gls{SOM}'s feature of its neurons
-storing related information being kept closely together
-to perform the \glspl{RT} locally, avoiding 
-bushy trees and improving upon previous solutions by
-keeping meaningful knowledge extraction on bushy trees
+of \glspl{SOM} have been used for clustering \gls{bigData} 
+into driving patterns, prior to range estimation 
+\citep{eRangeMachineLearningGHSOM}.
+The hybridised version of \gls{SOM} with \glspl{RT} 
+has taken advantage of \gls{SOM}'s neurons storage 
+feature of nearing related neighbor information
+being kept closely together, performing \glspl{RT}
+locally, avoiding bushy trees and improving
+upon previous solutions by keeping meaningful
+knowledge extraction on bushy trees
 \citep{machineLearningERangeSOMandRts}.
 
 %Reinforcement Learning + Supervised Learning
