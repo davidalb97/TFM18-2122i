@@ -24,8 +24,13 @@
 
 
 %% Date
-\themonth{Janeiro}
-\theyear{2022}
+\usepackage{datetime}
+\newdateformat{monthdate}{\monthname[\THEMONTH]}
+\newdateformat{yeardate}{\THEYEAR}
+\themonth{\monthdate\today}
+\theyear{\yeardate\today}
+%\themonth{Janeiro}
+%\theyear{2022}
 
 %% Supervisors (maximum of 2)
 % use [f] for female and [m] for male
@@ -44,8 +49,8 @@
 %% ---------------------------------------------------%%
 \jury[p]{Doutor Nuno Datia}
 %% Referees
+\jury[a]{Doutor Gonçalo Duarte}
 \jury[a]{Doutor David Pereira Coutinho}
 \jury[a]{Doutor Artur Jorge Ferreira}
-\jury[a]{Doutor Gonçalo Duarte}
 %\jury[a]{[Grau e  Nome do terceiro vogal]}
 %\jury[a]{[Grau e  Nome do quarto vogal]}
