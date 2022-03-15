@@ -73,6 +73,9 @@
 %\usepackage[sort]{cite}
 
 % The contents of both files (acronyms and glossary) will be merged
+\let\firstchar\lowercase
+\newcommand*{\firstGls}[1]{\gls{#1}}
+
 \InputIfFileExists{Chapters/acronyms}{%
 % File glossary.tex exists and is read
 }{%
@@ -169,10 +172,19 @@
 %\addlisttofrontmatter{\conditionalLoT}    % The List of Tables.
 \addlisttofrontmatter{\conditionalLoL}        % The List of Code Listings.
 
-\addlisttofrontmatter{\printnoidxglossary[type=acronym]} % The List of Abreviations 
+%\addlisttofrontmatter{\renewcommand{\glsnamefont}[1]{\makefirstuc{#1}} \printnoidxglossary} %  default: type=main,  Glossary. Comment to omit.
+%\addlisttofrontmatter{\printnoidxglossary} %  default: type=main,  Glossary. Comment to omit.
+
+\addlisttofrontmatter{
+    \renewcommand{\glsnamefont}[1]{\textbf{\makefirstuc{#1}}} 
+    \renewcommand*{\firstGls}[1]{\empty\Gls{#1}}
+    \let\firstchar\capitalisewords\printnoidxglossaries
+    \renewcommand*{\firstGls}[1]{\empty\gls{#1}}
+} % The List of Abreviations 
+%\addlisttofrontmatter{\renewcommand*{\firstGls}[1]{\empty\Gls{#1}}\let\firstchar\capitalisewords\printnoidxglossaries\renewcommand*{\firstGls}[1]{\empty\gls{#1}}} % The List of Abreviations 
 %\addlisttofrontmatter{\renewcommand{\glsnamefont}[1]{\MakeUppercase{#1}} \printnoidxglossary[type=acronym]} % The List of Abreviations 
-\addlisttofrontmatter{\renewcommand{\glsnamefont}[1]{\makefirstuc{#1}} \printnoidxglossary} %  default: type=main,  Glossary. Comment to omit.
-%\addlisttofrontmatter{\printnoidxglossary} %  default: type=main,  Glossary. Comment to omit.						
+
+						
 
 %\printnoidxglossary[type=symbols] % only glossaries 
 % 
