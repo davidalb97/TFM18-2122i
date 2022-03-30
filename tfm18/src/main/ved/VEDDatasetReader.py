@@ -99,7 +99,7 @@ def generate_valid_trips():
                 previous_trip_file_path = current_trip_file_path
 
                 # Create valid_trip_dataset_path if it does not exist already
-                pathlib.Path(electric_vehicle_path)\
+                pathlib.Path(electric_vehicle_path) \
                     .mkdir(parents=True, exist_ok=True)
 
                 # Close previously opened file handle, if any

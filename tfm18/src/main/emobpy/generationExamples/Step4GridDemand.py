@@ -1,15 +1,13 @@
 from emobpy import Charging, DataBase
 
 from tfm18.src.main.emobpy.generationExamples import fixed_set_seed, emobpy_db_location
-
-# Initialize seed
 from tfm18.src.main.util.MulticoreUtil import core_count
 
+# Initialize seed
 fixed_set_seed()
 
 
 def main():
-
     # Instance of profiles' database whose input is the pickle files' folder
     database = DataBase(
         folder=emobpy_db_location
@@ -44,6 +42,7 @@ def main():
             folder=emobpy_db_location,
             description="Example Step4GridDemand profile description"
         )
+
 
 if __name__ == '__main__':
     main()

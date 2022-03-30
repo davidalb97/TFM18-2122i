@@ -1,6 +1,5 @@
 # This file must be present to allow package existence
 from emobpy import DataBase
-from emobpy.plot import NBplot
 from emobpy.plot import *
 
 from tfm18.src.main.emobpy.util.EmobpyUtil import emobpy_db_location

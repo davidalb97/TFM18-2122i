@@ -84,7 +84,7 @@ class VEDInstance:
                     self.long_term_fuel_trim_bank_2
                 ]
             )
-        ).map(lambda field: str(field) + csv_splitter)\
+        ).map(lambda field: str(field) + csv_splitter) \
             .reduce(lambda x, y: x + y)
 
         # csv_splitter,

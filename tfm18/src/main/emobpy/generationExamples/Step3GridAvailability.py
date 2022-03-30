@@ -1,10 +1,9 @@
 from emobpy import Availability, DataBase
 
 from tfm18.src.main.emobpy.generationExamples import fixed_set_seed, emobpy_db_location
-
-# Initialize seed
 from tfm18.src.main.util.MulticoreUtil import core_count
 
+# Initialize seed
 fixed_set_seed()
 
 
@@ -63,6 +62,7 @@ def main():
         folder=emobpy_db_location,
         description="Example Step3GridAvailability profile description"
     )
+
 
 if __name__ == '__main__':
     main()
