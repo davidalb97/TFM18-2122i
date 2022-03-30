@@ -1,8 +1,8 @@
+import collections.abc
 from typing import Type
 
 # Original package name is Orange3
 import Orange.data.table
-import collections.abc
 
 OrangeTable: Type[Orange.data.table.Table] = Orange.data.table.Table
 Function: Type[collections.abc.Callable] = collections.abc.Callable

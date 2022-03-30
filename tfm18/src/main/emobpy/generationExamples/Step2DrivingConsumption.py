@@ -1,7 +1,6 @@
 from emobpy import Consumption, HeatInsulation, BEVspecs, DataBase, ModelSpecs
 
 from tfm18.src.main.emobpy.generationExamples import fixed_set_seed, emobpy_db_location
-
 # Initialize seed
 from tfm18.src.main.util.MulticoreUtil import core_count
 
@@ -67,6 +66,7 @@ def main():
         folder=emobpy_db_location,
         description="Example Step2DrivingConsumption profile description"
     )
+
 
 if __name__ == '__main__':
     main()

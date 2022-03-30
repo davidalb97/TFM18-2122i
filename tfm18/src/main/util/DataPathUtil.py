@@ -30,8 +30,8 @@ def data_list_subdirectories_filtered(
         Seq(
             data_list_subdirectories(data_subdir_path=data_subdir_path)
         )
-        .filter(lambda it: predicate(it))
-        .tolist()
+            .filter(lambda it: predicate(it))
+            .tolist()
     )
 
 

@@ -1,6 +1,5 @@
 # This file must be present to allow package existence
 def main():
-
     return
 
 

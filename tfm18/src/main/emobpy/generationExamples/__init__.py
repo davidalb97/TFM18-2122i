@@ -6,7 +6,6 @@ from tfm18.src.main.emobpy.util.EmobpyUtil import fixed_set_seed, emobpy_db_loca
 
 
 def plot_values():
-
     # Instance of profiles' database whose input is the pickle files' folder
     availability_database = DataBase(
         folder=emobpy_db_location
@@ -23,7 +22,8 @@ def plot_values():
     availability_nbplot: NBplot = NBplot(availability_database)
     availability_column_names: list[str] = list(availability_database.db.keys())
     availability_column_name: str = availability_column_names[0]
-    availability_sgplot_ga_figure: Figure = availability_nbplot.sgplot_ga(availability_column_name, rng=None, to_html=False, path=None)
+    availability_sgplot_ga_figure: Figure = availability_nbplot.sgplot_ga(availability_column_name, rng=None,
+                                                                          to_html=False, path=None)
     availability_sgplot_ga_figure.show()
 
     # Instance of profiles' database whose input is the pickle files' folder
@@ -42,14 +42,19 @@ def plot_values():
     consumption_nbplot = NBplot(consumption_database)
     consumption_column_names: list[str] = list(availability_database.db.keys())
     consumption_column_name: str = consumption_column_names[0]
-    consumption_sankey_figure: Figure = consumption_nbplot.sankey(consumption_column_name, include=None, to_html=False, path=None)
+    consumption_sankey_figure: Figure = consumption_nbplot.sankey(
+        tscode=consumption_column_name,
+        include=None,
+        to_html=False,
+        path=None
+    )
     consumption_sankey_figure.show()
     print("")
 
 
 def create_mobility_profile():
-    hrs = 168 # one week
-    steps = 0.25 # 15 minutes
+    hrs = 168  # one week
+    steps = 0.25  # 15 minutes
 
     # Create single profile of an fulltime commuter
     m = Mobility()
