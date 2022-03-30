@@ -163,12 +163,12 @@ setup(
     install_requires=[
         'peppercorn==0.6',
         'Orange3==3.31.1',
-        'numpy==1.22.2',
+        'numpy==1.21', # Must be <= 1.21 for Numba 0.55.1
         'matplotlib==3.5.1',
         'emobpy==0.6.2',
         'pandas==1.4.1',
         'infixpy==0.0.4',
-        "chart_studio==1.1.0"  # Might be useful for emobpy pandas dataframe iplot()?
+        'chart_studio==1.1.0'  # Might be useful for emobpy pandas dataframe iplot()?
         # 'check-python-versions=='
     ],  # Optional
     # install_requires=[],
