@@ -5,10 +5,10 @@ https://packaging.python.org/guides/distributing-packages-using-setuptools/
 https://github.com/pypa/sampleproject
 """
 
+import pathlib
+
 # Always prefer setuptools over distutils
 from setuptools import setup, find_packages
-import pathlib
-import os
 
 here = pathlib.Path(__file__).parent.resolve()
 
@@ -19,8 +19,6 @@ long_description = (here / 'README.md').read_text(encoding='utf-8')
 # Fields marked as "Optional" may be commented out.
 
 packages = find_packages('tfm18')
-
-
 
 setup(
     # This is the name of your project. The first time you publish this
@@ -161,14 +159,14 @@ setup(
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/discussions/install-requires-vs-requirements/
     install_requires=[
-        'peppercorn==0.6',
-        'Orange3==3.31.1',
-        'numpy==1.21', # Must be <= 1.21 for Numba 0.55.1
-        'matplotlib==3.5.1',
-        'emobpy==0.6.2',
-        'pandas==1.4.1',
-        'infixpy==0.0.4',
-        'chart_studio==1.1.0'  # Might be useful for emobpy pandas dataframe iplot()?
+        'peppercorn==0.6',      # ?
+        'Orange3==3.31.1',      # Parse DataFrames from csv files
+        'numpy==1.21',          # Must be <= 1.21 for Numba 0.55.1
+        'matplotlib==3.5.1',    # ?
+        'emobpy==0.6.2',        # Generate EV driving datasets
+        'pandas==1.4.1',        # Dataframes
+        'infixpy==0.0.4',       # Fluent functional Streams
+        'chart_studio==1.1.0'   # Might be useful for emobpy pandas dataframe iplot()?
         # 'check-python-versions=='
     ],  # Optional
     # install_requires=[],
