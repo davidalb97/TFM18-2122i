@@ -12,7 +12,7 @@ class VEDInstance:
     day_num: float
     veh_id: int
     trip: float
-    timestamp_ms: float
+    timestamp_ms: int
     latitude_deg: float
     longitude_deg: float
     vehicle_speed: int
@@ -36,7 +36,7 @@ class VEDInstance:
         self.day_num: float = instance[0]
         self.veh_id: int = instance[1]
         self.trip: float = instance[2]
-        self.timestamp_ms: float = instance[3]
+        self.timestamp_ms: int = instance[3]
         self.latitude_deg: float = instance[4]
         self.longitude_deg: float = instance[5]
         self.vehicle_speed: int = instance[6]
@@ -47,8 +47,8 @@ class VEDInstance:
         self.fuel_rate: float = instance[11]
         self.air_conditioning_power_kw: float = instance[12]
         self.air_conditioning_power_w: float = instance[13]
-        self.heater_power_w: float = instance[13]
-        self.hv_battery_current_amperes: float = instance[14]
+        self.heater_power_w: float = instance[14]
+        self.hv_battery_current_amperes: float = instance[15]
         self.hv_battery_SOC: float = instance[16]
         self.hv_battery_voltage: float = instance[17]
         self.short_term_fuel_trim_bank_1: float = instance[18]
