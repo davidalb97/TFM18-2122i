@@ -9,20 +9,19 @@
 %\setbeamertemplate{navigation symbols}{}
 
 \title{\uppercase{Electric Vehicle X Driving Range Prediction - EV X DRP}}
+\subtitle{Relatório de progresso}
 %\subtitle{}
 \author{
-	{\large Artur J. Ferreira$^{1,3}$ \qquad David P. Coutinho$^{1,2}$} \\
-	{\qquad \qquad \hspace{-1cm} arturj@isel.pt \qquad \qquad davidpc.isel@gmail.coms} \\
+	{\large David P. Coutinho \qquad Artur J. Ferreira} \\
+	{\qquad \hspace{-1cm} david.coutinho@isel.pt \qquad arturj@isel.pt} \\
     {\vspace{1cm}}
-    {\large David A. S. G. Albuquerque $^{1}$} \\
-    {david.alb2011@gmail.com}
+    {\large David A. S. G. Albuquerque} \\
+    {A43566@alunos.isel.pt}
 }
 \institute
 {
 	\vspace{0.5cm} \\
-	{\normalsize $^1$Instituto Superior de Engenharia de Lisboa } \\
-	{\normalsize $^2$Instituto Superior T\'{e}cnico} \\
-	{\normalsize $^3$Instituto de Telecomunica\c{c}\~{o}es,  Lisboa, PORTUGAL} \\	
+	{\normalsize Instituto Superior de Engenharia de Lisboa } \\
 }
 \date{
 	\vspace{-0.75cm}
@@ -43,13 +42,31 @@
     \tableofcontents
 \end{frame}
 
-\section[Introducao]{Introdução}
+\section[Introdução]{Introdução}
+\subsection[Objetivo]{Objetivo}
+\begin{frame}
+\frametitle{Introdução - Objetivo}
+
+\begin{itemize}
+	\item Realizar estimativas da distância de condução restante 
+	que um veículo elétrico pode efetuar relativamente à sua autonomia - \textit{eRange};
+\end{itemize}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.25]{./figures/erange_gauge}
+    \end{center}
+\end{figure}
+
+\end{frame}
+
+
 \subsection[eRange]{O que é eRange?}
 \begin{frame}
 \frametitle{Introdução - O que é eRange?}
 
 \begin{itemize}
-	\item A distância máxima que um veículo electrico consegue viajar;
+	\item A distância máxima que um veículo elétrico consegue viajar;
 	\item Alivia a ansiedade do condutor; 
 	\item Depende de vários dados da condução do veículo:
 		  \begin{itemize}
@@ -70,25 +87,24 @@
 
 \begin{itemize}
 	\item Dependência de vários fatores;
-	\item Escacês de \textit{datasets};
-	\item Escolha dos algoritmos de \textit{machine learning} (slide \ref{Implementacoes});
+	\item Escassez de \textit{datasets};
+	\item Escolha dos algoritmos de \textit{machine learning};
 \end{itemize}
 
 \end{frame}
 
-\subsection[Objetivo]{Objetivo}
+\subsection[Como resolver]{Como resolver}
 \begin{frame}
-\frametitle{Introdução - Objetivo}
+\frametitle{Introdução - Como resolver}
 
 \begin{itemize}
-	\item Realizar a estiamção do \textit{eRange} em tempo real;
 	\item Uso de inteligência artificial para a resolução do problema;
 	\item Aprendizagem através de \textit{datasets} de viajens de carros electricos;
 \end{itemize}
 
 \end{frame}
 
-\section[StateOfArt]{Estado da arte}
+\section[Estado da arte]{Estado da arte}
 \subsection[Datasets]{Datasets}
 \begin{frame}
 \frametitle{Estado da arte - \textit{Datasets}}
@@ -132,9 +148,9 @@
 
 \end{frame}
 
-\section[Development]{O que foi feito}
+\section[Trabalho realizado]{Trabalho realizado}
 \begin{frame}
-\frametitle{O que foi feito}
+\frametitle{Trabalho realizado}
 
 \begin{itemize}
 	\item Estudo do problema e soluções existentes;
@@ -144,8 +160,8 @@
 
 \end{frame}
 
-\section[FutureWork]{Trabalho futuro}
-\subsection{Overview}
+\section[Trabalho futuro]{Trabalho futuro}
+\subsection{Objetivos futuros}
 \begin{frame}
 \frametitle{Trabalho futuro}
 
