@@ -1,6 +1,7 @@
 \documentclass{beamer}
 
 \usepackage[textsize=footnotesize]{todonotes}
+\usepackage{graphics} % resize table
 
 \usetheme[compress]{Singapore}
 \setbeamertemplate{footline}[frame number]
@@ -48,8 +49,9 @@
 \frametitle{Introdução - Objetivo}
 
 \begin{itemize}
-	\item Realizar estimativas da distância de condução restante 
-	que um veículo elétrico pode efetuar relativamente à sua autonomia - \textit{eRange};
+	\item Cálculo das estimativas de distância de condução restante 
+	que um veículo elétrico pode efetuar relativamente ao estado da sua bateria - \textit{eRange}
+	\item Aliviar a ansiedade do condutor
 \end{itemize}
 
 \begin{figure}[H]
@@ -61,45 +63,48 @@
 \end{frame}
 
 
-\subsection[eRange]{O que é eRange?}
+\subsection[Que fatores influenciam o \textit{eRange}?]{Que fatores influenciam o \textit{eRange}?}
 \begin{frame}
-\frametitle{Introdução - O que é eRange?}
+\frametitle{Introdução - Que fatores influenciam o \textit{eRange}?}
 
 \begin{itemize}
-	\item A distância máxima que um veículo elétrico consegue viajar;
-	\item Alivia a ansiedade do condutor; 
-	\item Depende de vários dados da condução do veículo:
-		  \begin{itemize}
-			  \item SOC (State of charge) - indica o estado de carga da bateria;
-			  \item Estado do ar condicionado;
-			  \item Travagem regenerativa;
-			  \item Inclinação da estrada;
-			  \item (entre outros)
+	\item SOC (\textit{State of charge}) - indica o estado de carga da bateria
+	\item Estado do ar condicionado / Aquecimento
+	\item Condições atmosféricas
+	\item Inclinação da estrada
+	\item Travagem regenerativa
+	\item (entre outros)
+\end{itemize}
+
+
+\end{frame}
+
+\subsection[Formulação do problema]{Formulação do problema}
+\begin{frame}
+\frametitle{Introdução - Formulação do problema}
+
+\begin{itemize}
+	\item Desenvolvimento aplicacional - TODO:
+	\begin{itemize}
+		\item Uso de inteligência artificial (\textit{machine learning}) para a resolução do problema
+		\item Aprendizagem do modelo através de \textit{datasets} contendo os consumos em viagens efetuadas por carros electricos
+	\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\subsection[Dificuldades do problema]{Dificuldades do problema}
+\begin{frame}
+\frametitle{Introdução - Dificuldades do problema}
+
+\begin{itemize}
+	\item Escassez de \textit{datasets} para testes de algoritmos
+	\item Escolha dos algoritmos de \textit{machine learning}
+	\item Dependência de vários fatores aumenta a complexidade do problema
+	 \begin{itemize}
+			\item Limitado aos fatores existentes nos \textit{datasets}
+			\item Seleção de fatores mais relevantes% Reduzir complexidade de algoritmos
 		  \end{itemize}
-\end{itemize}
-
-
-\end{frame}
-
-\subsection[Problema]{O problema de estimação}
-\begin{frame}
-\frametitle{Introdução - O problema}
-
-\begin{itemize}
-	\item Dependência de vários fatores;
-	\item Escassez de \textit{datasets};
-	\item Escolha dos algoritmos de \textit{machine learning};
-\end{itemize}
-
-\end{frame}
-
-\subsection[Como resolver]{Como resolver}
-\begin{frame}
-\frametitle{Introdução - Como resolver}
-
-\begin{itemize}
-	\item Uso de inteligência artificial para a resolução do problema;
-	\item Aprendizagem através de \textit{datasets} de viajens de carros electricos;
 \end{itemize}
 
 \end{frame}
@@ -110,14 +115,14 @@
 \frametitle{Estado da arte - \textit{Datasets}}
 
 \begin{itemize}
-	\item \textit{EV Database} (ev-database.org) \footfullcite{onlineEvDatabase};
-	\item \textit{VED Dataset} \footfullcite{vedDatasetCleared};
+	\item \textit{EV Database} (ev-database.org) \footfullcite{onlineEvDatabase}
+	\item \textit{VED Dataset} \footfullcite{vedDatasetCleared}
 		  \begin{itemize}
 			  \item Dados reais de condução de veículos elétricos (2013 Nissan leaf)  
 		  \end{itemize}
-	\item \textit{Emobpy} \footfullcite{emobpyCleared}.
+	\item \textit{Emobpy} \footfullcite{emobpyCleared}
 		  \begin{itemize}
-			  \item Geração de dados de condução de veículos elétricos.
+			  \item Geração de dados de condução de veículos elétricos
 		  \end{itemize}
 \end{itemize}
 
@@ -127,6 +132,19 @@
 \begin{frame}
 \frametitle{Estado da arte - \textit{Datasets} de condução}
 
+\begin{table}[]
+	\centering
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{c|c|c|}
+	\cline{2-3}
+														  & VED dataset                                                                                                                                                                  & Emobpy                                                                                              \\ \hline
+	\multicolumn{1}{|c|}{Tipo de viagens}                 & Reais                                                                                                                                                                        & Geradas                                                                                             \\ \hline
+	\multicolumn{1}{|c|}{Número de viagens}               & 507                                                                                                                                                                          & Infinitas                                                                                           \\ \hline
+	\multicolumn{1}{|c|}{Modelos de veículos disponíveis} & 1                                                                                                                                                                            & 102                                                                                                 \\ \hline
+	\multicolumn{1}{|c|}{Parâmetros úteis}                & \begin{tabular}[c]{@{}c@{}}velocidade, SOC da bateria,\\ potência do aquecimento,\\ potência do ar condicionado, \\ currente da bateria, \\ voltagem da bateria\end{tabular} & \begin{tabular}[c]{@{}c@{}}distância, consumo,\\ consumo instantâneo,\\ potência média\end{tabular} \\ \hline
+	\end{tabular}%
+	}
+	\end{table}
 
 \end{frame}
 
@@ -161,9 +179,13 @@
 \frametitle{Trabalho realizado}
 
 \begin{itemize}
-	\item Estudo do problema e soluções existentes;
-	\item Escolha de um \textit{dataset} válido;
-	\item Implementação de um modelo de baseado em historial \footfullcite{classicEVXCleared2}.
+	\item Estudo do problema e soluções existentes
+	\item Estudo de \textit{datasets}
+	\item Implementação de dois algoritmos para cálculo do \textit{eRange}:
+		  \begin{itemize}
+			  \item Algoritmo básico ... (TODO) 
+			  \item Algoritmo \textit{history-based} \footfullcite{classicEVXCleared2}
+		  \end{itemize}
 \end{itemize}
 
 \end{frame}
