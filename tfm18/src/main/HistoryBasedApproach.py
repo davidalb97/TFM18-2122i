@@ -38,17 +38,17 @@ class HistoryBasedApproach:
     def eRange(self, state_of_charge: float, iec, timestamp_ms):
 
         self.timestep_iecs.append(iec)
+        self.iecs.append(iec)
 
-        # wait 1 minute
+        # Wait self.min_timestamp_step_ms
         if not self.is_min_timestep(timestamp_ms):
             return self.previous_eRange
 
         self.k += 1
 
-        # compute moving average discarding zeros due to no consumption
+        # Compute moving average discarding zeros due to no consumption
         aec_lastminute: float = self.average_discardzeros(self.timestep_iecs)  # CONFIRMAR!
         self.timestep_iecs.clear()
-        self.iecs.append(aec_lastminute)  # CONFIRMAR!
 
         # Check first if the vehicle is stopped or moving too slow
         if iec == 0 or aec_lastminute <= self.min_instance_energy:
@@ -56,7 +56,7 @@ class HistoryBasedApproach:
         else:
             last_N_iecs = self.iecs[-self.N:]
             aec_ma: float = self.average_discardzeros(last_N_iecs)
-            self.aec_mas.append(aec_ma)  # CONFIRMAR!
+            self.aec_mas.append(aec_ma)
 
             # Weighted moving average computation
             aec_wma: float = self.average_waighted(self.aec_mas)
@@ -71,6 +71,9 @@ class HistoryBasedApproach:
 
         if len(self.aec_mas) > self.N:
             self.aec_mas.pop(0)
+
+        if len(self.iecs) > self.N:
+            self.iecs.pop(0)
 
         self.previous_eRange = eRange
 
@@ -91,8 +94,10 @@ class HistoryBasedApproach:
         return unsafe_mean(zero_free_list)
 
     def average_waighted(self, list: list):
+        weighted_list = list.copy()
+        weighted_list.reverse()
         weighted_list = (
-            Seq(list)
+            Seq(weighted_list)
                 .enumerate()
                 # V1/2, V2/4, V3/8, ... VN/2^N
                 .map(lambda idx_value: idx_value[1] / math.pow(2, idx_value[0]))
