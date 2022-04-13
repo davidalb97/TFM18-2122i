@@ -181,7 +181,7 @@ def read_valid_trip(path: str, timestep_ms: int = 1000):
         # min_timestamp_step_ms=60000,  # 60K milis = 1 minute
         # min_timestamp_step_ms=10000,  # 10K milis = 10 secs
         min_timestamp_step_ms=1000,  # 1K milis = 1 secs
-        min_instance_energy=1,  # CONFIRMAR!
+        min_instance_energy=2.5,  # 2500W
         full_battery_energy_FBE=FBE_nissan_leaf_2013_kw,
         average_energy_consumption_aec=AEC_nissan_leaf_2013_KWh_km
     )
