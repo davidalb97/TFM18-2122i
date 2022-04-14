@@ -47,6 +47,16 @@ def purge_database() -> None:
     )
 
 
+def purge_export_folder() -> None:
+    """
+    Deletes all export data from the export folder
+    """
+    (
+        Seq(glob.glob(emobpy_export_folder + '/*'))
+            .foreach(lambda file_name: os.remove(file_name))
+    )
+
+
 def export_all_dataframes(profile_idx) -> None:
     """
     Finds and prints all dataframes on a profile, given its index.

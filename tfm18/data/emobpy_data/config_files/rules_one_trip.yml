@@ -9,12 +9,12 @@
         'home': 0
       },
       'min_state_duration': {
-        'home': 0.5,
+        'home': 0.001,
         'errands': 0.0,
         'escort': 0.0,
         'shopping': 0.0,
         'leisure': 0.0,
-        'driving': 0.5
+        'driving': 0.999
       },
     },
     'weekend': {
@@ -26,12 +26,12 @@
         'home': 0
       },
       'min_state_duration': {
-        'home': 0.5,
+        'home': 0.001,
         'errands': 0.0,
         'escort': 0.0,
         'shopping': 0.0,
         'leisure': 0.0,
-        'driving': 0.5
+        'driving': 0.999
       }
     }
   }

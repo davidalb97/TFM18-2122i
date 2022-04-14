@@ -5,6 +5,7 @@ from tfm18.src.main.emobpy.util.EmobpyUtil import fixed_set_seed, emobpy_config_
 # Initialize seed
 fixed_set_seed()
 
+from emobpy.constants import TIME_FREQ
 
 def main():
     mobility = Mobility(
@@ -15,12 +16,13 @@ def main():
     hrs = 24          # one week
 
     # Available steps at: from emobpy.constants import TIME_FREQ
+    #TIME_FREQ.keys()
     # steps = 1.0     # 1h
     # steps = 0.5     # 30m
     # steps = 0.25    # 15m
     # steps = 0.125   # 450s
-    steps = 1 / 60    # 60s
-    # steps = 1/3600  # 1s
+    # steps = 1 / 60  # 60s
+    steps = 1/3600    # 1s
     mobility.set_params(
         name_prefix="Step1Mobility",
         total_hours=hrs,
