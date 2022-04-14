@@ -166,6 +166,7 @@ setup(
         'emobpy==0.6.2',        # Generate EV driving datasets
         'pandas==1.4.1',        # Dataframes
         'infixpy==0.0.4',       # Fluent functional Streams
+        'ray==1.11.0',          # Faster / Simpler parallel coding
         'chart_studio==1.1.0'   # Might be useful for emobpy pandas dataframe iplot()?
         # 'check-python-versions=='
     ],  # Optional
