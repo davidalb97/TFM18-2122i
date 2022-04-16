@@ -8,13 +8,13 @@ from Orange.data import Domain, Instance
 
 from tfm18.src.main.BasicApproach import get_instant_eRange
 from tfm18.src.main.HistoryBasedApproach import HistoryBasedApproach
+from tfm18.src.main.data.ved.VEDInstance import csv_header, VEDInstance
 from tfm18.src.main.util.Aliases import OrangeTable
 from tfm18.src.main.util.Formulas import calculate_wattage, convert_milliseconds_to_minutes, convert_watts_to_kilowatts, \
     convert_kilowatts_to_watts, calculate_kilowatts_hour, convert_milliseconds_to_hours, \
-    calculate_kwh_100km, calculate_non_linear_distance_km, calculate_aceleration_km_h2, calculate_linear_distance_km
-from tfm18.src.main.ved.VEDInstance import csv_header, VEDInstance
+    calculate_kwh_100km, calculate_non_linear_distance_km, calculate_aceleration_km_h2
 
-ved_data_path = os.path.join('..', '..', '..', 'data', 'ved_data')
+ved_data_path = os.path.join('..', '..', '..', '..', 'data', 'ved_data')
 ved_dataset_path = os.path.join(ved_data_path, 'ved_dynamic_data')
 valid_trip_dataset_path_old = os.path.join(ved_data_path, 'ved_valid_trip_data_old')
 valid_trip_dataset_path = os.path.join(ved_data_path, 'ved_valid_trip_data')
