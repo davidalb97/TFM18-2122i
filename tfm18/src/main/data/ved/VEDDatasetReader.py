@@ -6,8 +6,8 @@ from typing import IO
 import matplotlib.pyplot as plt
 from Orange.data import Domain, Instance
 
-from tfm18.src.main.BasicApproach import get_instant_eRange
-from tfm18.src.main.HistoryBasedApproach import HistoryBasedApproach
+from tfm18.src.main.algorithm.BasicApproach import get_instant_eRange
+from tfm18.src.main.algorithm.HistoryBasedApproach import HistoryBasedApproach
 from tfm18.src.main.data.ved.VEDInstance import csv_header, VEDInstance
 from tfm18.src.main.util.Aliases import OrangeTable
 from tfm18.src.main.util.Formulas import calculate_wattage, convert_milliseconds_to_minutes, convert_watts_to_kilowatts, \
