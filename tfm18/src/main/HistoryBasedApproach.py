@@ -15,7 +15,7 @@ class HistoryBasedApproach:
     N: int
     delta: float
     min_timestamp_step_ms: int
-    min_instance_energy: int
+    min_instance_energy: float
     next_timestamp_ms: int = None
     timestep_iecs: list[float] = list()
     previous_eRange = 0
@@ -24,7 +24,7 @@ class HistoryBasedApproach:
                  N: int,
                  delta: float,
                  min_timestamp_step_ms: int,
-                 min_instance_energy: int,
+                 min_instance_energy: float,
                  full_battery_energy_FBE: float,
                  average_energy_consumption_aec: float
                  ):
