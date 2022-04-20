@@ -2,7 +2,7 @@ import math
 import statistics
 
 
-def calculate_wattage(voltage_V: float, current_A: float) -> float:
+def calculate_power(voltage_V: float, current_A: float) -> float:
     """
     :param voltage_V: The voltage (in volts).
     :param current_A: The current (in ampers).
@@ -43,7 +43,7 @@ def convert_kilowatts_to_watts(kilowatts: float) -> float:
     return kilowatts * 1000
 
 
-def calculate_kilowatts_hour(kilowatts: float, hours: float) -> float:
+def calculate_power_hour_kW_h(kilowatts: float, hours: float) -> float:
     """
    :param kilowatts: The kilowattage [Kw] to convert.
    :param hours: The hours [hours] to convert.
@@ -92,7 +92,7 @@ def calculate_kwh_100km(kilowats_hour_kwh: float, distance_km: float) -> float:
         return 0
     # kilowats_hour_kwh - distance_km
     #       x           - 100 Km
-    return unsafe_division(n=kilowats_hour_kwh * 100, d=distance_km) # CONFIRMAR!
+    return unsafe_division(n=kilowats_hour_kwh * 100, d=distance_km)
 
 
 # Talvêz retornar negativo?
@@ -100,5 +100,5 @@ def unsafe_division(n, d):
     return n / d if d else 0
 
 
-def unsafe_mean(list):
-    return statistics.mean(list) if len(list) != 0 else 0
+def unsafe_mean(_list):
+    return statistics.mean(_list) if len(_list) != 0 else 0
