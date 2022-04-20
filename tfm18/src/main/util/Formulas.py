@@ -95,6 +95,27 @@ def calculate_kwh_100km(kilowats_hour_kwh: float, distance_km: float) -> float:
     return unsafe_division(n=kilowats_hour_kwh * 100, d=distance_km)
 
 
+def get_instant_SOC(RBE: float, FBE: float) -> float:
+    """
+    Gets the instant SOC (State of charge or relative level of charge) in percentage points.
+    :param RBE: Remaining battery energy in kWh.
+    :param FBE: Full battery energy in kWh.
+    :return: Instant SOC (State of charge or relative level of charge) in percentage points.
+    """
+    return RBE / FBE * 100
+
+
+def get_instant_RDD(FBD_AcS: float, RBE: float, FBE: float) -> float:
+    """
+    Gets the instant RDD (Remaining driving distance) in kilometers.
+    :param FBD_AcS: Full battery distance or driving range in km (Depends on air conditioner).
+    :param RBE: Remaining battery energy in kWh.
+    :param FBE: Full battery energy in kWh.
+    :return: Instant RDD (Remaining driving distance) in kilometers.
+    """
+    return FBD_AcS * (RBE / FBE)
+
+
 # Talvêz retornar negativo?
 def unsafe_division(n, d):
     return n / d if d else 0
