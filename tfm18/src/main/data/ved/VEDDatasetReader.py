@@ -1,3 +1,4 @@
+import math
 import os
 import pathlib
 import shutil
@@ -160,8 +161,8 @@ def read_valid_trip(path: str, timestep_ms: int = 1000):
     currents = list()
     speeds = list()
     ac_kilowatts = list()
-    eRange_basic = list()
-    eRange_histories = list()
+    eRange_basic_list = list()
+    eRange_history_list = list()
 
     # AEC:
     # Real Energy Consumption between 116 - 244 Wh/km
@@ -190,6 +191,7 @@ def read_valid_trip(path: str, timestep_ms: int = 1000):
     curr_timestamp = None
     prev_timestamp_hour: float = 0
     prev_speed: float = None
+    quadratic_error_sum = 0
     for instance in orange_table:
         ved_instance: VEDInstance = VEDInstance(instance)
 
@@ -240,21 +242,24 @@ def read_valid_trip(path: str, timestep_ms: int = 1000):
         ac_kilowatts.append(ved_instance.air_conditioning_power_kw)
 
         socs.append(ved_instance.hv_battery_SOC)
-
-        eRange_basic.append(
-            get_instant_eRange(
-                FBD_AcS=FBD_nissan_leaf_2013_km,
-                SOC=ved_instance.hv_battery_SOC
-            )
+        eRange_basic = get_instant_eRange(
+            FBD_AcS=FBD_nissan_leaf_2013_km,
+            SOC=ved_instance.hv_battery_SOC
         )
+        eRange_basic_list.append(eRange_basic)
 
-        eRange_histories.append(
-            historyBasedApproach.eRange(
-                state_of_charge=ved_instance.hv_battery_SOC,
-                iec=kilowattage_hour_100km,  # CONFIRMAR!
-                timestamp_ms=ved_instance.timestamp_ms
-            )
+        eRange_history = historyBasedApproach.eRange(
+            state_of_charge=ved_instance.hv_battery_SOC,
+            iec=kilowattage_hour_100km,  # CONFIRMAR!
+            timestamp_ms=ved_instance.timestamp_ms
         )
+        eRange_history_list.append(eRange_history)
+
+        quadratic_error_sum += math.pow(eRange_basic - eRange_history, 2)
+
+    eRange_entry_count = len(timestamps_min)
+    mean_quadratic_error = quadratic_error_sum / eRange_entry_count
+    print("Mean quadratic error: %s" % mean_quadratic_error)
 
     # Make plots nonblocking
     # matplotlib.interactive(True)
@@ -319,14 +324,14 @@ def read_valid_trip(path: str, timestep_ms: int = 1000):
     # plt.show(block=True)
 
     color = 'blue'
-    eRange_axis.plot(timestamps_min, eRange_basic, color=color, marker=marker)
+    eRange_axis.plot(timestamps_min, eRange_basic_list, color=color, marker=marker)
     eRange_axis.set_xlabel('time [min]', fontsize=fontsize)
     eRange_axis.set_ylabel('basic eRange [Km]', color=color, fontsize=fontsize)
     eRange_axis.tick_params(axis='y', labelcolor=color)
 
     color = 'red'
     eRange_history_plot = eRange_axis.twinx()
-    eRange_history_plot.plot(timestamps_min, eRange_histories, color=color, marker=marker)
+    eRange_history_plot.plot(timestamps_min, eRange_history_list, color=color, marker=marker)
     eRange_history_plot.set_ylabel("history based eRange [Km]", color=color, fontsize=fontsize)
     eRange_history_plot.tick_params(axis='y', labelcolor=color)
 
