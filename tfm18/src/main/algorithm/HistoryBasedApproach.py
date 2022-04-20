@@ -1,4 +1,5 @@
 import statistics
+from typing import Optional, Union
 
 import math
 from infixpy import Seq
@@ -7,8 +8,8 @@ from tfm18.src.main.util.Formulas import unsafe_mean
 
 
 class HistoryBasedApproach:
-    k: float = 0
-    iecs: list[float] = list()
+    k: int = 0
+    iecs: dict[int, list[float]] = dict()
     aec_mas: list[float] = list()  # CONFIRMAR!
     aec: float  # CONFIRMAR!
     full_battery_energy_FBE: float
@@ -17,7 +18,6 @@ class HistoryBasedApproach:
     min_timestamp_step_ms: int
     min_instance_energy: float
     next_timestamp_ms: int = None
-    timestep_iecs: list[float] = list()
     previous_eRange = 0
 
     def __init__(self,
@@ -37,8 +37,13 @@ class HistoryBasedApproach:
 
     def eRange(self, state_of_charge: float, iec, timestamp_ms):
 
-        self.timestep_iecs.append(iec)
-        self.iecs.append(iec)
+        next_k = self.k + 1
+        # iecs_for_k: Union[list[int], None] = self.iecs.get(next_k)
+        iecs_for_k: Optional[list[int]] = self.iecs.get(next_k)
+        if iecs_for_k is None:
+            iecs_for_k = list()
+            self.iecs[next_k] = iecs_for_k
+        iecs_for_k.append(iec)
 
         # Wait self.min_timestamp_step_ms
         if not self.is_min_timestep(timestamp_ms):
@@ -47,14 +52,24 @@ class HistoryBasedApproach:
         self.k += 1
 
         # Compute moving average discarding zeros due to no consumption
-        aec_lastminute: float = self.average_discardzeros(self.timestep_iecs)  # CONFIRMAR!
-        self.timestep_iecs.clear()
+        aec_lastminute: float = self.average_discardzeros(iecs_for_k)
 
         # Check first if the vehicle is stopped or moving too slow
         if iec == 0 or aec_lastminute <= self.min_instance_energy:
             eRange = self.previous_eRange
         else:
-            last_N_iecs = self.iecs[-self.N:]
+            last_N_iecs: list[float] = list()
+            min_range = self.k - self.N
+            if min_range < 1:
+                min_range = 1
+            for current_k in range(min_range, self.k):
+                # Append last K iecs list elements to the end of last_N_iecs
+                last_N_iecs.extend(self.iecs[current_k])
+
+            # Ignore higher than N iec values
+            if min_range > 1:
+                self.iecs.pop(min_range)
+
             aec_ma: float = self.average_discardzeros(last_N_iecs)
             self.aec_mas.append(aec_ma)
 
@@ -71,9 +86,6 @@ class HistoryBasedApproach:
 
         if len(self.aec_mas) > self.N:
             self.aec_mas.pop(0)
-
-        if len(self.iecs) > self.N:
-            self.iecs.pop(0)
 
         self.previous_eRange = eRange
 
@@ -100,6 +112,7 @@ class HistoryBasedApproach:
             Seq(weighted_list)
                 .enumerate()
                 # V1/2, V2/4, V3/8, ... VN/2^N
+                # aec_ma_N_offset * 1 / 2^N_offset
                 .map(lambda idx_value: idx_value[1] / math.pow(2, idx_value[0]))
                 .tolist()
         )
