@@ -3,7 +3,7 @@ import os.path
 import pkg_resources
 from infixpy import *
 
-from tfm18.src.main.util.Aliases import Function
+from tfm18.src.main.util.Aliases import Function, OrangeTable
 
 module_name = "tfm18"
 data_submodule_prefix = 'data/'
@@ -64,6 +64,10 @@ def data_dir_path(data_subdir_path: str = "") -> str:
     :return: The system directory for the data subdirectory.
     """
     return pkg_resources.resource_filename(module_name, data_submodule_prefix + data_subdir_path)
+
+
+def load_dataset_file(file_path: str) -> OrangeTable:
+    return OrangeTable(file_path)
 
 
 if __name__ == '__main__':
