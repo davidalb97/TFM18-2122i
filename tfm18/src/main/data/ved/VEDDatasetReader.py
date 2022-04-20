@@ -1,11 +1,10 @@
-import math
 import os
 import pathlib
 import shutil
 from typing import IO, Optional
 
-import matplotlib.pyplot as plt
-from Orange.data import Domain, Instance
+from tfm18.src.main.util.DataPathUtil import load_dataset_file
+from Orange.data import Instance
 from tfm18.src.main.data.DatasetData import DatasetData
 from tfm18.src.main.data.TimestampDatasetEntry import TimestampDatasetEntry
 from tfm18.src.main.data.ved.VEDInstance import csv_header, VEDInstance
@@ -22,10 +21,6 @@ electric_vehicle_ids: list[int] = [10, 455, 541]
 NaN_variable = '?'
 
 
-def load_file(file_path: str) -> OrangeTable:
-    return OrangeTable(file_path)
-
-
 def generate_valid_trips():
     # Delete old generated valid trips
     if os.path.isdir(valid_trip_dataset_path):
@@ -38,7 +33,7 @@ def generate_valid_trips():
     ved_dataset_files: list[str] = os.listdir(ved_dataset_path)
     ved_dataset_files.sort()
     len_ved_dataset_files: int = len(ved_dataset_files)
-    debug_old_dataset_file_path: str = None
+    debug_old_dataset_file_path: Optional[str] = None
     for filename_index in range(len_ved_dataset_files):
 
         filename = ved_dataset_files[filename_index]
@@ -51,13 +46,9 @@ def generate_valid_trips():
 
         print("Reading file %s (%d of %d)" % (dataset_file_path, filename_index + 1, len_ved_dataset_files))
 
-        orange_table: OrangeTable = load_file(dataset_file_path)
-        table_domain: Domain = orange_table.domain
-        table_domain_variable_list = table_domain.variables
-        table_domain_len: int = len(table_domain_variable_list)
-        previous_trip_file_path: str = None
-        current_trip_file_path: str = None
-        current_file: IO = None
+        orange_table: OrangeTable = load_dataset_file(dataset_file_path)
+        previous_trip_file_path: Optional[str] = None
+        current_file: Optional[IO] = None
 
         instance: Instance
         # For each line
@@ -144,7 +135,7 @@ def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetData:
     dataset_file_path: str = os.path.join(valid_trip_dataset_path, path)
     print("Reading file %s" % dataset_file_path)
 
-    orange_table: OrangeTable = load_file(dataset_file_path)
+    orange_table: OrangeTable = load_dataset_file(dataset_file_path)
 
     timestamp_dataset_entry_list: list[TimestampDatasetEntry] = list()
 
