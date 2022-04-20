@@ -180,7 +180,7 @@ def read_valid_trip(path: str, timestep_ms: int = 1000):
         delta=convert_watts_to_kilowatts(50),  # 50W delta step, converted to kilowatt # CONFIRMAR!
         # min_timestamp_step_ms=60000,  # 60K milis = 1 minute
         # min_timestamp_step_ms=10000,  # 10K milis = 10 secs
-        min_timestamp_step_ms=1000,  # 1K milis = 1 secs
+        min_timestamp_step_ms=1000 * 60,  # 1K milis = 1 secs
         min_instance_energy=2.5,  # 2500W
         full_battery_energy_FBE=FBE_nissan_leaf_2013_kw,
         average_energy_consumption_aec=AEC_nissan_leaf_2013_KWh_km
@@ -198,6 +198,7 @@ def read_valid_trip(path: str, timestep_ms: int = 1000):
             prev_speed = ved_instance.vehicle_speed
             continue
 
+        # Subsampling of timestep_ms
         if curr_timestamp is None:
             curr_timestamp = timestep_ms
         elif ved_instance.timestamp_ms > curr_timestamp:
