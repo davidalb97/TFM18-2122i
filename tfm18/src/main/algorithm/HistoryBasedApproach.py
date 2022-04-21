@@ -101,8 +101,9 @@ class HistoryBasedApproach:
         else:
             return False
 
-    def average_discardzeros(self, list: list):
-        zero_free_list = Seq(list).filter(lambda x: x != 0).tolist()
+    def average_discardzeros(self, _list: list[float]):
+        # zero_free_list: list[float] = [i for i in _list if i != 0]
+        zero_free_list: list[float] = Seq(_list).filter(lambda x: x != 0).tolist()
         return unsafe_mean(zero_free_list)
 
     def average_waighted(self, list: list):
