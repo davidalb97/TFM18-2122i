@@ -1,5 +1,7 @@
 
 import math
+import matplotlib
+import numpy as np
 from matplotlib import pyplot
 
 from tfm18.src.main.algorithm.BasicApproach import get_instant_eRange
@@ -30,7 +32,10 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
         min_timestamp_step_ms=1000 * 60,  # 1K milis = 1 secs
         min_instance_energy=2.5,  # 2500W
         full_battery_energy_FBE=dataset_data.FBE_kWh,
-        average_energy_consumption_aec=dataset_data.AEC_KWh_km
+        full_battery_distance_FBD=dataset_data.FBD_km,
+        average_energy_consumption_aec=dataset_data.AEC_KWh_km,
+        initial_constant_iec=16 # 16 kWh/100km) for the first N minutes
+        # initial_constant_iec=dataset_data.AEC_KWh_km # 16 kWh/100km) for the first N minutes
     )
 
     for timestamp_dataset_entry in dataset_data.timestamp_dataset_entries:
@@ -84,17 +89,20 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
     # plt.show()
 
     # plt.subplot(1, 2, 1) # row 1, col 2 index 1
-    fig, axs = pyplot.subplots(3, 2)  # Create the figure and axes object
+    fig, axs = pyplot.subplots(4, 2)  # Create the figure and axes object
+    # fig.tight_layout()  # otherwise the right y-label is slightly clipped
 
     # marker = "o"
     marker = None
-    fontsize = 12
+    # fontsize = 12
+    fontsize = None
     SOC_axis = axs[0, 0]
     eRange_axis = axs[1, 0]
     power_axis = axs[2, 0]
     iec_axis = axs[0, 1]
     current_axis = axs[1, 1]
     speed_axis = axs[2, 1]
+    aec_axis = axs[3, 1]
 
     color = 'blue'
     SOC_axis.plot(timestamps_min, socs, color=color, marker=marker)
@@ -112,7 +120,6 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
     timestamps_ac_kilowatts.plot(timestamps_min, ac_kilowatts, color=color, marker=marker)
     timestamps_ac_kilowatts.set_ylabel("AC power [Kw]", color=color, fontsize=fontsize)
     timestamps_ac_kilowatts.tick_params(axis='y', labelcolor=color)
-
     # power_axis.get_shared_y_axes() \
     #     .join(timestamps_kilowatts, timestamps_ac_kilowatts)
     power_axis.sharey(timestamps_ac_kilowatts)
@@ -135,6 +142,15 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
     eRange_history_plot.plot(timestamps_min, eRange_history_list, color=color, marker=marker)
     eRange_history_plot.set_ylabel("history based eRange [Km]", color=color, fontsize=fontsize)
     eRange_history_plot.tick_params(axis='y', labelcolor=color)
+    eRange_axis.sharey(eRange_history_plot)
+
+    eRange_all_points = eRange_basic_list.copy()
+    eRange_all_points.extend(eRange_history_list)
+    eRange_minPoint = min(eRange_all_points)
+    eRange_maxPoint = max(eRange_all_points)
+    eRange_axis.set_ylim(eRange_minPoint, eRange_maxPoint)
+    eRange_history_plot.set_ylim(eRange_minPoint, eRange_maxPoint)
+    pyplot.gca().yaxis.set_major_locator(pyplot.MultipleLocator(5))
 
     color = 'blue'
     iec_axis.plot(timestamps_min, iecs, color=color, marker=marker)
@@ -154,4 +170,29 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
     speed_axis.set_ylabel('Speed [Km/h]', color=color, fontsize=fontsize)
     speed_axis.tick_params(axis='y', labelcolor=color)
 
+    color = 'purple'
+    aec_axis.plot(historyBasedApproach.times_acc, historyBasedApproach.aecs_acc, color=color, marker=marker)
+    aec_axis.set_ylabel('aec [kWh/100Km]', color=color, fontsize=fontsize)
+    aec_axis.set_xlabel('time [min]', fontsize=fontsize)
+    aec_axis.tick_params(axis='y', labelcolor=color)
+
+    color = 'goldenrod'
+    aec_wma_axis = aec_axis.twinx()
+    aec_wma_axis.plot(historyBasedApproach.times_acc, historyBasedApproach.aecs_wma_acc, color=color, marker=marker)
+    aec_wma_axis.set_ylabel('aec_wma [kWh/100Km]', color=color, fontsize=fontsize)
+    aec_wma_axis.tick_params(axis='y', labelcolor=color)
+    aec_axis.sharey(aec_wma_axis)
+
+    color = 'chocolate'
+    aec_ma_axis = aec_axis.twinx()
+    aec_ma_axis.plot(historyBasedApproach.times_acc, historyBasedApproach.aecs_ma_acc, color=color, marker=marker)
+    aec_ma_axis.set_ylabel('aec_ma [kWh/100Km]', color=color, fontsize=fontsize)
+    aec_ma_axis.tick_params(axis='y', labelcolor=color)
+    aec_wma_axis.sharey(aec_ma_axis)
+
+    aec_wma_axis.spines["right"].set_position(("axes", 1.1))
+    #fig.subplots_adjust(right=1.50)
+    # fig.tight_layout()  # otherwise the right y-label is slightly clipped
+
     pyplot.show(block=True)
+

@@ -4,21 +4,30 @@ from typing import Optional, Union
 import math
 from infixpy import Seq
 
-from tfm18.src.main.util.Formulas import unsafe_mean
+from tfm18.src.main.algorithm.BasicApproach import get_instant_eRange
+from tfm18.src.main.util.Formulas import unsafe_mean, convert_milliseconds_to_minutes
 
 
 class HistoryBasedApproach:
     k: int = 0
     iecs: dict[int, list[float]] = dict()
-    aec_mas: list[float] = list()  # CONFIRMAR!
-    aec: float  # CONFIRMAR!
+    aec_mas: list[float] = list()
+    aec: float
     full_battery_energy_FBE: float
+    full_battery_distance_FBD: float
     N: int
     delta: float
     min_timestamp_step_ms: int
     min_instance_energy: float
+    initial_constant_iec: float
     next_timestamp_ms: int = None
-    previous_eRange = 0
+    previous_eRange: Optional[float] = None
+
+    aecs_acc: list[float] = list()
+    aecs_ma_acc: list[float] = list()
+    aecs_wma_acc: list[float] = list()
+    times_acc: list[float] = list()
+    is_first_time = True
 
     def __init__(self,
                  N: int,
@@ -26,22 +35,42 @@ class HistoryBasedApproach:
                  min_timestamp_step_ms: int,
                  min_instance_energy: float,
                  full_battery_energy_FBE: float,
-                 average_energy_consumption_aec: float
+                 full_battery_distance_FBD: float,
+                 average_energy_consumption_aec: float,
+                 initial_constant_iec: float
                  ):
         self.N = N
         self.delta = delta
         self.min_timestamp_step_ms = min_timestamp_step_ms
         self.min_instance_energy = min_instance_energy
         self.full_battery_energy_FBE = full_battery_energy_FBE
+        self.full_battery_distance_FBD = full_battery_distance_FBD
         self.aec = average_energy_consumption_aec
+        self.initial_constant_iec = initial_constant_iec
 
-    def eRange(self, state_of_charge: float, iec, timestamp_ms):
+    def eRange(self, state_of_charge: float, iec: float, timestamp_ms: float):
 
         next_k = self.k + 1
-        # iecs_for_k: Union[list[int], None] = self.iecs.get(next_k)
-        iecs_for_k: Optional[list[int]] = self.iecs.get(next_k)
+
+        # Initialize previous eRange
+        if self.previous_eRange is None:
+            self.previous_eRange = get_instant_eRange(
+                FBD_AcS=self.full_battery_distance_FBD,
+                SOC=state_of_charge
+            )
+
+        # Force IEC as a constant for the first N * self.min_timestamp_step_ms
+        # Force basic approach
+        if self.are_iec_and_aec_constants(timestamp_ms=timestamp_ms):
+            iec: float = self.initial_constant_iec
+            self.previous_eRange = get_instant_eRange(
+                FBD_AcS=self.full_battery_distance_FBD,
+                SOC=state_of_charge
+            )
+
+        iecs_for_k: Optional[list[float]] = self.iecs.get(next_k)
         if iecs_for_k is None:
-            iecs_for_k = list()
+            iecs_for_k: list[float] = list()
             self.iecs[next_k] = iecs_for_k
         iecs_for_k.append(iec)
 
@@ -55,14 +84,13 @@ class HistoryBasedApproach:
         aec_lastminute: float = self.average_discardzeros(iecs_for_k)
 
         # Check first if the vehicle is stopped or moving too slow
-        if iec == 0 or aec_lastminute <= self.min_instance_energy:
-            eRange = self.previous_eRange
-        else:
+        if not (iec == 0 or aec_lastminute <= self.min_instance_energy):
+
             last_N_iecs: list[float] = list()
-            min_range = self.k - self.N
+            min_range = self.k - self.N + 1
             if min_range < 1:
                 min_range = 1
-            for current_k in range(min_range, self.k):
+            for current_k in range(min_range, self.k + 1):
                 # Append last K iecs list elements to the end of last_N_iecs
                 last_N_iecs.extend(self.iecs[current_k])
 
@@ -73,25 +101,51 @@ class HistoryBasedApproach:
             aec_ma: float = self.average_discardzeros(last_N_iecs)
             self.aec_mas.append(aec_ma)
 
-            # Weighted moving average computation
-            aec_wma: float = self.average_waighted(self.aec_mas)
+            if self.are_iec_and_aec_constants(timestamp_ms=timestamp_ms):
+                aec_wma: float = self.aec
 
-            # Make step decision
-            if aec_wma < self.aec:
-                self.aec -= self.delta
             else:
-                self.aec += self.delta
+                # Weighted moving average computation
+                aec_wma: float = self.average_waighted(self.aec_mas)
 
-            eRange = math.floor(self.full_battery_energy_FBE / self.aec * state_of_charge)
+                # Make step decision
+                if aec_wma < self.aec:
+                    self.aec -= self.delta
+                else:
+                    self.aec += self.delta
+
+                self.previous_eRange = math.floor(self.full_battery_energy_FBE / self.aec * state_of_charge)
+
+            # Debug
+            self.times_acc.append(convert_milliseconds_to_minutes(timestamp_ms))
+            # DEBUG
+            self.aecs_ma_acc.append(aec_ma)
+            # DEBUG
+            self.aecs_wma_acc.append(aec_wma)
+            # DEBUG
+            self.aecs_acc.append(self.aec)
 
         if len(self.aec_mas) > self.N:
             self.aec_mas.pop(0)
 
-        self.previous_eRange = eRange
+        return self.previous_eRange
 
-        return eRange
-
-    def is_min_timestep(self, timestamp_ms) -> bool:
+    def is_min_timestep(self, timestamp_ms: float) -> bool:
+        # if self.next_timestamp_ms is None:
+        #     self.next_timestamp_ms = self.min_timestamp_step_ms
+        #     return False
+        # elif self.is_first_time:
+        #     if timestamp_ms > self.next_timestamp_ms:
+        #         self.next_timestamp_ms += self.min_timestamp_step_ms
+        #     if timestamp_ms > self.N * self.min_timestamp_step_ms: # First N minutes
+        #         self.is_first_time = False
+        #         return True
+        #     return False
+        # elif timestamp_ms > self.next_timestamp_ms:
+        #     self.next_timestamp_ms += self.min_timestamp_step_ms
+        #     return True
+        # else:
+        #     return False
         if self.next_timestamp_ms is None:
             self.next_timestamp_ms = self.min_timestamp_step_ms
             return True
@@ -101,27 +155,25 @@ class HistoryBasedApproach:
         else:
             return False
 
+    def are_iec_and_aec_constants(self, timestamp_ms: float) -> bool:
+        return True if timestamp_ms < self.N * self.min_timestamp_step_ms else False
+
     def average_discardzeros(self, _list: list[float]):
         # zero_free_list: list[float] = [i for i in _list if i != 0]
         zero_free_list: list[float] = Seq(_list).filter(lambda x: x != 0).tolist()
         return unsafe_mean(zero_free_list)
 
-    def average_waighted(self, list: list):
-        weighted_list = list.copy()
+    def average_waighted(self, _list: list):
+        weighted_list = _list.copy()
         weighted_list.reverse()
         weighted_list = (
             Seq(weighted_list)
                 .enumerate()
                 # V1/2, V2/4, V3/8, ... VN/2^N
                 # aec_ma_N_offset * 1 / 2^N_offset
-                .map(lambda idx_value: idx_value[1] / math.pow(2, idx_value[0]))
+                .map(lambda idx_value: idx_value[1] / math.pow(2, idx_value[0] + 1))
                 .tolist()
         )
-        return statistics.mean(weighted_list)
+        return math.fsum(weighted_list)
+        #return statistics.mean(weighted_list)
 
-
-def test(FBE: float):
-    FBE = 125  # Km
-    # AEC 176Wh/Km ou 126 Wh/km?
-    AEC = 176
-    k = 0
