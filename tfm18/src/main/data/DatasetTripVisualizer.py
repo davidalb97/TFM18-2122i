@@ -72,11 +72,6 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
     mean_quadratic_error = quadratic_error_sum / eRange_entry_count
     print("Mean quadratic error: %s" % mean_quadratic_error)
 
-    # marker = "o"
-    marker = None
-    # fontsize = 12
-    fontsize = None
-
     fig: Figure
     axs: dict[str, Axes]
     soc_key = 'SOC'
@@ -110,13 +105,25 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
     speed_axis = axs[speed_key]
     aec_axis = axs[aec_key]
 
+    # default_marker = "o"
+    default_marker = None
+    # default_fontsize = 12
+    default_fontsize = None
+    default_x_label = 'time [min]'
+    color_blue = 'blue'
+    color_red = 'red'
+    color_green = 'green'
+    color_purple = 'purple'
+    color_goldenrod = 'goldenrod'
+    color_chocolate = 'chocolate'
+
     # SOC Graph
     configure_plot(
         axis=SOC_axis,
         x_axis_points=timestamps_min,
         y_axises_points=[socs],
-        y_axises_colors=['blue'],
-        x_label='time [min]',
+        y_axises_colors=[color_blue],
+        x_label=default_x_label,
         y_labels=['SOC (%)'],
         fontsize=None,
         marker=None
@@ -127,8 +134,8 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
         axis=power_axis,
         x_axis_points=timestamps_min,
         y_axises_points=[kilowatts, ac_kilowatts],
-        y_axises_colors=['red', 'green'],
-        x_label='time [min]',
+        y_axises_colors=[color_red, color_green],
+        x_label=default_x_label,
         y_labels=["Battery power [Kw]", "AC power [Kw]"],
         fontsize=None,
         marker=None
@@ -139,8 +146,8 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
         axis=eRange_axis,
         x_axis_points=timestamps_min,
         y_axises_points=[eRange_basic_list, eRange_history_list],
-        y_axises_colors=['blue', 'red'],
-        x_label='time [min]',
+        y_axises_colors=[color_blue, color_red],
+        x_label=default_x_label,
         y_labels=['basic eRange [Km]', 'history based eRange [Km]'],
         fontsize=None,
         marker=None
@@ -151,8 +158,8 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
         axis=iec_axis,
         x_axis_points=timestamps_min,
         y_axises_points=[iecs],
-        y_axises_colors=['blue'],
-        x_label='time [min]',
+        y_axises_colors=[color_blue],
+        x_label=default_x_label,
         y_labels=['Energy [KWh/100km]'],
         fontsize=None,
         marker=None
@@ -163,8 +170,8 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
         axis=current_axis,
         x_axis_points=timestamps_min,
         y_axises_points=[currents],
-        y_axises_colors=['blue'],
-        x_label='time [min]',
+        y_axises_colors=[color_blue],
+        x_label=default_x_label,
         y_labels=['Current [A]'],
         fontsize=None,
         marker=None
@@ -175,8 +182,8 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
         axis=speed_axis,
         x_axis_points=timestamps_min,
         y_axises_points=[speeds],
-        y_axises_colors=['blue'],
-        x_label='time [min]',
+        y_axises_colors=[color_blue],
+        x_label=default_x_label,
         y_labels=['Speed [Km/h]'],
         fontsize=None,
         marker=None
@@ -187,8 +194,8 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
         axis=aec_axis,
         x_axis_points=historyBasedApproach.times_acc,
         y_axises_points=[historyBasedApproach.aecs_acc, historyBasedApproach.aecs_wma_acc, historyBasedApproach.aecs_ma_acc],
-        y_axises_colors=['purple', 'goldenrod', 'chocolate'],
-        x_label='time [min]',
+        y_axises_colors=[color_purple, color_goldenrod, color_chocolate],
+        x_label=default_x_label,
         y_labels=['aec [kWh/100Km]', 'aec_wma [kWh/100Km]', 'aec_ma [kWh/100Km]'],
         fontsize=None,
         marker=None
@@ -231,12 +238,14 @@ def configure_plot(
 
         prev_axis = curr_axis
 
-    min_point = min(all_y_points)
-    max_point = max(all_y_points)
+    min_y_point = min(all_y_points)
+    max_y_point = max(all_y_points)
 
-    if max_point - min_point >= 10:
+    if max_y_point - min_y_point >= 10:
         for curr_axis in ret_axis:
-            curr_axis.set_ylim(min_point, max_point)
+            curr_axis.set_ylim(min_y_point, max_y_point)
         pyplot.gca().yaxis.set_major_locator(pyplot.MultipleLocator(5))
+
+    axis.set_xlim(min(x_axis_points), max(x_axis_points))
 
     return ret_axis
