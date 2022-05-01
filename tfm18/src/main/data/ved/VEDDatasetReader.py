@@ -144,14 +144,10 @@ def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetData:
     prev_timestamp_hour: float = 0
     prev_speed_km_h: Optional[float] = None
     instance: Instance
+    prev_power_kW: float = 0
     for instance in orange_table:
         ved_instance: VEDInstance = VEDInstance(instance)
         speed_km_h = ved_instance.vehicle_speed
-
-        # Ignore first instance
-        if prev_speed_km_h is None:
-            prev_speed_km_h = speed_km_h
-            continue
 
         # Subsampling of timestep_ms
         if curr_timestamp is None:
@@ -171,14 +167,26 @@ def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetData:
         # Convert to kilowatts
         power_kW = convert_watts_to_kilowatts(power_w)
 
+        # Ignore first instance, undo subsampling
+        if prev_speed_km_h is None:
+            prev_speed_km_h = speed_km_h
+            prev_power_kW = power_kW
+            curr_timestamp = None
+            continue
+
+        power_delta_kW = power_kW - prev_power_kW
+
         timestamp_hour = convert_milliseconds_to_hours(timestamp_ms)
         time_delta_hour: float = timestamp_hour - prev_timestamp_hour
         prev_timestamp_hour = timestamp_hour
-        if time_delta_hour == 0:
-            power_kW_hour = 0
-        else:
-            power_kW_hour = calculate_power_hour_kW_h(power_kW, time_delta_hour)
-        power_kW_hour = abs(power_kW_hour)  # CONFIRMAR!
+        # Ja não acontece, testar
+        # if time_delta_hour == 0:
+        #     power_delta_kW_hour = 0
+        # else:
+        #     #power_delta_kW_hour = calculate_power_hour_kW_h(power_delta_kW, time_delta_hour)
+        #     power_delta_kW_hour = power_delta_kW
+
+        # power_delta_kW_hour = abs(power_delta_kW_hour)  # CONFIRMAR!
 
         aceleration_km_h2 = calculate_aceleration_km_h2(prev_speed_km_h, speed_km_h)
         distance_km = abs(
@@ -189,7 +197,10 @@ def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetData:
             )
         )
         # distance_km = calculate_linear_distance_km(ved_instance.vehicle_speed, time_delta_hour)
-        iec_power_hour_100km = calculate_kwh_100km(power_kW_hour, distance_km)
+        # iec_power_hour_100km = calculate_kwh_100km(power_delta_kW_hour, distance_km)
+        # iec_power_hour_100km = power_delta_kW_hour / distance_km
+        # iec_power_hour_100km = (power_delta_kW * (time_delta_hour / 1000)) * 100 / distance_km
+        iec_power_hour_100km = (power_delta_kW * (time_delta_hour / 1000)) * 10 / distance_km
 
         timestamp_dataset_entry_list.append(
             TimestampDatasetEntry(
