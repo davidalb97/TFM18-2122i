@@ -198,5 +198,8 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
     #fig.subplots_adjust(right=1.50)
     # fig.tight_layout()  # otherwise the right y-label is slightly clipped
 
+    # Hide unused axis
+    fig.delaxes(axs[3][0])
+
     pyplot.show(block=True)
 
