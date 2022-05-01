@@ -63,6 +63,10 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
         eRange_basic_list.append(eRange_basic)
         eRange_history_list.append(eRange_history)
 
+    print("IEC range: [%s, %s]" % (min(iecs), max(iecs)))
+    print("AEC_ma range: [%s, %s]" % (min(historyBasedApproach.aecs_ma_acc), max(historyBasedApproach.aecs_ma_acc)))
+    print("AEC_wma range: [%s, %s]" % (min(historyBasedApproach.aecs_wma_acc), max(historyBasedApproach.aecs_wma_acc)))
+    print("AEC range: [%s, %s]" % (min(historyBasedApproach.aecs_acc), max(historyBasedApproach.aecs_acc)))
     eRange_entry_count = len(dataset_data.timestamp_dataset_entries)
     mean_quadratic_error = quadratic_error_sum / eRange_entry_count
     print("Mean quadratic error: %s" % mean_quadratic_error)
