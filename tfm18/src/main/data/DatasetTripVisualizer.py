@@ -1,8 +1,9 @@
-
 import math
 import matplotlib
 import numpy as np
-from matplotlib import pyplot
+from matplotlib import pyplot  # gridspec
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 from tfm18.src.main.algorithm.BasicApproach import get_instant_eRange
 from tfm18.src.main.algorithm.HistoryBasedApproach import HistoryBasedApproach
@@ -91,33 +92,67 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
     # plot2: Figure = plt.figure(2)
     # plt.plot(timestamps, kilowatts)
     # plt.show()
+    fig_offset = 2
+    # gs = gridspec.GridSpec(3 * fig_offset, 2 * fig_offset)
 
     # plt.subplot(1, 2, 1) # row 1, col 2 index 1
-    fig, axs = pyplot.subplots(4, 2)  # Create the figure and axes object
+    # fig, axs = pyplot.subplots(4, 2)  # Create the figure and axes object
+    # SOC_axis = axs[0, 0]
+    # iec_axis = axs[0, 1]
+    # eRange_axis = axs[1, 0]
+    # current_axis = axs[1, 1]
+    # power_axis = axs[2, 0]
+    # speed_axis = axs[2, 1]
+    # aec_axis = axs[3, 1]
+
     # fig.tight_layout()  # otherwise the right y-label is slightly clipped
 
     # marker = "o"
     marker = None
     # fontsize = 12
     fontsize = None
-    SOC_axis = axs[0, 0]
-    eRange_axis = axs[1, 0]
-    power_axis = axs[2, 0]
-    iec_axis = axs[0, 1]
-    current_axis = axs[1, 1]
-    speed_axis = axs[2, 1]
-    aec_axis = axs[3, 1]
+    # figure = pyplot.figure(figsize=(6 * fig_offset, 3 * fig_offset))
+    # SOC_axis = figure.add_subplot(gs[:2, :2])
+    # eRange_axis = figure.add_subplot(gs[:2, 2:])
+    # power_axis = figure.add_subplot(gs[:4, :2])
+    # iec_axis = figure.add_subplot(gs[:4, 2:])
+    # current_axis = figure.add_subplot(gs[:6, :2])
+    # speed_axis = figure.add_subplot(gs[:6, 2:])
+    # aec_axis = figure.add_subplot(gs[4:6, 1:3])
 
-    color = 'blue'
-    SOC_axis.plot(timestamps_min, socs, color=color, marker=marker)
-    SOC_axis.set_xlabel('time [min]', fontsize=fontsize)
-    SOC_axis.set_ylabel('SOC (%)', color=color, fontsize=fontsize)
-    SOC_axis.tick_params(axis='y', labelcolor=color)
+    fig: Figure
+    axs: dict[str, Axes]
+    soc_key = 'SOC'
+    iec_key = 'IEC'
+    eRange_key = 'eRange'
+    curremt_key = 'Current'
+    power_key = 'Power'
+    speed_key = 'Speed'
+    aec_key = 'AEC'
+    empty_sentinel_key = '.'
 
-    color = 'red'
-    power_axis.plot(timestamps_min, kilowatts, color=color, marker=marker)
-    power_axis.set_ylabel("Battery power [Kw]", color=color, fontsize=fontsize)
-    power_axis.tick_params(axis='y', labelcolor=color)
+    fig, axs = pyplot.subplot_mosaic(
+        [
+            [soc_key, soc_key, iec_key, iec_key],
+            [soc_key, soc_key, iec_key, iec_key],
+            [eRange_key, eRange_key, curremt_key, curremt_key],
+            [eRange_key, eRange_key, curremt_key, curremt_key],
+            [power_key, power_key, speed_key, speed_key],
+            [power_key, power_key, speed_key, speed_key],
+            [empty_sentinel_key, aec_key, aec_key, empty_sentinel_key],
+            [empty_sentinel_key, aec_key, aec_key, empty_sentinel_key]
+        ],
+        constrained_layout=True
+    )
+    items: list[tuple[str, Axes]] = axs.items()
+
+    SOC_axis = axs[soc_key]
+    iec_axis = axs[iec_key]
+    eRange_axis = axs[eRange_key]
+    current_axis = axs[curremt_key]
+    power_axis = axs[power_key]
+    speed_axis = axs[speed_key]
+    aec_axis = axs[aec_key]
 
     color = 'green'
     timestamps_ac_kilowatts = power_axis.twinx()
@@ -199,7 +234,7 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
     # fig.tight_layout()  # otherwise the right y-label is slightly clipped
 
     # Hide unused axis
-    fig.delaxes(axs[3][0])
+    # fig.delaxes(axs[3][0])
 
     pyplot.show(block=True)
 
