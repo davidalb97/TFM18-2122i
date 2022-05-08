@@ -35,8 +35,8 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
         full_battery_energy_FBE=dataset_data.FBE_kWh,
         full_battery_distance_FBD=dataset_data.FBD_km,
         average_energy_consumption_aec=dataset_data.AEC_KWh_km,
-        initial_constant_iec=16 # 16 kWh/100km) for the first N minutes
-        # initial_constant_iec=dataset_data.AEC_KWh_km # 16 kWh/100km) for the first N minutes
+        # initial_constant_iec=16 # 16 kWh/100km) for the first N minutes
+        initial_constant_iec=dataset_data.AEC_KWh_km  # 16 kWh/100km) for the first N minutes
     )
 
     for timestamp_dataset_entry in dataset_data.timestamp_dataset_entries:
