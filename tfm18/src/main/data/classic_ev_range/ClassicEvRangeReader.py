@@ -8,6 +8,7 @@ from tfm18.src.main.util.DataPathUtil import load_dataset_file
 from tfm18.src.main.util.Formulas import convert_milliseconds_to_minutes, get_instant_SOC, convert_kilowatts_to_watts, \
     convert_watts_to_kilowatts
 
+classic_ev_x_dataset_name = "Classic EV X Dataset"
 classic_ev_range_data_path = os.path.join(
     pathlib.Path(__file__).resolve().parent, '..', '..', '..', '..', 'data', 'classic_ev_BMW_I3_data'
 )
@@ -62,6 +63,7 @@ def read_classic_ev_range_trip() -> DatasetData:
         )
 
     return DatasetData(
+        dataset_name=classic_ev_x_dataset_name,
         FBD_km=FBD_bmw_I3_94Ah_km,
         AEC_KWh_km=AEC_bmw_I3_94Ah_city_cold_KWh_100km,
         FBE_kWh=FBE_bmw_I3_94Ah_kWh,
