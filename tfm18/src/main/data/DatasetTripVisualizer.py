@@ -105,10 +105,10 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
     speed_axis = axs[speed_key]
     aec_axis = axs[aec_key]
 
-    # default_marker = "o"
-    default_marker = None
-    # default_fontsize = 12
-    default_fontsize = None
+    # marker = "o"
+    marker = None
+    # fontsize = 12
+    fontsize = None
     default_x_label = 'time [min]'
     color_blue = 'blue'
     color_red = 'red'
@@ -125,8 +125,8 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
         y_axises_colors=[color_blue],
         x_label=default_x_label,
         y_labels=['SOC (%)'],
-        fontsize=None,
-        marker=None
+        fontsize=fontsize,
+        marker=marker
     )
 
     # Power Graph
@@ -137,8 +137,8 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
         y_axises_colors=[color_red, color_green],
         x_label=default_x_label,
         y_labels=["Battery power [Kw]", "AC power [Kw]"],
-        fontsize=None,
-        marker=None
+        fontsize=fontsize,
+        marker=marker
     )
 
     # eRange axis
@@ -149,8 +149,8 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
         y_axises_colors=[color_blue, color_red],
         x_label=default_x_label,
         y_labels=['basic eRange [Km]', 'history based eRange [Km]'],
-        fontsize=None,
-        marker=None
+        fontsize=fontsize,
+        marker=marker
     )
 
     # Current axis
@@ -161,8 +161,8 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
         y_axises_colors=[color_blue],
         x_label=default_x_label,
         y_labels=['Energy [KWh/100km]'],
-        fontsize=None,
-        marker=None
+        fontsize=fontsize,
+        marker=marker
     )
 
     # Current axis
@@ -173,8 +173,8 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
         y_axises_colors=[color_blue],
         x_label=default_x_label,
         y_labels=['Current [A]'],
-        fontsize=None,
-        marker=None
+        fontsize=fontsize,
+        marker=marker
     )
 
     # Speed axis
@@ -185,8 +185,8 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
         y_axises_colors=[color_blue],
         x_label=default_x_label,
         y_labels=['Speed [Km/h]'],
-        fontsize=None,
-        marker=None
+        fontsize=fontsize,
+        marker=marker
     )
 
     # AECs
@@ -197,8 +197,8 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
         y_axises_colors=[color_purple, color_goldenrod, color_chocolate],
         x_label=default_x_label,
         y_labels=['aec [kWh/100Km]', 'aec_wma [kWh/100Km]', 'aec_ma [kWh/100Km]'],
-        fontsize=None,
-        marker=None
+        fontsize=fontsize,
+        marker=marker
     )
     aec_axis_list[2].spines["right"].set_position(("axes", 1.1))
 
