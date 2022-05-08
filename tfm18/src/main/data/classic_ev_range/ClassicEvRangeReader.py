@@ -47,7 +47,7 @@ def read_classic_ev_range_trip() -> DatasetData:
         rbe_kWh: float = convert_watts_to_kilowatts(rbe_Wh_row.list[0])
         speed_km_s: float = speed_km_s_row.list[0]
         iec_kWh_100km: float = iec_kWh_100km_row.list[0]
-        print()
+
         timestamp_dataset_entries.append(
             TimestampDatasetEntry(
                 timestamp_ms=timestamp_ms,
