@@ -13,6 +13,7 @@ from tfm18.src.main.util.Formulas import calculate_power, convert_milliseconds_t
     convert_kilowatts_to_watts, calculate_power_hour_kW_h, convert_milliseconds_to_hours, \
     calculate_kwh_100km, calculate_non_linear_distance_km, calculate_aceleration_km_h2
 
+ved_dataset_name = "VED Dataset"
 ved_data_path = os.path.join(pathlib.Path(__file__).resolve().parent, '..', '..', '..', '..', 'data', 'ved_data')
 ved_dataset_path = os.path.join(ved_data_path, 'ved_dynamic_data')
 valid_trip_dataset_path_old = os.path.join(ved_data_path, 'ved_valid_trip_data_old')
@@ -231,6 +232,7 @@ def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetData:
     FBD_nissan_leaf_2013_km: int = 125
 
     return DatasetData(
+        dataset_name=ved_dataset_name,
         FBD_km=FBD_nissan_leaf_2013_km,
         AEC_KWh_km=AEC_nissan_leaf_2013_KWh_km,
         FBE_kWh=FBE_nissan_leaf_2013_kWh,

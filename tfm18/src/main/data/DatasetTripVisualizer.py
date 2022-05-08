@@ -202,6 +202,7 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
     )
     aec_axis_list[2].spines["right"].set_position(("axes", 1.1))
 
+    pyplot.suptitle(dataset_data.dataset_name)
     pyplot.show(block=True)
 
 
