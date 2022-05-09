@@ -13,7 +13,7 @@ from tfm18.src.main.data.ved.VEDDatasetReader import read_valid_trip
 from tfm18.src.main.util.Formulas import convert_watts_to_kilowatts
 
 
-def plot_dataset_eRange_results(dataset_data: DatasetData):
+def plot_dataset_eRange_results(dataset_data: DatasetData, block=False):
     timestamps_min = list()
     socs = list()
     iecs = list()
@@ -93,8 +93,7 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
             [power_key, power_key, speed_key, speed_key],
             [empty_sentinel_key, aec_key, aec_key, empty_sentinel_key],
             [empty_sentinel_key, aec_key, aec_key, empty_sentinel_key]
-        ],
-        constrained_layout=True
+        ], constrained_layout=True
     )
 
     SOC_axis = axs[soc_key]
@@ -203,7 +202,9 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
     aec_axis_list[2].spines["right"].set_position(("axes", 1.1))
 
     pyplot.suptitle(dataset_data.dataset_name)
-    pyplot.show(block=True)
+    pyplot.tight_layout()
+    pyplot.show(block=block)
+
 
 
 def configure_plot(
