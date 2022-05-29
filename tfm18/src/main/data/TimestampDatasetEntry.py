@@ -4,7 +4,7 @@ class TimestampDatasetEntry:
     timestamp_min: float
     soc_percentage: float
     speed_km_s: float
-    iec_kWh_100km: float
+    iec_KWh_by_100km: float
     current_a: float
     power_kW: float
     ac_power_kW: float
@@ -14,7 +14,7 @@ class TimestampDatasetEntry:
                  timestamp_min: float,
                  soc_percentage: float,
                  speed_km_s: float,
-                 iec_kWh_100km: float,
+                 iec_KWh_by_100km: float,
                  current_a: float,
                  power_kW: float,
                  ac_power_kW: float
@@ -23,7 +23,7 @@ class TimestampDatasetEntry:
         self.timestamp_min = timestamp_min
         self.soc_percentage = soc_percentage
         self.speed_km_s = speed_km_s
-        self.iec_kWh_100km = iec_kWh_100km
+        self.iec_KWh_by_100km = iec_KWh_by_100km
         self.current_a = current_a
         self.power_kW = power_kW
         self.ac_power_kW = ac_power_kW

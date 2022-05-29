@@ -198,10 +198,14 @@ def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetData:
             )
         )
         # distance_km = calculate_linear_distance_km(ved_instance.vehicle_speed, time_delta_hour)
-        # iec_power_hour_100km = calculate_kwh_100km(power_delta_kW_hour, distance_km)
-        # iec_power_hour_100km = power_delta_kW_hour / distance_km
-        # iec_power_hour_100km = (power_delta_kW * (time_delta_hour / 1000)) * 100 / distance_km
-        iec_power_hour_100km = (power_delta_kW * (time_delta_hour / 1000)) * 10 / distance_km
+
+        if distance_km != 0.0:
+            # iec_power_hour_100km = calculate_kwh_100km(power_delta_kW_hour, distance_km)
+            # iec_power_hour_100km = power_delta_kW_hour / distance_km
+            # iec_power_hour_100km = (power_delta_kW * (time_delta_hour / 1000)) * 100 / distance_km
+            iec_power_hour_100km = (power_delta_kW * (time_delta_hour / 1000)) * 10 / distance_km
+        else:
+            iec_power_hour_100km = 0
 
         timestamp_dataset_entry_list.append(
             TimestampDatasetEntry(
@@ -209,7 +213,7 @@ def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetData:
                 timestamp_min=timestamp_min,
                 soc_percentage=ved_instance.hv_battery_SOC,
                 speed_km_s=speed_km_h,
-                iec_kWh_100km=iec_power_hour_100km,
+                iec_KWh_by_100km=iec_power_hour_100km,
                 current_a=current_a,
                 power_kW=power_kW,
                 ac_power_kW=ved_instance.air_conditioning_power_kw
@@ -238,3 +242,28 @@ def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetData:
         FBE_kWh=FBE_nissan_leaf_2013_kWh,
         timestamp_dataset_entries=timestamp_dataset_entry_list
     )
+
+
+def read_all_valid_trips(timestep_ms: int = 1000) -> list[DatasetData]:
+
+    dataset_data_list: list[DatasetData] = list()
+    ev_trip_dirs = [f.path for f in os.scandir(valid_trip_dataset_path) if f.is_dir()]
+    for ev_trip_dir in ev_trip_dirs:
+        ev_trip_dir_name = os.path.basename(ev_trip_dir)
+        ev_trip_file_names: list[str] = os.listdir(ev_trip_dir)
+        for ev_trip_file_name in ev_trip_file_names:
+            # Only .csv files
+            if not ev_trip_file_name.endswith(".csv"):
+                continue
+
+            dataset_data_list.append(
+                read_valid_trip(
+                    os.path.join(
+                        ev_trip_dir_name,
+                        ev_trip_file_name
+                    ),
+                    timestep_ms
+                )
+            )
+
+    return dataset_data_list

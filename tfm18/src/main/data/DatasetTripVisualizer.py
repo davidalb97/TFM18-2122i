@@ -1,76 +1,11 @@
-import math
-import matplotlib
-import numpy as np
 from matplotlib import pyplot  # gridspec
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
-from tfm18.src.main.algorithm.BasicApproach import get_instant_eRange
-from tfm18.src.main.algorithm.HistoryBasedApproach import HistoryBasedApproach
-from tfm18.src.main.data.DatasetData import DatasetData
-from tfm18.src.main.data.TimestampDatasetEntry import TimestampDatasetEntry
-from tfm18.src.main.data.ved.VEDDatasetReader import read_valid_trip
-from tfm18.src.main.util.Formulas import convert_watts_to_kilowatts
+from tfm18.src.main.data.DatasetTripData import DatasetTripData
 
 
-def plot_dataset_eRange_results(dataset_data: DatasetData):
-    timestamps_min = list()
-    socs = list()
-    iecs = list()
-    currents = list()
-    speeds = list()
-    kilowatts = list()
-    ac_kilowatts = list()
-    eRange_basic_list = list()
-    eRange_history_list = list()
-    quadratic_error_sum = 0
-
-    historyBasedApproach = HistoryBasedApproach(
-        N=10,  # Number of last computation to take into account
-        delta=convert_watts_to_kilowatts(50),  # 50W delta step, converted to kilowatt # CONFIRMAR!
-        # min_timestamp_step_ms=60000,  # 60K milis = 1 minute
-        # min_timestamp_step_ms=10000,  # 10K milis = 10 secs
-        min_timestamp_step_ms=1000 * 60,  # 1K milis = 1 secs
-        min_instance_energy=2.5,  # 2500W
-        full_battery_energy_FBE=dataset_data.FBE_kWh,
-        full_battery_distance_FBD=dataset_data.FBD_km,
-        average_energy_consumption_aec=dataset_data.AEC_KWh_km,
-        # initial_constant_iec=16 # 16 kWh/100km) for the first N minutes
-        initial_constant_iec=dataset_data.AEC_KWh_km  # 16 kWh/100km) for the first N minutes
-    )
-
-    for timestamp_dataset_entry in dataset_data.timestamp_dataset_entries:
-        timestamp_dataset_entry: TimestampDatasetEntry = timestamp_dataset_entry
-
-        eRange_basic = get_instant_eRange(
-            FBD_AcS=dataset_data.FBD_km,
-            SOC=timestamp_dataset_entry.soc_percentage
-        )
-        eRange_history = historyBasedApproach.eRange(
-            state_of_charge=timestamp_dataset_entry.soc_percentage,
-            iec=timestamp_dataset_entry.iec_kWh_100km,
-            timestamp_ms=timestamp_dataset_entry.timestamp_ms
-        )
-
-        quadratic_error_sum += math.pow(eRange_basic - eRange_history, 2)
-
-        timestamps_min.append(timestamp_dataset_entry.timestamp_min)
-        socs.append(timestamp_dataset_entry.soc_percentage)
-        iecs.append(timestamp_dataset_entry.iec_kWh_100km)
-        currents.append(timestamp_dataset_entry.current_a)
-        speeds.append(timestamp_dataset_entry.speed_km_s)
-        kilowatts.append(timestamp_dataset_entry.power_kW)
-        ac_kilowatts.append(timestamp_dataset_entry.ac_power_kW)
-        eRange_basic_list.append(eRange_basic)
-        eRange_history_list.append(eRange_history)
-
-    print("IEC range: [%s, %s]" % (min(iecs), max(iecs)))
-    print("AEC_ma range: [%s, %s]" % (min(historyBasedApproach.aecs_ma_acc), max(historyBasedApproach.aecs_ma_acc)))
-    print("AEC_wma range: [%s, %s]" % (min(historyBasedApproach.aecs_wma_acc), max(historyBasedApproach.aecs_wma_acc)))
-    print("AEC range: [%s, %s]" % (min(historyBasedApproach.aecs_acc), max(historyBasedApproach.aecs_acc)))
-    eRange_entry_count = len(dataset_data.timestamp_dataset_entries)
-    mean_quadratic_error = quadratic_error_sum / eRange_entry_count
-    print("Mean quadratic error: %s" % mean_quadratic_error)
+def plot_dataset_eRange_results(dataset_trip_data: DatasetTripData):
 
     fig: Figure
     axs: dict[str, Axes]
@@ -120,8 +55,8 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
     # SOC Graph
     configure_plot(
         axis=SOC_axis,
-        x_axis_points=timestamps_min,
-        y_axises_points=[socs],
+        x_axis_points=dataset_trip_data.timestamps_min_list,
+        y_axises_points=[dataset_trip_data.soc_percentage_list],
         y_axises_colors=[color_blue],
         x_label=default_x_label,
         y_labels=['SOC (%)'],
@@ -132,8 +67,8 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
     # Power Graph
     power_axis_list = configure_plot(
         axis=power_axis,
-        x_axis_points=timestamps_min,
-        y_axises_points=[kilowatts, ac_kilowatts],
+        x_axis_points=dataset_trip_data.timestamps_min_list,
+        y_axises_points=[dataset_trip_data.power_kilowatt_list, dataset_trip_data.ac_power_kilowatt_list],
         y_axises_colors=[color_red, color_green],
         x_label=default_x_label,
         y_labels=["Battery power [Kw]", "AC power [Kw]"],
@@ -144,20 +79,32 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
     # eRange axis
     eRange_axis_list = configure_plot(
         axis=eRange_axis,
-        x_axis_points=timestamps_min,
-        y_axises_points=[eRange_basic_list, eRange_history_list],
-        y_axises_colors=[color_blue, color_red],
+        x_axis_points=dataset_trip_data.timestamps_min_list,
+        y_axises_points=[
+            dataset_trip_data.eRange_basic_km_list,
+            dataset_trip_data.eRange_history_km_list,
+            dataset_trip_data.eRange_my_prediction_km_list,
+            dataset_trip_data.eRange_my_prediction_expected_km_list
+        ],
+        y_axises_colors=[color_blue, color_red, color_green, color_goldenrod],
         x_label=default_x_label,
-        y_labels=['basic eRange [Km]', 'history based eRange [Km]'],
+        y_labels=[
+            'basic eRange [Km]',
+            'history based eRange [Km]',
+            'My prediction eRange [Km]',
+            'Expected prediction eRange [Km]'
+        ],
         fontsize=fontsize,
         marker=marker
     )
+    # eRange_axis_list[2].spines["right"].set_position(("axes", 1.1))
+    # eRange_axis_list[3].spines["right"].set_position(("axes", 1.2))
 
     # Current axis
     iec_axis_list = configure_plot(
         axis=iec_axis,
-        x_axis_points=timestamps_min,
-        y_axises_points=[iecs],
+        x_axis_points=dataset_trip_data.timestamps_min_list,
+        y_axises_points=[dataset_trip_data.iec_power_KWh_by_100km_list],
         y_axises_colors=[color_blue],
         x_label=default_x_label,
         y_labels=['Energy [KWh/100km]'],
@@ -168,8 +115,8 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
     # Current axis
     current_axis_list = configure_plot(
         axis=current_axis,
-        x_axis_points=timestamps_min,
-        y_axises_points=[currents],
+        x_axis_points=dataset_trip_data.timestamps_min_list,
+        y_axises_points=[dataset_trip_data.current_ampers_list],
         y_axises_colors=[color_blue],
         x_label=default_x_label,
         y_labels=['Current [A]'],
@@ -180,8 +127,8 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
     # Speed axis
     speed_axis_list = configure_plot(
         axis=speed_axis,
-        x_axis_points=timestamps_min,
-        y_axises_points=[speeds],
+        x_axis_points=dataset_trip_data.timestamps_min_list,
+        y_axises_points=[dataset_trip_data.speed_kmh_list],
         y_axises_colors=[color_blue],
         x_label=default_x_label,
         y_labels=['Speed [Km/h]'],
@@ -192,17 +139,21 @@ def plot_dataset_eRange_results(dataset_data: DatasetData):
     # AECs
     aec_axis_list = configure_plot(
         axis=aec_axis,
-        x_axis_points=historyBasedApproach.times_acc,
-        y_axises_points=[historyBasedApproach.aecs_acc, historyBasedApproach.aecs_wma_acc, historyBasedApproach.aecs_ma_acc],
+        x_axis_points=dataset_trip_data.history_algo_execution_timestamps_min,
+        y_axises_points=[
+            dataset_trip_data.history_algo_aec_KWh_by_100km_list,
+            dataset_trip_data.history_algo_aec_wma_KWh_by_100km_list,
+            dataset_trip_data.history_algo_aec_ma_KWh_by_100km_list
+        ],
         y_axises_colors=[color_purple, color_goldenrod, color_chocolate],
         x_label=default_x_label,
         y_labels=['aec [kWh/100Km]', 'aec_wma [kWh/100Km]', 'aec_ma [kWh/100Km]'],
         fontsize=fontsize,
         marker=marker
     )
-    aec_axis_list[2].spines["right"].set_position(("axes", 1.1))
+    # aec_axis_list[2].spines["right"].set_position(("axes", 1.1))
 
-    pyplot.suptitle(dataset_data.dataset_name)
+    pyplot.suptitle(dataset_trip_data.dataset_data.dataset_name)
     pyplot.show(block=True)
 
 
@@ -239,14 +190,20 @@ def configure_plot(
 
         prev_axis = curr_axis
 
-    min_y_point = min(all_y_points)
-    max_y_point = max(all_y_points)
-
-    if max_y_point - min_y_point >= 10:
-        for curr_axis in ret_axis:
-            curr_axis.set_ylim(min_y_point, max_y_point)
-        pyplot.gca().yaxis.set_major_locator(pyplot.MultipleLocator(5))
+    # min_y_point = min(all_y_points)
+    # max_y_point = max(all_y_points)
+    #
+    # if max_y_point - min_y_point >= 10:
+    #     for curr_axis in ret_axis:
+    #         curr_axis.set_ylim(min_y_point, max_y_point)
+    #     pyplot.gca().yaxis.set_major_locator(pyplot.MultipleLocator(5))
 
     axis.set_xlim(min(x_axis_points), max(x_axis_points))
+
+    ret_axis_len = len(ret_axis)
+    if ret_axis_len > 2:
+        for ret_axis_idx in range(2, len(ret_axis)):
+            ret_axis[ret_axis_idx].spines["right"] \
+                .set_position(("axes", 0.95 + 0.05 * ret_axis_idx))
 
     return ret_axis

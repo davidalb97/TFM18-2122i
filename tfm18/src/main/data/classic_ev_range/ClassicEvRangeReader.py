@@ -55,7 +55,7 @@ def read_classic_ev_range_trip() -> DatasetData:
                 timestamp_min=convert_milliseconds_to_minutes(milies=timestamp_ms),
                 soc_percentage=get_instant_SOC(RBE=rbe_kWh, FBE=FBE_bmw_I3_94Ah_kWh),
                 speed_km_s=speed_km_s,
-                iec_kWh_100km=iec_kWh_100km,
+                iec_KWh_by_100km=iec_kWh_100km,
                 current_a=not_applicable_value,
                 power_kW=not_applicable_value,
                 ac_power_kW=not_applicable_value

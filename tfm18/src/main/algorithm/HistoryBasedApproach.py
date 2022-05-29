@@ -10,9 +10,9 @@ from tfm18.src.main.util.Formulas import unsafe_mean, convert_milliseconds_to_mi
 
 class HistoryBasedApproach:
     k: int = 0
-    iecs: dict[int, list[float]] = dict()
-    aec_mas: list[float] = list()
-    aec: float
+    iec_KWh_by_100km_dict: dict[int, list[float]] = dict()
+    aec_mas_KWh_by_100km: list[float] = list()
+    aec_KWh_by_100km: float
     full_battery_energy_FBE: float
     full_battery_distance_FBD: float
     N: int
@@ -23,10 +23,10 @@ class HistoryBasedApproach:
     next_timestamp_ms: int = None
     previous_eRange: Optional[float] = None
 
-    aecs_acc: list[float] = list()
-    aecs_ma_acc: list[float] = list()
-    aecs_wma_acc: list[float] = list()
-    times_acc: list[float] = list()
+    aec_KWh_by_100km_list: list[float] = list()
+    aec_ma_KWh_by_100km_list: list[float] = list()
+    aec_wma_KWh_by_100km_list: list[float] = list()
+    execution_timestamps_min: list[float] = list()
     is_first_time = True
 
     def __init__(self,
@@ -45,10 +45,10 @@ class HistoryBasedApproach:
         self.min_instance_energy = min_instance_energy
         self.full_battery_energy_FBE = full_battery_energy_FBE
         self.full_battery_distance_FBD = full_battery_distance_FBD
-        self.aec = average_energy_consumption_aec
+        self.aec_KWh_by_100km = average_energy_consumption_aec
         self.initial_constant_iec = initial_constant_iec
 
-    def eRange(self, state_of_charge: float, iec: float, timestamp_ms: float):
+    def eRange(self, state_of_charge: float, iec: float, timestamp_ms: float) -> float:
 
         next_k = self.k + 1
 
@@ -68,10 +68,10 @@ class HistoryBasedApproach:
                 SOC=state_of_charge
             )
 
-        iecs_for_k: Optional[list[float]] = self.iecs.get(next_k)
+        iecs_for_k: Optional[list[float]] = self.iec_KWh_by_100km_dict.get(next_k)
         if iecs_for_k is None:
             iecs_for_k: list[float] = list()
-            self.iecs[next_k] = iecs_for_k
+            self.iec_KWh_by_100km_dict[next_k] = iecs_for_k
         iecs_for_k.append(iec)
 
         # Wait self.min_timestamp_step_ms
@@ -92,41 +92,41 @@ class HistoryBasedApproach:
                 min_range = 1
             for current_k in range(min_range, self.k + 1):
                 # Append last K iecs list elements to the end of last_N_iecs
-                last_N_iecs.extend(self.iecs[current_k])
+                last_N_iecs.extend(self.iec_KWh_by_100km_dict[current_k])
 
             # Ignore higher than N iec values
             if min_range > 1:
-                self.iecs.pop(min_range)
+                self.iec_KWh_by_100km_dict.pop(min_range)
 
             aec_ma: float = self.average_discardzeros(last_N_iecs)
-            self.aec_mas.append(aec_ma)
+            self.aec_mas_KWh_by_100km.append(aec_ma)
 
             if self.are_iec_and_aec_constants(timestamp_ms=timestamp_ms):
-                aec_wma: float = self.aec
+                aec_wma: float = self.aec_KWh_by_100km
 
             else:
                 # Weighted moving average computation
-                aec_wma: float = self.average_waighted(self.aec_mas)
+                aec_wma: float = self.average_waighted(self.aec_mas_KWh_by_100km)
 
                 # Make step decision
-                if aec_wma < self.aec:
-                    self.aec -= self.delta
+                if aec_wma < self.aec_KWh_by_100km:
+                    self.aec_KWh_by_100km -= self.delta
                 else:
-                    self.aec += self.delta
+                    self.aec_KWh_by_100km += self.delta
 
-                self.previous_eRange = math.floor(self.full_battery_energy_FBE / self.aec * state_of_charge)
+                self.previous_eRange = math.floor(self.full_battery_energy_FBE / self.aec_KWh_by_100km * state_of_charge)
 
             # Debug
-            self.times_acc.append(convert_milliseconds_to_minutes(timestamp_ms))
+            self.execution_timestamps_min.append(convert_milliseconds_to_minutes(timestamp_ms))
             # DEBUG
-            self.aecs_ma_acc.append(aec_ma)
+            self.aec_ma_KWh_by_100km_list.append(aec_ma)
             # DEBUG
-            self.aecs_wma_acc.append(aec_wma)
+            self.aec_wma_KWh_by_100km_list.append(aec_wma)
             # DEBUG
-            self.aecs_acc.append(self.aec)
+            self.aec_KWh_by_100km_list.append(self.aec_KWh_by_100km)
 
-        if len(self.aec_mas) > self.N:
-            self.aec_mas.pop(0)
+        if len(self.aec_mas_KWh_by_100km) > self.N:
+            self.aec_mas_KWh_by_100km.pop(0)
 
         return self.previous_eRange
 
