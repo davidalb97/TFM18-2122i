@@ -2,10 +2,10 @@ from matplotlib import pyplot  # gridspec
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
-from tfm18.src.main.data.DatasetTripData import DatasetTripData
+from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
 
 
-def plot_dataset_eRange_results(dataset_trip_data: DatasetTripData):
+def plot_dataset_eRange_results(dataset_trip_data: DatasetTripDto):
 
     fig: Figure
     axs: dict[str, Axes]
@@ -100,7 +100,7 @@ def plot_dataset_eRange_results(dataset_trip_data: DatasetTripData):
     # eRange_axis_list[2].spines["right"].set_position(("axes", 1.1))
     # eRange_axis_list[3].spines["right"].set_position(("axes", 1.2))
 
-    # Current axis
+    # IEC axis
     iec_axis_list = configure_plot(
         axis=iec_axis,
         x_axis_points=dataset_trip_data.timestamps_min_list,

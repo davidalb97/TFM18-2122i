@@ -5,9 +5,9 @@ from typing import IO, Optional
 
 from tfm18.src.main.util.DataPathUtil import load_dataset_file
 from Orange.data import Instance
-from tfm18.src.main.data.DatasetData import DatasetData
-from tfm18.src.main.data.TimestampDatasetEntry import TimestampDatasetEntry
-from tfm18.src.main.data.ved.VEDInstance import csv_header, VEDInstance
+from tfm18.src.main.dataset.DatasetDto import DatasetDto
+from tfm18.src.main.dataset.DatasetTimestampDto import DatasetTimestampDto
+from tfm18.src.main.dataset.ved.VEDInstantDto import csv_header, VEDInstantDto
 from tfm18.src.main.util.Aliases import OrangeTable
 from tfm18.src.main.util.Formulas import calculate_power, convert_milliseconds_to_minutes, convert_watts_to_kilowatts, \
     convert_kilowatts_to_watts, calculate_power_hour_kW_h, convert_milliseconds_to_hours, \
@@ -54,7 +54,7 @@ def generate_valid_trips():
         instance: Instance
         # For each line
         for instance in orange_table:
-            ved_instance: VEDInstance = VEDInstance(instance)
+            ved_instance: VEDInstantDto = VEDInstantDto(instance)
 
             # Ignore non electric vehicles
             if ved_instance.veh_id not in electric_vehicle_ids:
@@ -132,13 +132,13 @@ def generate_valid_trips():
     print()
 
 
-def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetData:
+def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetDto:
     dataset_file_path: str = os.path.join(valid_trip_dataset_path, path)
     print("Reading file %s" % dataset_file_path)
 
     orange_table: OrangeTable = load_dataset_file(dataset_file_path)
 
-    timestamp_dataset_entry_list: list[TimestampDatasetEntry] = list()
+    timestamp_dataset_entry_list: list[DatasetTimestampDto] = list()
 
     # For each line
     curr_timestamp = None
@@ -147,7 +147,7 @@ def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetData:
     instance: Instance
     prev_power_kW: float = 0
     for instance in orange_table:
-        ved_instance: VEDInstance = VEDInstance(instance)
+        ved_instance: VEDInstantDto = VEDInstantDto(instance)
         speed_km_h = ved_instance.vehicle_speed
 
         # Subsampling of timestep_ms
@@ -208,7 +208,7 @@ def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetData:
             iec_power_hour_100km = 0
 
         timestamp_dataset_entry_list.append(
-            TimestampDatasetEntry(
+            DatasetTimestampDto(
                 timestamp_ms=timestamp_ms,
                 timestamp_min=timestamp_min,
                 soc_percentage=ved_instance.hv_battery_SOC,
@@ -235,7 +235,7 @@ def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetData:
 
     FBD_nissan_leaf_2013_km: int = 125
 
-    return DatasetData(
+    return DatasetDto(
         dataset_name=ved_dataset_name,
         FBD_km=FBD_nissan_leaf_2013_km,
         AEC_KWh_km=AEC_nissan_leaf_2013_KWh_km,
@@ -244,9 +244,9 @@ def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetData:
     )
 
 
-def read_all_valid_trips(timestep_ms: int = 1000) -> list[DatasetData]:
+def read_all_valid_trips(timestep_ms: int = 1000) -> list[DatasetDto]:
 
-    dataset_data_list: list[DatasetData] = list()
+    dataset_data_list: list[DatasetDto] = list()
     ev_trip_dirs = [f.path for f in os.scandir(valid_trip_dataset_path) if f.is_dir()]
     for ev_trip_dir in ev_trip_dirs:
         ev_trip_dir_name = os.path.basename(ev_trip_dir)

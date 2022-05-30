@@ -8,7 +8,7 @@ csv_header = 'DayNum,VehId,Trip,Timestamp(ms),Latitude[deg],Longitude[deg],Vehic
              'Long Term Fuel Trim Bank 1[%],Long Term Fuel Trim Bank 2[%]\n'
 
 
-class VEDInstance:
+class VEDInstantDto:
     day_num: float
     veh_id: int
     trip: float

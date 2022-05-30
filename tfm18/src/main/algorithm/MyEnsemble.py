@@ -5,10 +5,10 @@ from sklearn.ensemble import StackingRegressor
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
 
-from tfm18.src.main.algorithm.MyRegressor import MyRegressor
+from tfm18.src.main.algorithm.MyBaseRegressor import MyBaseRegressor
 
 
-class MyEnsemble(MyRegressor):
+class MyEnsemble(MyBaseRegressor):
     estimators = [
         ('dtr', DecisionTreeRegressor(random_state=0)),
         ('rfr', RandomForestRegressor(max_depth=2, random_state=0)),

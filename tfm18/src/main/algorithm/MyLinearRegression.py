@@ -1,10 +1,10 @@
 from sklearn import linear_model
 from pandas import DataFrame
 
-from tfm18.src.main.algorithm.MyRegressor import MyRegressor
+from tfm18.src.main.algorithm.MyBaseRegressor import MyBaseRegressor
 
 
-class MyLinearRegression(MyRegressor):
+class MyLinearRegression(MyBaseRegressor):
     linear_regression = linear_model.LinearRegression()
 
     def learn(self, input_dataframe: DataFrame, output_dataframe: DataFrame):

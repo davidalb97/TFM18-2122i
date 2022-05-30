@@ -1,17 +1,17 @@
 import numpy
 from scipy.signal import savgol_filter
 
-from tfm18.src.main.data.DatasetData import DatasetData
-from tfm18.src.main.data.DatasetTripData import DatasetTripData
-from tfm18.src.main.data.DatasetTripVisualizer import plot_dataset_eRange_results
-from tfm18.src.main.data.TrainDataGenerator import generate_train_dataset
-from tfm18.src.main.data.classic_ev_range.ClassicEvRangeReader import read_classic_ev_range_trip
-from tfm18.src.main.data.ved.VEDDatasetReader import read_valid_trip
+from tfm18.src.main.dataset.DatasetDto import DatasetDto
+from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
+from tfm18.src.main.dataset.DatasetTripVisualizer import plot_dataset_eRange_results
+from tfm18.src.main.dataset.TrainDataGenerator import generate_train_dataset
+from tfm18.src.main.dataset.classic_ev_range.ClassicEvRangeReader import read_classic_ev_range_trip
+from tfm18.src.main.dataset.ved.VEDDatasetReader import read_valid_trip
 
 if __name__ == '__main__':
     # dataset_data: DatasetData = read_valid_trip('E1/VED_171213_week_772_455-AC_ON.csv')
-    dataset_data: DatasetData = read_classic_ev_range_trip()
-    dataset_trip_data: DatasetTripData = generate_train_dataset(dataset_data)
+    dataset_data: DatasetDto = read_classic_ev_range_trip()
+    dataset_trip_data: DatasetTripDto = generate_train_dataset(dataset_data)
 
     # eRange_history_km_nunpy_array = numpy.array(dataset_trip_data.eRange_history_km_list)
     # window_size = int(len(eRange_history_km_nunpy_array) / 5)

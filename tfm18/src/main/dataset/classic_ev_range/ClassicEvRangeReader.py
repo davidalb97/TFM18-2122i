@@ -1,8 +1,8 @@
 import os
 import pathlib
 
-from tfm18.src.main.data.DatasetData import DatasetData
-from tfm18.src.main.data.TimestampDatasetEntry import TimestampDatasetEntry
+from tfm18.src.main.dataset.DatasetDto import DatasetDto
+from tfm18.src.main.dataset.DatasetTimestampDto import DatasetTimestampDto
 from tfm18.src.main.util.Aliases import OrangeTable
 from tfm18.src.main.util.DataPathUtil import load_dataset_file
 from tfm18.src.main.util.Formulas import convert_milliseconds_to_minutes, get_instant_SOC, convert_kilowatts_to_watts, \
@@ -18,11 +18,11 @@ classic_ev_range_data_speed = os.path.join(classic_ev_range_data_path, 'speed.cs
 classic_ev_range_data_timestamp_ms = os.path.join(classic_ev_range_data_path, 'time_stamp_miliseconds.csv')
 
 
-def read_classic_ev_range_trip() -> DatasetData:
+def read_classic_ev_range_trip() -> DatasetDto:
     FBD_bmw_I3_94Ah_km: float = 170  # Full battery distance / Real range
     AEC_bmw_I3_94Ah_city_cold_KWh_100km: float = 16.3  # Average energy consumption - City Cold
     FBE_bmw_I3_94Ah_kWh: float = 27.2  # Usable full battery energy
-    timestamp_dataset_entries: list[TimestampDatasetEntry] = list()
+    timestamp_dataset_entries: list[DatasetTimestampDto] = list()
 
     not_applicable_value = 0
 
@@ -50,7 +50,7 @@ def read_classic_ev_range_trip() -> DatasetData:
         iec_kWh_100km: float = iec_kWh_100km_row.list[0]
 
         timestamp_dataset_entries.append(
-            TimestampDatasetEntry(
+            DatasetTimestampDto(
                 timestamp_ms=timestamp_ms,
                 timestamp_min=convert_milliseconds_to_minutes(milies=timestamp_ms),
                 soc_percentage=get_instant_SOC(RBE=rbe_kWh, FBE=FBE_bmw_I3_94Ah_kWh),
@@ -62,7 +62,7 @@ def read_classic_ev_range_trip() -> DatasetData:
             )
         )
 
-    return DatasetData(
+    return DatasetDto(
         dataset_name=classic_ev_x_dataset_name,
         FBD_km=FBD_bmw_I3_94Ah_km,
         AEC_KWh_km=AEC_bmw_I3_94Ah_city_cold_KWh_100km,

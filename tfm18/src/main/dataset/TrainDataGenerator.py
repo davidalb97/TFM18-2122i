@@ -9,16 +9,16 @@ from scipy.signal import savgol_filter
 
 from tfm18.src.main.algorithm.BasicApproach import get_instant_eRange
 from tfm18.src.main.algorithm.HistoryBasedApproach import HistoryBasedApproach
-from tfm18.src.main.algorithm.MyRegressor import MyRegressor
-from tfm18.src.main.data.DatasetData import DatasetData
-from tfm18.src.main.data.DatasetTripData import DatasetTripData
-from tfm18.src.main.data.TimestampDatasetEntry import TimestampDatasetEntry
+from tfm18.src.main.algorithm.MyBaseRegressor import MyBaseRegressor
+from tfm18.src.main.dataset.DatasetDto import DatasetDto
+from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
+from tfm18.src.main.dataset.DatasetTimestampDto import DatasetTimestampDto
 from tfm18.src.main.util.Formulas import convert_watts_to_kilowatts
 
 def generate_train_dataset(
-        dataset_data: DatasetData,
-        prediction: Optional[MyRegressor] = None
-) -> DatasetTripData:
+        dataset_data: DatasetDto,
+        prediction: Optional[MyBaseRegressor] = None
+) -> DatasetTripDto:
 
     timestamps_min_list: list[float] = list()
     soc_percentage_list: list[float] = list()
@@ -48,7 +48,7 @@ def generate_train_dataset(
     )
 
     for timestamp_dataset_entry in dataset_data.timestamp_dataset_entries:
-        timestamp_dataset_entry: TimestampDatasetEntry = timestamp_dataset_entry
+        timestamp_dataset_entry: DatasetTimestampDto = timestamp_dataset_entry
 
         eRange_basic = get_instant_eRange(
             FBD_AcS=dataset_data.FBD_km,
@@ -157,7 +157,7 @@ def generate_train_dataset(
         }
     )
 
-    return DatasetTripData(
+    return DatasetTripDto(
         timestamps_min_list=timestamps_min_list,
         soc_percentage_list=soc_percentage_list,
         iec_power_KWh_by_100km_list=iec_power_KWh_by_100km_list,

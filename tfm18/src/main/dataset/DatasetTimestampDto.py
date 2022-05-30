@@ -1,5 +1,5 @@
 
-class TimestampDatasetEntry:
+class DatasetTimestampDto:
     timestamp_ms: float
     timestamp_min: float
     soc_percentage: float

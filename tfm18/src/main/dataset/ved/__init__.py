@@ -1,4 +1,4 @@
-from tfm18.src.main.data.ved import VEDDatasetReader
+from tfm18.src.main.dataset.ved import VEDDatasetReader
 
 
 def main():
