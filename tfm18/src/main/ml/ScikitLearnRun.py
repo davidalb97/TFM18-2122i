@@ -5,14 +5,13 @@ from tfm18.src.main.data.DatasetData import DatasetData
 from tfm18.src.main.data.DatasetTripData import DatasetTripData
 from tfm18.src.main.data.DatasetTripVisualizer import plot_dataset_eRange_results
 from tfm18.src.main.data.TrainDataGenerator import generate_train_dataset
-from tfm18.src.main.data.ved.VEDDatasetReader import read_all_valid_trips, read_valid_trip
-
+from tfm18.src.main.data.ved.VEDDatasetReader import read_valid_trip, read_all_cached_valid_trips
 
 if __name__ == '__main__':
     # scikit_learn_my_regressor = MyLinearRegression()
     scikit_learn_my_regressor = MyEnsemble()
 
-    dataset_data_list: list[DatasetData] = read_all_valid_trips()
+    dataset_data_list: list[DatasetData] = read_all_cached_valid_trips()
     for dataset_data in dataset_data_list:
         dataset_trip_data: DatasetTripData = generate_train_dataset(dataset_data)
         scikit_learn_my_regressor.learn(

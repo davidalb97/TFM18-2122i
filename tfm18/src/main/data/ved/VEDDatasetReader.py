@@ -12,12 +12,14 @@ from tfm18.src.main.util.Aliases import OrangeTable
 from tfm18.src.main.util.Formulas import calculate_power, convert_milliseconds_to_minutes, convert_watts_to_kilowatts, \
     convert_kilowatts_to_watts, calculate_power_hour_kW_h, convert_milliseconds_to_hours, \
     calculate_kwh_100km, calculate_non_linear_distance_km, calculate_aceleration_km_h2
+from tfm18.src.main.util.PickleHandler import read_pickle_file, write_pickle_file
 
 ved_dataset_name = "VED Dataset"
 ved_data_path = os.path.join(pathlib.Path(__file__).resolve().parent, '..', '..', '..', '..', 'data', 'ved_data')
 ved_dataset_path = os.path.join(ved_data_path, 'ved_dynamic_data')
 valid_trip_dataset_path_old = os.path.join(ved_data_path, 'ved_valid_trip_data_old')
 valid_trip_dataset_path = os.path.join(ved_data_path, 'ved_valid_trip_data')
+valid_trip_dataset_pickle_file_path = os.path.join(valid_trip_dataset_path, 'ved_valid_trips.pickle')
 electric_vehicle_ids: list[int] = [10, 455, 541]
 NaN_variable = '?'
 
@@ -267,3 +269,12 @@ def read_all_valid_trips(timestep_ms: int = 1000) -> list[DatasetData]:
             )
 
     return dataset_data_list
+
+
+def read_all_cached_valid_trips() -> list[DatasetData]:
+    if not os.path.isfile(valid_trip_dataset_pickle_file_path):
+        all_valid_trips: list[DatasetData] = read_all_valid_trips(timestep_ms=1000)
+        write_pickle_file(file_path=valid_trip_dataset_pickle_file_path, obj=all_valid_trips)
+        return all_valid_trips
+    else:
+        return read_pickle_file(valid_trip_dataset_pickle_file_path)
