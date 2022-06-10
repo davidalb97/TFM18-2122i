@@ -3,6 +3,8 @@ import pathlib
 import shutil
 from typing import IO, Optional
 
+from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
+from tfm18.src.main.dataset.DatasetVehicleDto import DatasetVehicleDto
 from tfm18.src.main.util.DataPathUtil import load_dataset_file
 from Orange.data import Instance
 from tfm18.src.main.dataset.DatasetDto import DatasetDto
@@ -20,6 +22,25 @@ valid_trip_dataset_path_old = os.path.join(ved_data_path, 'ved_valid_trip_data_o
 valid_trip_dataset_path = os.path.join(ved_data_path, 'ved_valid_trip_data')
 electric_vehicle_ids: list[int] = [10, 455, 541]
 NaN_variable = '?'
+
+# Real Energy Consumption between 116 - 244 Wh/km
+
+# AEC:
+# City - Cold Weather 	176 Wh/km
+# Highway - Cold Weather 	244 Wh/km
+# Combined - Cold Weather 	210 Wh/km
+# City - Mild Weather 	116 Wh/km
+# Highway - Mild Weather 	191 Wh/km
+# Combined - Mild Weather 	152 Wh/km
+AEC_nissan_leaf_2013_KWh_km = 17.6
+FBE_nissan_leaf_2013_kWh = 22
+FBD_nissan_leaf_2013_km: int = 125
+vehicle_dto = DatasetVehicleDto(
+    vehicle_name="Nissan Leaf 2013",
+    AEC_KWh_km=AEC_nissan_leaf_2013_KWh_km,
+    FBD_km=FBD_nissan_leaf_2013_km,
+    FBE_kWh=FBE_nissan_leaf_2013_kWh,
+)
 
 
 def generate_valid_trips():
@@ -132,7 +153,7 @@ def generate_valid_trips():
     print()
 
 
-def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetDto:
+def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetTripDto:
     dataset_file_path: str = os.path.join(valid_trip_dataset_path, path)
     print("Reading file %s" % dataset_file_path)
 
@@ -220,33 +241,14 @@ def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetDto:
             )
         )
 
-    # Real Energy Consumption between 116 - 244 Wh/km
-
-    # AEC:
-    # City - Cold Weather 	176 Wh/km
-    # Highway - Cold Weather 	244 Wh/km
-    # Combined - Cold Weather 	210 Wh/km
-    # City - Mild Weather 	116 Wh/km
-    # Highway - Mild Weather 	191 Wh/km
-    # Combined - Mild Weather 	152 Wh/km
-    AEC_nissan_leaf_2013_KWh_km = 17.6
-
-    FBE_nissan_leaf_2013_kWh = 22
-
-    FBD_nissan_leaf_2013_km: int = 125
-
-    return DatasetDto(
-        dataset_name=ved_dataset_name,
-        FBD_km=FBD_nissan_leaf_2013_km,
-        AEC_KWh_km=AEC_nissan_leaf_2013_KWh_km,
-        FBE_kWh=FBE_nissan_leaf_2013_kWh,
-        timestamp_dataset_entries=timestamp_dataset_entry_list
+    return DatasetTripDto(
+        vehicle_static_data=vehicle_dto,
+        dataset_timestamp_dto_list=timestamp_dataset_entry_list
     )
 
 
-def read_all_valid_trips(timestep_ms: int = 1000) -> list[DatasetDto]:
-
-    dataset_data_list: list[DatasetDto] = list()
+def read_all_valid_trips(timestep_ms: int = 1000) -> list[DatasetTripDto]:
+    dataset_data_list: list[DatasetTripDto] = list()
     ev_trip_dirs = [f.path for f in os.scandir(valid_trip_dataset_path) if f.is_dir()]
     for ev_trip_dir in ev_trip_dirs:
         ev_trip_dir_name = os.path.basename(ev_trip_dir)
@@ -267,3 +269,10 @@ def read_all_valid_trips(timestep_ms: int = 1000) -> list[DatasetDto]:
             )
 
     return dataset_data_list
+
+
+def read_database() -> DatasetDto:
+    return DatasetDto(
+        dataset_name="VED",
+        dataset_trip_dto_list=read_all_valid_trips()
+    )
