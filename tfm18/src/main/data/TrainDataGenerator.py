@@ -179,3 +179,53 @@ def generate_train_dataset(
         dataset_data=dataset_data
     )
 
+
+def get_expected_list_history_savgol(eRange_history_km_list: list[float]) -> list[float]:
+    eRange_history_km_nunpy_array = numpy.array(eRange_history_km_list)
+    # window_size = int(len(eRange_history_km_nunpy_array) / 5)
+    window_size = int(len(eRange_history_km_list) / 4)
+    polinomial_order = 3
+
+    # Prevents small lists from crashing savgol_filter func
+    if polinomial_order >= window_size:
+        return eRange_history_km_list
+
+    eRange_history_km_normalized_nunpy_array = savgol_filter(
+        eRange_history_km_nunpy_array,
+        window_size,
+        polinomial_order
+    )
+    eRange_history_km_normalized_list = list(eRange_history_km_normalized_nunpy_array)
+    return eRange_history_km_normalized_list
+
+
+def get_expected_list_history_normalized(eRange_history_km_list: list[float]) -> list[float]:
+    eRange_history_km_vertical_nunpy_array = numpy.array(eRange_history_km_list) \
+        .reshape(-1, 1)
+    scaler = preprocessing.MinMaxScaler()
+    eRange_history_km_vertical_normalized_nunpy_array = scaler.fit_transform(eRange_history_km_vertical_nunpy_array)
+    eRange_history_km_horizontal_normalized_nunpy_array = eRange_history_km_vertical_normalized_nunpy_array.reshape(
+        1,
+        len(eRange_history_km_list)
+    )
+    eRange_history_km_horizontal_normalized_nunpy_array_unboxed = eRange_history_km_horizontal_normalized_nunpy_array[0]
+    eRange_history_km_horizontal_normalized_list = list(eRange_history_km_horizontal_normalized_nunpy_array_unboxed)
+    return eRange_history_km_horizontal_normalized_list
+
+
+def get_expected_list_basic_stochrastic_descent(eRange_basic_km_list: list[float]) -> list[float]:
+
+    prev_eRange = eRange_basic_km_list[0]
+    ret_list: list[float] = [prev_eRange]
+    threshold = max(eRange_basic_km_list) * 0.05
+    for basic_eRange in eRange_basic_km_list[1:]:
+        delta = basic_eRange - prev_eRange
+        if delta > -threshold: #and bool(random.getrandbits(1)):
+            #stochrastic_multiplier = random.random()
+            stochrastic_multiplier = random.randint(0, 25)
+            basic_eRange = prev_eRange + int(delta * 0.01 * stochrastic_multiplier)
+        ret_list.append(basic_eRange)
+        prev_eRange = basic_eRange
+
+    # return get_expected_list_history_savgol(ret_list)
+    return ret_list
