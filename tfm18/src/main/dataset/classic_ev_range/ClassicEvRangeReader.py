@@ -3,12 +3,16 @@ import pathlib
 
 from tfm18.src.main.dataset.DatasetDto import DatasetDto
 from tfm18.src.main.dataset.DatasetTimestampDto import DatasetTimestampDto
+from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
+from tfm18.src.main.dataset.DatasetVehicleDto import DatasetVehicleDto
 from tfm18.src.main.util.Aliases import OrangeTable
 from tfm18.src.main.util.DataPathUtil import load_dataset_file
 from tfm18.src.main.util.Formulas import convert_milliseconds_to_minutes, get_instant_SOC, convert_kilowatts_to_watts, \
     convert_watts_to_kilowatts
 
 classic_ev_x_dataset_name = "Classic EV X Dataset"
+classic_ev_x_vehicle_name = "BMW I3 94Ah"
+classic_ev_range_trip_name = 'Simulation Trip'
 classic_ev_range_data_path = os.path.join(
     pathlib.Path(__file__).resolve().parent, '..', '..', '..', '..', 'data', 'classic_ev_BMW_I3_data'
 )
@@ -18,7 +22,7 @@ classic_ev_range_data_speed = os.path.join(classic_ev_range_data_path, 'speed.cs
 classic_ev_range_data_timestamp_ms = os.path.join(classic_ev_range_data_path, 'time_stamp_miliseconds.csv')
 
 
-def read_classic_ev_range_trip() -> DatasetDto:
+def read_classic_ev_range_trip() -> DatasetTripDto:
     FBD_bmw_I3_94Ah_km: float = 170  # Full battery distance / Real range
     AEC_bmw_I3_94Ah_city_cold_KWh_100km: float = 16.3  # Average energy consumption - City Cold
     FBE_bmw_I3_94Ah_kWh: float = 27.2  # Usable full battery energy
@@ -54,18 +58,37 @@ def read_classic_ev_range_trip() -> DatasetDto:
                 timestamp_ms=timestamp_ms,
                 timestamp_min=convert_milliseconds_to_minutes(milies=timestamp_ms),
                 soc_percentage=get_instant_SOC(RBE=rbe_kWh, FBE=FBE_bmw_I3_94Ah_kWh),
-                speed_km_s=speed_km_s,
-                iec_KWh_by_100km=iec_kWh_100km,
-                current_a=not_applicable_value,
+                speed_kmh=speed_km_s,
+                iec_power_KWh_by_100km=iec_kWh_100km,
+                current_ampers=not_applicable_value,
                 power_kW=not_applicable_value,
                 ac_power_kW=not_applicable_value
             )
         )
 
+    return DatasetTripDto(
+        trip_identifier=classic_ev_range_trip_name,
+        vehicle_static_data=DatasetVehicleDto(
+            vehicle_name=classic_ev_x_vehicle_name,
+            FBD_km=FBD_bmw_I3_94Ah_km,
+            AEC_KWh_km=AEC_bmw_I3_94Ah_city_cold_KWh_100km,
+            FBE_kWh=FBE_bmw_I3_94Ah_kWh
+        ),
+        dataset_timestamp_dto_list=timestamp_dataset_entries,
+        timestamps_min_enabled=True,
+        soc_percentage_enabled=True,
+        iec_power_KWh_by_100km_enabled=True,
+        current_ampers_enabled=False,
+        speed_kmh_enabled=True,
+        power_kilowatt_enabled=False,
+        ac_power_kilowatt_enabled=False
+    )
+
+
+def read_classic_ev_range_dataset() -> DatasetDto:
     return DatasetDto(
         dataset_name=classic_ev_x_dataset_name,
-        FBD_km=FBD_bmw_I3_94Ah_km,
-        AEC_KWh_km=AEC_bmw_I3_94Ah_city_cold_KWh_100km,
-        FBE_kWh=FBE_bmw_I3_94Ah_kWh,
-        timestamp_dataset_entries=timestamp_dataset_entries
+        dataset_trip_dto_list=[
+            read_classic_ev_range_trip()
+        ]
     )

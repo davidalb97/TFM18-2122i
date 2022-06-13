@@ -3,17 +3,18 @@ import pathlib
 import shutil
 from typing import IO, Optional
 
-from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
-from tfm18.src.main.dataset.DatasetVehicleDto import DatasetVehicleDto
-from tfm18.src.main.util.DataPathUtil import load_dataset_file
 from Orange.data import Instance
+
 from tfm18.src.main.dataset.DatasetDto import DatasetDto
 from tfm18.src.main.dataset.DatasetTimestampDto import DatasetTimestampDto
+from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
+from tfm18.src.main.dataset.DatasetVehicleDto import DatasetVehicleDto
 from tfm18.src.main.dataset.ved.VEDInstantDto import csv_header, VEDInstantDto
 from tfm18.src.main.util.Aliases import OrangeTable
+from tfm18.src.main.util.DataPathUtil import load_dataset_file
 from tfm18.src.main.util.Formulas import calculate_power, convert_milliseconds_to_minutes, convert_watts_to_kilowatts, \
-    convert_kilowatts_to_watts, calculate_power_hour_kW_h, convert_milliseconds_to_hours, \
-    calculate_kwh_100km, calculate_non_linear_distance_km, calculate_aceleration_km_h2
+    convert_kilowatts_to_watts, convert_milliseconds_to_hours, \
+    calculate_non_linear_distance_km, calculate_aceleration_km_h2
 from tfm18.src.main.util.PickleHandler import read_pickle_file, write_pickle_file
 
 ved_dataset_name = "VED Dataset"
@@ -235,18 +236,31 @@ def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetTripDto:
                 timestamp_ms=timestamp_ms,
                 timestamp_min=timestamp_min,
                 soc_percentage=ved_instance.hv_battery_SOC,
-                speed_km_s=speed_km_h,
-                iec_KWh_by_100km=iec_power_hour_100km,
-                current_a=current_a,
+                speed_kmh=speed_km_h,
+                iec_power_KWh_by_100km=iec_power_hour_100km,
+                current_ampers=current_a,
                 power_kW=power_kW,
                 ac_power_kW=ved_instance.air_conditioning_power_kw
             )
         )
 
-    return DatasetTripDto(
+    dataset_trip_dto: DatasetTripDto = DatasetTripDto(
+        trip_identifier=path,
         vehicle_static_data=vehicle_dto,
-        dataset_timestamp_dto_list=timestamp_dataset_entry_list
+        dataset_timestamp_dto_list=timestamp_dataset_entry_list,
+        timestamps_min_enabled=True,
+        soc_percentage_enabled=True,
+        iec_power_KWh_by_100km_enabled=True,
+        current_ampers_enabled=True,
+        speed_kmh_enabled=True,
+        power_kilowatt_enabled=True,
+        ac_power_kilowatt_enabled=True
     )
+
+    if not dataset_trip_dto.is_valid():
+        assert dataset_trip_dto.is_valid()
+
+    return dataset_trip_dto
 
 
 def read_all_valid_trips(timestep_ms: int = 1000) -> list[DatasetTripDto]:
@@ -276,14 +290,30 @@ def read_all_valid_trips(timestep_ms: int = 1000) -> list[DatasetTripDto]:
 def read_all_cached_valid_trips() -> list[DatasetTripDto]:
     if not os.path.isfile(valid_trip_dataset_pickle_file_path):
         all_valid_trips: list[DatasetTripDto] = read_all_valid_trips(timestep_ms=1000)
+        if any(not trip.is_valid() for trip in all_valid_trips):
+            raise Exception("Unknown error writing!")
         write_pickle_file(file_path=valid_trip_dataset_pickle_file_path, obj=all_valid_trips)
+        all_valid_trips2: list[DatasetTripDto] = read_pickle_file(valid_trip_dataset_pickle_file_path)
+        if any(not trip2.is_valid() for trip2 in all_valid_trips2):
+            raise Exception("Unknown error reading!")
         return all_valid_trips
     else:
-        return read_pickle_file(valid_trip_dataset_pickle_file_path)
+        all_valid_trips: list[DatasetTripDto] = read_pickle_file(valid_trip_dataset_pickle_file_path)
+        if any(not trip.is_valid() for trip in all_valid_trips):
+            raise Exception("Unknown error reading!")
+        return all_valid_trips
 
 
-def read_database() -> DatasetDto:
+# noinspection PyPep8Naming
+def read_VED_dataset(file_name_filter: Optional[str] = None) -> DatasetDto:
+    dataset_trip_dto_list: list[DatasetTripDto] = read_all_cached_valid_trips()
+
+    if file_name_filter is not None:
+        dataset_trip_dto_list = list(
+            filter(lambda trip: trip.trip_identifier == file_name_filter, dataset_trip_dto_list)
+        )
+
     return DatasetDto(
         dataset_name="VED",
-        dataset_trip_dto_list=read_all_valid_trips()
+        dataset_trip_dto_list=dataset_trip_dto_list
     )

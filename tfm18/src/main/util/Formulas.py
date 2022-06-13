@@ -1,5 +1,10 @@
 import math
+import random
 import statistics
+
+import numpy
+from scipy.signal import savgol_filter
+from sklearn import preprocessing
 
 
 def calculate_power(voltage_V: float, current_A: float) -> float:
@@ -123,3 +128,68 @@ def unsafe_division(n, d):
 
 def unsafe_mean(_list):
     return statistics.mean(_list) if len(_list) != 0 else 0
+
+
+def quadratic_error_between_two_funcs(func_1_data_list: list[float], func_2_data_list: list[float]) -> float:
+    quadratic_error_sum = 0
+    func_1_data: float
+    func_2_data: float
+    len_func_1_data_list = len(func_1_data_list)
+    len_func_2_data_list = len(func_2_data_list)
+    if len_func_1_data_list != len_func_2_data_list:
+        raise "List must be equal size! list 1: %d list 2: %d" % (len_func_1_data_list, len_func_2_data_list)
+    for func_1_data, func_2_data in zip(func_1_data_list, func_2_data_list):
+        quadratic_error_sum += math.pow(func_1_data - func_2_data, 2)
+
+    return quadratic_error_sum / len_func_1_data_list
+
+
+def get_expected_list_history_savgol(original_function: list[float]) -> list[float]:
+    eRange_history_km_nunpy_array = numpy.array(original_function)
+    # window_size = int(len(eRange_history_km_nunpy_array) / 5)
+    window_size = int(len(original_function) / 4)
+    polinomial_order = 3
+
+    # Prevents small lists from crashing savgol_filter func
+    if polinomial_order >= window_size:
+        return original_function
+
+    eRange_history_km_normalized_nunpy_array = savgol_filter(
+        eRange_history_km_nunpy_array,
+        window_size,
+        polinomial_order
+    )
+    eRange_history_km_normalized_list = list(eRange_history_km_normalized_nunpy_array)
+    return eRange_history_km_normalized_list
+
+
+def get_expected_list_history_normalized(original_function: list[float]) -> list[float]:
+    eRange_history_km_vertical_nunpy_array = numpy.array(original_function) \
+        .reshape(-1, 1)
+    scaler = preprocessing.MinMaxScaler()
+    eRange_history_km_vertical_normalized_nunpy_array = scaler.fit_transform(eRange_history_km_vertical_nunpy_array)
+    eRange_history_km_horizontal_normalized_nunpy_array = eRange_history_km_vertical_normalized_nunpy_array.reshape(
+        1,
+        len(original_function)
+    )
+    eRange_history_km_horizontal_normalized_nunpy_array_unboxed = eRange_history_km_horizontal_normalized_nunpy_array[0]
+    eRange_history_km_horizontal_normalized_list = list(eRange_history_km_horizontal_normalized_nunpy_array_unboxed)
+    return eRange_history_km_horizontal_normalized_list
+
+
+def get_expected_list_basic_stochrastic_descent(original_function: list[float]) -> list[float]:
+
+    prev_eRange = original_function[0]
+    ret_list: list[float] = [prev_eRange]
+    threshold = max(original_function) * 0.05
+    for basic_eRange in original_function[1:]:
+        delta = basic_eRange - prev_eRange
+        if delta > -threshold: #and bool(random.getrandbits(1)):
+            #stochrastic_multiplier = random.random()
+            stochrastic_multiplier = random.randint(0, 25)
+            basic_eRange = prev_eRange + int(delta * 0.01 * stochrastic_multiplier)
+        ret_list.append(basic_eRange)
+        prev_eRange = basic_eRange
+
+    # return get_expected_list_history_savgol(ret_list)
+    return ret_list
