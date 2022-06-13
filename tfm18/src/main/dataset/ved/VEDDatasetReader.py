@@ -305,15 +305,8 @@ def read_all_cached_valid_trips() -> list[DatasetTripDto]:
 
 
 # noinspection PyPep8Naming
-def read_VED_dataset(file_name_filter: Optional[str] = None) -> DatasetDto:
-    dataset_trip_dto_list: list[DatasetTripDto] = read_all_cached_valid_trips()
-
-    if file_name_filter is not None:
-        dataset_trip_dto_list = list(
-            filter(lambda trip: trip.trip_identifier == file_name_filter, dataset_trip_dto_list)
-        )
-
+def read_VED_dataset() -> DatasetDto:
     return DatasetDto(
         dataset_name="VED",
-        dataset_trip_dto_list=dataset_trip_dto_list
+        dataset_trip_dto_list=read_all_cached_valid_trips()
     )
