@@ -1,7 +1,6 @@
-import statistics
-from typing import Optional, Union
-
 import math
+from typing import Optional
+
 from infixpy import Seq
 
 from tfm18.src.main.algorithm.BasicApproach import get_instant_eRange
@@ -10,8 +9,8 @@ from tfm18.src.main.util.Formulas import unsafe_mean, convert_milliseconds_to_mi
 
 class HistoryBasedApproach:
     k: int = 0
-    iec_KWh_by_100km_dict: dict[int, list[float]] = dict()
-    aec_mas_KWh_by_100km: list[float] = list()
+    iec_KWh_by_100km_dict: dict[int, list[float]]
+    aec_mas_KWh_by_100km: list[float]
     aec_KWh_by_100km: float
     full_battery_energy_FBE: float
     full_battery_distance_FBD: float
@@ -20,15 +19,16 @@ class HistoryBasedApproach:
     min_timestamp_step_ms: int
     min_instance_energy: float
     initial_constant_iec: float
-    next_timestamp_ms: int = None
-    previous_eRange: Optional[float] = None
+    next_timestamp_ms: Optional[int]
+    previous_eRange: Optional[float]
 
-    aec_KWh_by_100km_list: list[float] = list()
-    aec_ma_KWh_by_100km_list: list[float] = list()
-    aec_wma_KWh_by_100km_list: list[float] = list()
-    execution_timestamps_min: list[float] = list()
-    is_first_time = True
+    aec_KWh_by_100km_list: list[float]
+    aec_ma_KWh_by_100km_list: list[float]
+    aec_wma_KWh_by_100km_list: list[float]
+    execution_timestamps_min: list[float]
+    is_first_time: bool
 
+    # noinspection PyPep8Naming
     def __init__(self,
                  N: int,
                  delta: float,
@@ -48,6 +48,18 @@ class HistoryBasedApproach:
         self.aec_KWh_by_100km = average_energy_consumption_aec
         self.initial_constant_iec = initial_constant_iec
 
+        # Members must be initialized on constructor as Python does not update field references until after ctor init...
+        self.iec_KWh_by_100km_dict = dict()
+        self.aec_mas_KWh_by_100km = list()
+        self.next_timestamp_ms = None
+        self.previous_eRange = None
+        self.aec_KWh_by_100km_list = list()
+        self.aec_ma_KWh_by_100km_list = list()
+        self.aec_wma_KWh_by_100km_list = list()
+        self.execution_timestamps_min = list()
+        self.is_first_time = True
+
+    # noinspection PyPep8Naming
     def eRange(self, state_of_charge: float, iec: float, timestamp_ms: float) -> float:
 
         next_k = self.k + 1

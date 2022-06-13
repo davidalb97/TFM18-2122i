@@ -1,7 +1,5 @@
 from typing import Optional
 
-import pandas
-
 from tfm18.src.main.algorithm.BasicApproach import get_instant_eRange
 from tfm18.src.main.algorithm.HistoryBasedApproach import HistoryBasedApproach
 from tfm18.src.main.algorithm.MyBaseRegressor import MyBaseRegressor
