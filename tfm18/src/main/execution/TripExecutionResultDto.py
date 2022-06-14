@@ -27,6 +27,7 @@ class TripExecutionResultDto:
                  eRange_history_aec_KWh_by_100km_list: list[float],
                  eRange_history_aec_timestamps_min_list: list[float],
                  eRange_ml_distance_km_list: list[float],
+                 eRange_expected_distance_km_list: list[float],
                  basic_algo_enabled=True,
                  history_algo_enabled=True,
                  ml_algo_enabled=True
@@ -39,6 +40,7 @@ class TripExecutionResultDto:
         self.eRange_history_aec_KWh_by_100km_list = eRange_history_aec_KWh_by_100km_list
         self.eRange_history_aec_timestamps_min_list = eRange_history_aec_timestamps_min_list
         self.eRange_ml_distance_km_list = eRange_ml_distance_km_list
+        self.eRange_expected_distance_km_list = eRange_expected_distance_km_list
         self.basic_algo_enabled = basic_algo_enabled
         self.history_algo_enabled = history_algo_enabled
         self.ml_algo_enabled = ml_algo_enabled
@@ -81,6 +83,12 @@ class TripExecutionResultDto:
                         feature_name="\"ML\" eRange (km)",
                         feature_color=color_green,
                         feature_data=self.eRange_ml_distance_km_list,
+                        feature_enabled=self.ml_algo_enabled
+                    ),
+                    VisualizerFeature(
+                        feature_name="\"Expected\" eRange (km)",
+                        feature_color=color_chocolate,
+                        feature_data=self.eRange_expected_distance_km_list,
                         feature_enabled=self.ml_algo_enabled
                     )
                 ]

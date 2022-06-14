@@ -6,7 +6,7 @@ from tfm18.src.main.algorithm.MyBaseRegressor import MyBaseRegressor
 from tfm18.src.main.dataset.DatasetTimestampDto import DatasetTimestampDto
 from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
 from tfm18.src.main.execution.TripExecutionResultDto import TripExecutionResultDto
-from tfm18.src.main.util.Formulas import convert_watts_to_kilowatts
+from tfm18.src.main.util.Formulas import convert_watts_to_kilowatts, get_expected_list_basic_stochrastic_descent
 
 
 class TripExecutor:
@@ -102,6 +102,7 @@ class TripExecutor:
             eRange_history_aec_KWh_by_100km_list=eRange_history_aec_KWh_by_100km_list,
             eRange_history_aec_timestamps_min_list=eRange_history_aec_timestamps_min_list,
             eRange_ml_distance_km_list=eRange_ml_distance_km_list,
+            eRange_expected_distance_km_list=get_expected_list_basic_stochrastic_descent(eRange_basic_distance_km_list),
             basic_algo_enabled=basic_algo_enabled,
             history_algo_enabled=history_algo_enabled,
             ml_algo_enabled=ml_algo_enabled
