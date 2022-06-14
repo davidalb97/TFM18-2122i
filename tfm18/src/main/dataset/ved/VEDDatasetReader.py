@@ -22,7 +22,8 @@ ved_data_path = os.path.join(pathlib.Path(__file__).resolve().parent, '..', '..'
 ved_dataset_path = os.path.join(ved_data_path, 'ved_dynamic_data')
 valid_trip_dataset_path_old = os.path.join(ved_data_path, 'ved_valid_trip_data_old')
 valid_trip_dataset_path = os.path.join(ved_data_path, 'ved_valid_trip_data')
-valid_trip_dataset_pickle_file_path = os.path.join(valid_trip_dataset_path, 'ved_valid_trips.pickle')
+valid_trip_dataset_pickle_file_path_prefix = os.path.join(valid_trip_dataset_path, 'ved_valid_trips_')
+valid_trip_dataset_pickle_file_path_sufix = '.pickle'
 electric_vehicle_ids: list[int] = [10, 455, 541]
 NaN_variable = '?'
 
@@ -287,9 +288,12 @@ def read_all_valid_trips(timestep_ms: int = 1000) -> list[DatasetTripDto]:
     return dataset_data_list
 
 
-def read_all_cached_valid_trips() -> list[DatasetTripDto]:
+def read_all_cached_valid_trips(timestep_ms: int = 1000) -> list[DatasetTripDto]:
+    valid_trip_dataset_pickle_file_path = valid_trip_dataset_pickle_file_path_prefix + \
+                                          str(timestep_ms) + \
+                                          valid_trip_dataset_pickle_file_path_sufix
     if not os.path.isfile(valid_trip_dataset_pickle_file_path):
-        all_valid_trips: list[DatasetTripDto] = read_all_valid_trips(timestep_ms=1000)
+        all_valid_trips: list[DatasetTripDto] = read_all_valid_trips(timestep_ms=timestep_ms)
         if any(not trip.is_valid() for trip in all_valid_trips):
             raise Exception("Unknown error writing!")
         write_pickle_file(file_path=valid_trip_dataset_pickle_file_path, obj=all_valid_trips)
@@ -305,8 +309,8 @@ def read_all_cached_valid_trips() -> list[DatasetTripDto]:
 
 
 # noinspection PyPep8Naming
-def read_VED_dataset() -> DatasetDto:
+def read_VED_dataset(timestep_ms: int = 1000) -> DatasetDto:
     return DatasetDto(
         dataset_name="VED",
-        dataset_trip_dto_list=read_all_cached_valid_trips()
+        dataset_trip_dto_list=read_all_cached_valid_trips(timestep_ms=timestep_ms)
     )
