@@ -178,14 +178,13 @@ def get_expected_list_history_normalized(original_function: list[float]) -> list
 
 
 def get_expected_list_basic_stochrastic_descent(original_function: list[float]) -> list[float]:
-
     prev_eRange = original_function[0]
     ret_list: list[float] = [prev_eRange]
     threshold = max(original_function) * 0.05
     for basic_eRange in original_function[1:]:
         delta = basic_eRange - prev_eRange
-        if delta > -threshold: #and bool(random.getrandbits(1)):
-            #stochrastic_multiplier = random.random()
+        if delta > -threshold:  # and bool(random.getrandbits(1)):
+            # stochrastic_multiplier = random.random()
             stochrastic_multiplier = random.randint(0, 25)
             basic_eRange = prev_eRange + int(delta * 0.01 * stochrastic_multiplier)
         ret_list.append(basic_eRange)
@@ -193,3 +192,19 @@ def get_expected_list_basic_stochrastic_descent(original_function: list[float]) 
 
     # return get_expected_list_history_savgol(ret_list)
     return ret_list
+
+
+def float_to_int(original_value: float, decimal_precision: int = 2) -> int:
+    return int(float("%.2f" % round(original_value, decimal_precision)) * 10 * decimal_precision)
+
+
+def int_to_float(original_value: int, decimal_precision: int = 2) -> float:
+    return original_value / (10 * decimal_precision)
+
+
+def float_to_int_func(original_function: list[float], decimal_precision: int = 2) -> list[int]:
+    return [float_to_int(original_value=i, decimal_precision=decimal_precision) for i in original_function]
+
+
+def int_to_float_func(original_function: list[int], decimal_precision: int = 2) -> list[float]:
+    return [int_to_float(original_value=i, decimal_precision=decimal_precision) for i in original_function]
