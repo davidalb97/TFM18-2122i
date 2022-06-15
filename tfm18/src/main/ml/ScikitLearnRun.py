@@ -19,6 +19,7 @@ if __name__ == '__main__':
     use_specific_VED_trip = True
     limit_VED_trips_to_better_ones = True
     use_ensemble = True
+    is_ml_enabled = False
 
     ml: MyBaseRegressor = MyEnsemble() if use_ensemble else MyLinearRegression()
     specific_trip_name = 'E1/VED_171213_week_772_455-AC_ON.csv'
@@ -50,14 +51,16 @@ if __name__ == '__main__':
     # Shuffle training trip sequence
     random.shuffle(train_dataset_trip_dto_list)
 
-    # Train the predictor
-    predictor_learner: PredictorLearner = PredictorLearner(ml_algo=ml)
-    predictor_learner.train_full_trip_list(dataset_trip_dto_list=train_dataset_trip_dto_list)
+    # Train the predictor if machine learning is enabled
+    if is_ml_enabled:
+        predictor_learner: PredictorLearner = PredictorLearner(ml_algo=ml)
+        predictor_learner.train_full_trip_list(dataset_trip_dto_list=train_dataset_trip_dto_list)
 
     # Execute demonstration trip
     trip_executor: TripExecutor = TripExecutor(ml=ml)
     trip_execution_result_dto: TripExecutionResultDto = trip_executor.execute_trip(
-        dataset_trip_dto=execute_dataset_trip_dto
+        dataset_trip_dto=execute_dataset_trip_dto,
+        ml_algo_enabled=is_ml_enabled
     )
 
     # Display demonstration trip results
