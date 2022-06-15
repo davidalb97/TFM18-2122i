@@ -94,6 +94,7 @@ class DatasetTripDto:
         ret_list.append(
             VisualizerGraph(
                 graph_name="State of charge (SOC)",
+                y_min=0.0,
                 x_feature=time_feature,
                 y_features=[
                     VisualizerFeature(

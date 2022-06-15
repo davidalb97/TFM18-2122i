@@ -60,6 +60,7 @@ class TripExecutionResultDto:
         ret_list.append(
             VisualizerGraph(
                 graph_name="Electric Range (eRange)",
+                y_min=0.0,
                 x_feature=VisualizerFeature(
                     feature_name="time [min]",
                     feature_color=None,

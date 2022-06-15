@@ -98,13 +98,15 @@ def configure_plot(
 
         prev_axis = curr_axis
 
-    # min_y_point = min(all_y_points)
-    # max_y_point = max(all_y_points)
+    min_y_point = visualizer_graph.y_min if visualizer_graph.y_min is not None else min(all_y_points)
+    max_y_point = max(all_y_points)
     #
     # if max_y_point - min_y_point >= 10:
     #     for curr_axis in ret_axis:
     #         curr_axis.set_ylim(min_y_point, max_y_point)
     #     pyplot.gca().yaxis.set_major_locator(pyplot.MultipleLocator(5))
+
+    axis.set_ylim(min_y_point, max_y_point)
 
     axis.set_xlim(min(x_feature_data), max(x_feature_data))
 
