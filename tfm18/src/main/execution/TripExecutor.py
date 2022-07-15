@@ -18,6 +18,7 @@ class TripExecutor:
     def execute_trip(
             self,
             dataset_trip_dto: DatasetTripDto,
+            history_expected: bool,
             basic_algo_enabled=True,
             history_algo_enabled=True,
             ml_algo_enabled=True
@@ -93,6 +94,11 @@ class TripExecutor:
         if ml_algo_enabled:
             assert len(eRange_ml_distance_km_list) == len(dataset_trip_dto.timestamps_min_list)
 
+        eRange_expected_distance_km_list: list[float] = eRange_history_distance_km_list if history_expected \
+            else get_expected_list_basic_stochrastic_descent(
+            original_function=eRange_basic_distance_km_list
+        )
+
         return TripExecutionResultDto(
             dataset_trip_dto=dataset_trip_dto,
             eRange_basic_distance_km_list=eRange_basic_distance_km_list,
@@ -102,7 +108,7 @@ class TripExecutor:
             eRange_history_aec_KWh_by_100km_list=eRange_history_aec_KWh_by_100km_list,
             eRange_history_aec_timestamps_min_list=eRange_history_aec_timestamps_min_list,
             eRange_ml_distance_km_list=eRange_ml_distance_km_list,
-            eRange_expected_distance_km_list=get_expected_list_basic_stochrastic_descent(eRange_basic_distance_km_list),
+            eRange_expected_distance_km_list=eRange_expected_distance_km_list,
             basic_algo_enabled=basic_algo_enabled,
             history_algo_enabled=history_algo_enabled,
             ml_algo_enabled=ml_algo_enabled

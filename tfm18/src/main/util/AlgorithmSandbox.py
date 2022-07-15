@@ -37,6 +37,7 @@ if __name__ == '__main__':
     trip_execution = TripExecutor(ml=None)
     trip_execution_result: TripExecutionResultDto = trip_execution.execute_trip(
         dataset_trip_dto=execute_dataset_trip_dto,
+        history_expected=False,
         ml_algo_enabled=False
     )
 
