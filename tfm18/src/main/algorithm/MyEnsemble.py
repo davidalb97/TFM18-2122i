@@ -17,12 +17,17 @@ class MyEnsemble(MyBaseRegressor):
         estimators=[
             ('dtr', DecisionTreeRegressor(random_state=0)),
             ('rfr', RandomForestRegressor(max_depth=2, random_state=0)),
-            ('knr', KNeighborsRegressor(n_neighbors=10, metric='euclidean'))
+            ('knr', KNeighborsRegressor(
+                n_neighbors=10,
+                metric='euclidean'
+            )
+             )
         ],
         final_estimator=AdaBoostRegressor(),
         cv=StratifiedKFold(
             # n_splits=10, # Ensemble stack article value :(
-            n_splits=2,
+            # n_splits=2, # Working
+            n_splits=10,
             random_state=None,
             shuffle=False
         )

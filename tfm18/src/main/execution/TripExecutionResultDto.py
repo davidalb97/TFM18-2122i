@@ -98,6 +98,33 @@ class TripExecutionResultDto:
 
         ret_list.append(
             VisualizerGraph(
+                graph_name="Electric Range (eRange) 2",
+                y_min=0.0,
+                x_feature=VisualizerFeature(
+                    feature_name="time [min]",
+                    feature_color=None,
+                    feature_data=self.dataset_trip_dto.timestamps_min_list,
+                    feature_enabled=is_eRange_graph_enabled
+                ),
+                y_features=[
+                    VisualizerFeature(
+                        feature_name="\"basic\" eRange (km)",
+                        feature_color=color_blue,
+                        feature_data=self.eRange_basic_distance_km_list,
+                        feature_enabled=self.basic_algo_enabled
+                    ),
+                    VisualizerFeature(
+                        feature_name="\"ML\" eRange (km)",
+                        feature_color=color_green,
+                        feature_data=self.eRange_ml_distance_km_list,
+                        feature_enabled=self.ml_algo_enabled
+                    )
+                ]
+            )
+        )
+
+        ret_list.append(
+            VisualizerGraph(
                 graph_name="Average Energy Consumpton (AEC)",
                 x_feature=VisualizerFeature(
                     feature_name="time [min]",

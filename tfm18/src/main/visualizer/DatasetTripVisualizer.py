@@ -15,6 +15,7 @@ def plot_dataset_eRange_results(dataset_name: str, trip_execution_result_dto: Tr
     soc_key = 'SOC'
     iec_key = 'IEC'
     eRange_key = 'eRange'
+    eRange_key_2 = 'eRange2'
     curremt_key = 'Current'
     power_key = 'Power'
     speed_key = 'Speed'
@@ -30,13 +31,16 @@ def plot_dataset_eRange_results(dataset_name: str, trip_execution_result_dto: Tr
             [eRange_key, eRange_key, curremt_key, curremt_key],
             [power_key, power_key, speed_key, speed_key],
             [power_key, power_key, speed_key, speed_key],
-            [empty_sentinel_key, aec_key, aec_key, empty_sentinel_key],
-            [empty_sentinel_key, aec_key, aec_key, empty_sentinel_key]
+            # [empty_sentinel_key, aec_key, aec_key, empty_sentinel_key],
+            # [empty_sentinel_key, aec_key, aec_key, empty_sentinel_key]
+            [ aec_key, aec_key, eRange_key_2, eRange_key_2],
+            [ aec_key, aec_key, eRange_key_2, eRange_key_2]
         ],
         constrained_layout=True
     )
 
-    fig_key_list = [soc_key, iec_key, eRange_key, curremt_key, power_key, speed_key, aec_key]
+    # fig_key_list = [soc_key, iec_key, eRange_key, curremt_key, power_key, speed_key, aec_key]
+    fig_key_list = [soc_key, iec_key, eRange_key, curremt_key, power_key, speed_key, aec_key, eRange_key_2]
     axis_list: list[Axes] = list(map(lambda x: axs[x], fig_key_list))
     visualizer_graph_list: list[VisualizerGraph] = trip_execution_result_dto.get_visualizer_graphs()
 
