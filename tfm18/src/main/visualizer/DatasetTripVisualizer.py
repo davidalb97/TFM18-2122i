@@ -110,9 +110,9 @@ def configure_plot(
     #         curr_axis.set_ylim(min_y_point, max_y_point)
     #     pyplot.gca().yaxis.set_major_locator(pyplot.MultipleLocator(5))
 
-    axis.set_ylim(min_y_point, max_y_point)
-
-    axis.set_xlim(min(x_feature_data), max(x_feature_data))
+    # axis.set_ylim(min_y_point, max_y_point)
+    #
+    # axis.set_xlim(min(x_feature_data), max(x_feature_data))
 
     ret_axis_len = len(ret_axis)
     if ret_axis_len > 2:
