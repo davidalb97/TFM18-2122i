@@ -17,6 +17,7 @@ class TripExecutionResultDto:
     basic_algo_enabled: bool
     history_algo_enabled: bool
     ml_algo_enabled: bool
+    expected_enabled: bool
 
     def __init__(self,
                  dataset_trip_dto: DatasetTripDto,
@@ -30,7 +31,8 @@ class TripExecutionResultDto:
                  eRange_expected_distance_km_list: list[float],
                  basic_algo_enabled=True,
                  history_algo_enabled=True,
-                 ml_algo_enabled=True
+                 ml_algo_enabled=True,
+                 expected_enabled=True
                  ):
         self.dataset_trip_dto = dataset_trip_dto
         self.eRange_basic_distance_km_list = eRange_basic_distance_km_list
@@ -44,6 +46,7 @@ class TripExecutionResultDto:
         self.basic_algo_enabled = basic_algo_enabled
         self.history_algo_enabled = history_algo_enabled
         self.ml_algo_enabled = ml_algo_enabled
+        self.expected_enabled = expected_enabled
 
     def get_visualizer_graphs(self) -> list[VisualizerGraph]:
         ret_list: list[VisualizerGraph] = self.dataset_trip_dto.get_visualizer_graphs()
@@ -90,7 +93,7 @@ class TripExecutionResultDto:
                         feature_name="\"Expected\" eRange (km)",
                         feature_color=color_chocolate,
                         feature_data=self.eRange_expected_distance_km_list,
-                        feature_enabled=self.ml_algo_enabled
+                        feature_enabled=self.expected_enabled
                     )
                 ]
             )

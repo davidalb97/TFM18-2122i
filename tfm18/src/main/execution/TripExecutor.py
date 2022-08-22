@@ -111,5 +111,6 @@ class TripExecutor:
             eRange_expected_distance_km_list=eRange_expected_distance_km_list,
             basic_algo_enabled=basic_algo_enabled,
             history_algo_enabled=history_algo_enabled,
-            ml_algo_enabled=ml_algo_enabled
+            ml_algo_enabled=ml_algo_enabled,
+            expected_enabled=ml_algo_enabled
         )
