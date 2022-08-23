@@ -58,6 +58,7 @@ def configure_plot(
         marker: str = None
 ) -> list[Axes]:
 
+    axis.set_title(visualizer_graph.graph_name)
     prev_axis: Axes = axis
     curr_axis: Axes = axis
     ret_axis: list[Axes] = list()
