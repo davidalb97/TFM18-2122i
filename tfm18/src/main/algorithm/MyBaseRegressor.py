@@ -3,17 +3,17 @@ from abc import abstractmethod
 import pandas
 from pandas import DataFrame
 
-from tfm18.src.main.dataset.DatasetTimestampDto import DatasetTimestampDto
+from tfm18.src.main.algorithm.BaseAlgorithm import BaseAlgorithm
+from tfm18.src.main.algorithm.PredictionInput import PredictionInput
 from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
-from tfm18.src.main.dataset.DatasetVehicleDto import DatasetVehicleDto
 
 
-class MyBaseRegressor:
+class MyBaseRegressor(BaseAlgorithm):
 
     def learn_from_full_trip_for_each_instant(self, input_dataset_trip_dto: DatasetTripDto, expected_output: list[float]):
         dataset_timestamp_dto_list = input_dataset_trip_dto.dataset_timestamp_dto_list
         for dataset_timestamp_dto, timestamp_output in zip(dataset_timestamp_dto_list, expected_output):
-            self.learn(
+            self.learn_from_dataframes(
                 input_dataframe=pandas.DataFrame(
                     {
                         'FBD': [input_dataset_trip_dto.vehicle_static_data.FBD_km],
@@ -37,7 +37,7 @@ class MyBaseRegressor:
 
     def learn_from_full_trip(self, input_dataset_trip_dto: DatasetTripDto, expected_output: list[float]):
         sample_count = len(input_dataset_trip_dto.timestamps_min_list)
-        self.learn(
+        self.learn_from_dataframes(
             input_dataframe=pandas.DataFrame(
                 {
                     'FBD': [float(input_dataset_trip_dto.vehicle_static_data.FBD_km)] * sample_count,
@@ -60,31 +60,30 @@ class MyBaseRegressor:
         )
 
     @abstractmethod
-    def learn(self, input_dataframe: DataFrame, expected_output_dataframe: DataFrame):
+    def learn_from_dataframes(self, input_dataframe: DataFrame, expected_output_dataframe: DataFrame):
         pass
 
-    def predict_from_trip_instant(
+    def predict(
             self,
-            input_dataset_timestamp_dto: DatasetTimestampDto,
-            input_dataset_static_data_dto: DatasetVehicleDto
+            prediction_input: PredictionInput
     ) -> float:
-        return self.predict(
+        return self.predict_from_dataframe(
             pandas.DataFrame(
                 {
-                    'FBD': [input_dataset_static_data_dto.FBD_km],
-                    'FBE': [input_dataset_static_data_dto.FBE_kWh],
-                    'AEC': [input_dataset_static_data_dto.AEC_KWh_km],
-                    'timestamp [min]': [input_dataset_timestamp_dto.timestamp_min],
-                    'soc [%]': [input_dataset_timestamp_dto.soc_percentage],
-                    'iec_power [kWh/100km]': [input_dataset_timestamp_dto.iec_power_KWh_by_100km],
-                    'current [A]': [input_dataset_timestamp_dto.current_ampers],
-                    'speed [km/h]': [input_dataset_timestamp_dto.speed_kmh],
-                    'power [kW]': [input_dataset_timestamp_dto.power_kW],
-                    'ac_power [kW]': [input_dataset_timestamp_dto.ac_power_kW]
+                    'FBD': [prediction_input.dataset_vehicle_dto.FBD_km],
+                    'FBE': [prediction_input.dataset_vehicle_dto.FBE_kWh],
+                    'AEC': [prediction_input.dataset_vehicle_dto.AEC_KWh_km],
+                    'timestamp [min]': [prediction_input.dataset_timestamp_dto.timestamp_min],
+                    'soc [%]': [prediction_input.dataset_timestamp_dto.soc_percentage],
+                    'iec_power [kWh/100km]': [prediction_input.dataset_timestamp_dto.iec_power_KWh_by_100km],
+                    'current [A]': [prediction_input.dataset_timestamp_dto.current_ampers],
+                    'speed [km/h]': [prediction_input.dataset_timestamp_dto.speed_kmh],
+                    'power [kW]': [prediction_input.dataset_timestamp_dto.power_kW],
+                    'ac_power [kW]': [prediction_input.dataset_timestamp_dto.ac_power_kW]
                 }
             )
         )
 
     @abstractmethod
-    def predict(self, input_dataframe: DataFrame) -> float:
+    def predict_from_dataframe(self, input_dataframe: DataFrame) -> float:
         pass

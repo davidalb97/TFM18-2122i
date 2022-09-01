@@ -1,7 +1,7 @@
 import os
 import pathlib
 import shutil
-from typing import IO, Optional
+from typing import IO, Optional, List
 
 from Orange.data import Instance
 
@@ -285,32 +285,51 @@ def read_all_valid_trips(timestep_ms: int = 1000) -> list[DatasetTripDto]:
                 )
             )
 
+    ensure_all_trips_are_valid(dataset_data_list)
+
     return dataset_data_list
 
 
-def read_all_cached_valid_trips(timestep_ms: int = 1000) -> list[DatasetTripDto]:
+def ensure_all_trips_are_valid(trip_names: list[DatasetTripDto]):
+    if any(not trip.is_valid() for trip in trip_names):
+        raise Exception("Unknown error writing!")
+
+
+def read_all_cached_valid_trips(pickle_path: str) -> list[DatasetTripDto]:
+
+    # Read created pickle file and ensure it is valid
+    source_trips: list[DatasetTripDto] = read_pickle_file(file_path=pickle_path)
+
+    ensure_all_trips_are_valid(source_trips)
+
+    return source_trips
+
+
+def read_all_cached_valid_trips_and_create_if_not_cached(timestep_ms: int = 1000) -> list[DatasetTripDto]:
     valid_trip_dataset_pickle_file_path = valid_trip_dataset_pickle_file_path_prefix + \
                                           str(timestep_ms) + \
                                           valid_trip_dataset_pickle_file_path_sufix
     if not os.path.isfile(valid_trip_dataset_pickle_file_path):
-        all_valid_trips: list[DatasetTripDto] = read_all_valid_trips(timestep_ms=timestep_ms)
-        if any(not trip.is_valid() for trip in all_valid_trips):
-            raise Exception("Unknown error writing!")
-        write_pickle_file(file_path=valid_trip_dataset_pickle_file_path, obj=all_valid_trips)
-        all_valid_trips2: list[DatasetTripDto] = read_pickle_file(valid_trip_dataset_pickle_file_path)
-        if any(not trip2.is_valid() for trip2 in all_valid_trips2):
-            raise Exception("Unknown error reading!")
-        return all_valid_trips
-    else:
-        all_valid_trips: list[DatasetTripDto] = read_pickle_file(valid_trip_dataset_pickle_file_path)
-        if any(not trip.is_valid() for trip in all_valid_trips):
-            raise Exception("Unknown error reading!")
-        return all_valid_trips
+        # Read the trips from source .csv files
+        source_trips: list[DatasetTripDto] = read_all_valid_trips(timestep_ms=timestep_ms)
+
+        # Write the pickle file
+        write_pickle_file(file_path=valid_trip_dataset_pickle_file_path, obj=source_trips)
+
+    # Read existing trip pickle file
+    pickle_trips: list[DatasetTripDto] = read_all_cached_valid_trips(pickle_path=valid_trip_dataset_pickle_file_path)
+
+    # Ensure pickle file had valid data
+    ensure_all_trips_are_valid(pickle_trips)
+
+    return pickle_trips
 
 
 # noinspection PyPep8Naming
-def read_VED_dataset(timestep_ms: int = 1000) -> DatasetDto:
+def read_VED_dataset(
+        timestep_ms: int = 1000
+) -> DatasetDto:
     return DatasetDto(
         dataset_name="VED",
-        dataset_trip_dto_list=read_all_cached_valid_trips(timestep_ms=timestep_ms)
+        dataset_trip_dto_list=read_all_cached_valid_trips_and_create_if_not_cached(timestep_ms=timestep_ms)
     )

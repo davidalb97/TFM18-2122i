@@ -2,8 +2,8 @@ import os
 import pathlib
 import re
 
-from main.dataset.DatasetTripDto import DatasetTripDto
-from main.dataset.DatasetVehicleDto import DatasetVehicleDto
+from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
+from tfm18.src.main.dataset.DatasetVehicleDto import DatasetVehicleDto
 
 cc_dataset_name = "ChargeCar Dataset"
 cc_data_path = os.path.join(pathlib.Path(__file__).resolve().parent, '..', '..', '..', '..', 'data', 'chargecar_data',

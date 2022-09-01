@@ -3,30 +3,40 @@ from typing import Optional
 
 from infixpy import Seq
 
-from tfm18.src.main.algorithm.BasicApproach import get_instant_eRange
+from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
+from tfm18.src.main.algorithm.BaseAlgorithm import BaseAlgorithm
+from tfm18.src.main.algorithm.BasicApproach import BasicApproach
+from tfm18.src.main.algorithm.PredictionInput import PredictionInput
 from tfm18.src.main.util.Formulas import unsafe_mean, convert_milliseconds_to_minutes
 
 
-class HistoryBasedApproach:
+class HistoryBasedApproach(BaseAlgorithm):
+
+    # Ctor initialized
     k: int = 0
     iec_KWh_by_100km_dict: dict[int, list[float]]
     aec_mas_KWh_by_100km: list[float]
-    aec_KWh_by_100km: float
-    full_battery_energy_FBE: float
-    full_battery_distance_FBD: float
     N: int
     delta: float
     min_timestamp_step_ms: int
     min_instance_energy: float
-    initial_constant_iec: float
+    basic_approach: BasicApproach
+
+    # Algorithm state
     next_timestamp_ms: Optional[int]
     previous_eRange: Optional[float]
 
+    # Return data
     aec_KWh_by_100km_list: list[float]
     aec_ma_KWh_by_100km_list: list[float]
     aec_wma_KWh_by_100km_list: list[float]
     execution_timestamps_min: list[float]
-    is_first_time: bool
+
+    # Vehicle dependent config
+    aec_KWh_by_100km: float
+    full_battery_energy_FBE: float
+    full_battery_distance_FBD: float
+    initial_constant_iec: float
 
     # noinspection PyPep8Naming
     def __init__(self,
@@ -34,19 +44,12 @@ class HistoryBasedApproach:
                  delta: float,
                  min_timestamp_step_ms: int,
                  min_instance_energy: float,
-                 full_battery_energy_FBE: float,
-                 full_battery_distance_FBD: float,
-                 average_energy_consumption_aec: float,
-                 initial_constant_iec: float
+                 basic_approach: BasicApproach
                  ):
         self.N = N
         self.delta = delta
         self.min_timestamp_step_ms = min_timestamp_step_ms
         self.min_instance_energy = min_instance_energy
-        self.full_battery_energy_FBE = full_battery_energy_FBE
-        self.full_battery_distance_FBD = full_battery_distance_FBD
-        self.aec_KWh_by_100km = average_energy_consumption_aec
-        self.initial_constant_iec = initial_constant_iec
 
         # Members must be initialized on constructor as Python does not update field references until after ctor init...
         self.iec_KWh_by_100km_dict = dict()
@@ -57,28 +60,36 @@ class HistoryBasedApproach:
         self.aec_ma_KWh_by_100km_list = list()
         self.aec_wma_KWh_by_100km_list = list()
         self.execution_timestamps_min = list()
-        self.is_first_time = True
+        self.basic_approach = basic_approach
+
+    def get_algorithm_type(self) -> AlgorithmType:
+        return AlgorithmType.HISTORY_BASED
 
     # noinspection PyPep8Naming
-    def eRange(self, state_of_charge: float, iec: float, timestamp_ms: float) -> float:
+    def predict(self, prediction_input: PredictionInput) -> float:
+
+        # Update AEC, FBD, FBD if vehicle changes
+        self.aec_KWh_by_100km = prediction_input.dataset_vehicle_dto.AEC_KWh_km
+        self.full_battery_energy_FBE = prediction_input.dataset_vehicle_dto.FBE_kWh
+        self.full_battery_distance_FBD = prediction_input.dataset_vehicle_dto.FBD_km
+        # initial_constant_iec=16 # 16 kWh/100km) for the first N minutes
+        self.initial_constant_iec = prediction_input.dataset_vehicle_dto.AEC_KWh_km
+
+        state_of_charge: float = prediction_input.dataset_timestamp_dto.soc_percentage
+        iec: float = prediction_input.dataset_timestamp_dto.iec_power_KWh_by_100km
+        timestamp_ms: float = prediction_input.dataset_timestamp_dto.timestamp_ms
 
         next_k = self.k + 1
 
         # Initialize previous eRange
         if self.previous_eRange is None:
-            self.previous_eRange = get_instant_eRange(
-                FBD_AcS=self.full_battery_distance_FBD,
-                SOC=state_of_charge
-            )
+            self.previous_eRange = self.basic_approach.predict(prediction_input=prediction_input)
 
         # Force IEC as a constant for the first N * self.min_timestamp_step_ms
         # Force basic approach
         if self.are_iec_and_aec_constants(timestamp_ms=timestamp_ms):
             iec: float = self.initial_constant_iec
-            self.previous_eRange = get_instant_eRange(
-                FBD_AcS=self.full_battery_distance_FBD,
-                SOC=state_of_charge
-            )
+            self.previous_eRange = self.basic_approach.predict(prediction_input=prediction_input)
 
         iecs_for_k: Optional[list[float]] = self.iec_KWh_by_100km_dict.get(next_k)
         if iecs_for_k is None:
