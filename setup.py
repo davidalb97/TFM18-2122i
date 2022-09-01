@@ -160,14 +160,14 @@ setup(
     # https://packaging.python.org/discussions/install-requires-vs-requirements/
     install_requires=[
         'peppercorn==0.6',      # ?
-        'Orange3==3.31.1',      # Parse DataFrames from csv files
-        'numpy==1.21',          # Must be <= 1.21 for Numba 0.55.1
-        'matplotlib==3.5.1',    # ?
+        'Orange3==3.32.0',      # Parse DataFrames from csv files
+        'numpy==1.23.2',          # Must be <= 1.21 for Numba 0.55.1
+        'matplotlib==3.5.3',    # ?
         'emobpy==0.6.2',        # Generate EV driving datasets
-        'pandas==1.4.1',        # Dataframes
+        'pandas==1.4.4',        # Dataframes
         'infixpy==0.0.4',       # Fluent functional Streams
         'chart_studio==1.1.0',  # Might be useful for emobpy pandas dataframe iplot()?
-        'scikit-learn==1.1.1'
+        'scikit-learn==1.1.2'
         # 'check-python-versions=='
     ],  # Optional
     # install_requires=[],
