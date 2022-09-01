@@ -47,6 +47,7 @@ vehicle_dto = DatasetVehicleDto(
 )
 cache_enabled: bool = False
 
+
 def generate_valid_trips():
     # Delete old generated valid trips
     if os.path.isdir(valid_trip_dataset_path):
@@ -316,7 +317,7 @@ def read_all_cached_valid_trips_and_create_if_not_cached(
                                           str(timestep_ms) + \
                                           valid_trip_dataset_pickle_file_path_sufix
 
-    if not os.path.isfile(valid_trip_dataset_pickle_file_path):
+    if not os.path.isfile(valid_trip_dataset_pickle_file_path) or not cache_enabled:
         # Read the trips from source .csv files
         source_trips: list[DatasetTripDto] = read_all_valid_trips(
             timestep_ms=timestep_ms,
