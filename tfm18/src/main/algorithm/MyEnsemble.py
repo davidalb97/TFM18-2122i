@@ -1,18 +1,18 @@
 import numpy
-from sklearn import linear_model
 from pandas import DataFrame
-from sklearn.ensemble import GradientBoostingRegressor, RandomForestRegressor, AdaBoostRegressor
+from sklearn.ensemble import RandomForestRegressor, AdaBoostRegressor
 from sklearn.ensemble import StackingRegressor
 from sklearn.model_selection import StratifiedKFold
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
-from sklearn.utils.multiclass import type_of_target
 
+from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
 from tfm18.src.main.algorithm.MyBaseRegressor import MyBaseRegressor
 from tfm18.src.main.util.Formulas import float_to_int, int_to_float
 
 
 class MyEnsemble(MyBaseRegressor):
+
     regressor: StackingRegressor = StackingRegressor(
         estimators=[
             ('dtr', DecisionTreeRegressor(random_state=0)),
@@ -33,7 +33,10 @@ class MyEnsemble(MyBaseRegressor):
         )
     )
 
-    def learn(self, input_dataframe: DataFrame, expected_output_dataframe: DataFrame):
+    def get_algorithm_type(self) -> AlgorithmType:
+        return AlgorithmType.ML_ENSEMBLE
+
+    def learn_from_dataframes(self, input_dataframe: DataFrame, expected_output_dataframe: DataFrame):
         input_numpy_array = input_dataframe.loc[:, :]
 
         expected_output_numpy_array: numpy.ndarray = expected_output_dataframe.to_numpy()
@@ -48,5 +51,5 @@ class MyEnsemble(MyBaseRegressor):
         self.regressor.fit(X=input_numpy_array, y=expected_output_numpy_array)
         # self.regressor.fit(input_dataframe.loc[:, :], expected_output_dataframe.loc[:, :])
 
-    def predict(self, input_dataframe: DataFrame) -> float:
+    def predict_from_dataframe(self, input_dataframe: DataFrame) -> float:
         return int_to_float(self.regressor.predict(input_dataframe.loc[:, :])[0])
