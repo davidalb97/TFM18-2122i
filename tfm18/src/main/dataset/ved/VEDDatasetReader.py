@@ -45,7 +45,7 @@ vehicle_dto = DatasetVehicleDto(
     FBD_km=FBD_nissan_leaf_2013_km,
     FBE_kWh=FBE_nissan_leaf_2013_kWh,
 )
-
+cache_enabled: bool = False
 
 def generate_valid_trips():
     # Delete old generated valid trips
@@ -228,7 +228,8 @@ def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetTripDto:
             # iec_power_hour_100km = calculate_kwh_100km(power_delta_kW_hour, distance_km)
             # iec_power_hour_100km = power_delta_kW_hour / distance_km
             # iec_power_hour_100km = (power_delta_kW * (time_delta_hour / 1000)) * 100 / distance_km
-            iec_power_hour_100km = (power_delta_kW * (time_delta_hour / 1000)) * 10 / distance_km
+            # iec_power_hour_100km = (power_delta_kW * (time_delta_hour / 1000)) * 10 / distance_km
+            iec_power_hour_100km = - power_delta_kW
         else:
             iec_power_hour_100km = 0
 
@@ -264,7 +265,7 @@ def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetTripDto:
     return dataset_trip_dto
 
 
-def read_all_valid_trips(timestep_ms: int = 1000) -> list[DatasetTripDto]:
+def read_all_valid_trips(timestep_ms: int = 1000, specific_trip_id: Optional[str] = None) -> list[DatasetTripDto]:
     dataset_data_list: list[DatasetTripDto] = list()
     ev_trip_dirs = [f.path for f in os.scandir(valid_trip_dataset_path) if f.is_dir()]
     for ev_trip_dir in ev_trip_dirs:
@@ -275,15 +276,17 @@ def read_all_valid_trips(timestep_ms: int = 1000) -> list[DatasetTripDto]:
             if not ev_trip_file_name.endswith(".csv"):
                 continue
 
-            dataset_data_list.append(
-                read_valid_trip(
-                    os.path.join(
-                        ev_trip_dir_name,
-                        ev_trip_file_name
-                    ),
-                    timestep_ms
-                )
+            trip_id = os.path.join(
+                ev_trip_dir_name,
+                ev_trip_file_name
             )
+            if specific_trip_id is None or specific_trip_id == trip_id:
+                dataset_data_list.append(
+                    read_valid_trip(
+                        path=trip_id,
+                        timestep_ms=timestep_ms
+                    )
+                )
 
     ensure_all_trips_are_valid(dataset_data_list)
 
@@ -305,16 +308,29 @@ def read_all_cached_valid_trips(pickle_path: str) -> list[DatasetTripDto]:
     return source_trips
 
 
-def read_all_cached_valid_trips_and_create_if_not_cached(timestep_ms: int = 1000) -> list[DatasetTripDto]:
+def read_all_cached_valid_trips_and_create_if_not_cached(
+        timestep_ms: int = 1000,
+        specific_trip_id: Optional[str] = None
+) -> list[DatasetTripDto]:
     valid_trip_dataset_pickle_file_path = valid_trip_dataset_pickle_file_path_prefix + \
                                           str(timestep_ms) + \
                                           valid_trip_dataset_pickle_file_path_sufix
+
     if not os.path.isfile(valid_trip_dataset_pickle_file_path):
         # Read the trips from source .csv files
-        source_trips: list[DatasetTripDto] = read_all_valid_trips(timestep_ms=timestep_ms)
+        source_trips: list[DatasetTripDto] = read_all_valid_trips(
+            timestep_ms=timestep_ms,
+            specific_trip_id=specific_trip_id
+        )
 
-        # Write the pickle file
-        write_pickle_file(file_path=valid_trip_dataset_pickle_file_path, obj=source_trips)
+        if specific_trip_id is not None:
+            return source_trips
+
+        if cache_enabled:
+            # Write the pickle file
+            write_pickle_file(file_path=valid_trip_dataset_pickle_file_path, obj=source_trips)
+
+        return source_trips
 
     # Read existing trip pickle file
     pickle_trips: list[DatasetTripDto] = read_all_cached_valid_trips(pickle_path=valid_trip_dataset_pickle_file_path)
@@ -327,9 +343,13 @@ def read_all_cached_valid_trips_and_create_if_not_cached(timestep_ms: int = 1000
 
 # noinspection PyPep8Naming
 def read_VED_dataset(
-        timestep_ms: int = 1000
+        timestep_ms: int = 1000,
+        specific_trip_id: Optional[str] = None
 ) -> DatasetDto:
     return DatasetDto(
         dataset_name="VED",
-        dataset_trip_dto_list=read_all_cached_valid_trips_and_create_if_not_cached(timestep_ms=timestep_ms)
+        dataset_trip_dto_list=read_all_cached_valid_trips_and_create_if_not_cached(
+            timestep_ms=timestep_ms,
+            specific_trip_id=specific_trip_id
+        )
     )

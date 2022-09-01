@@ -10,12 +10,12 @@ from tfm18.src.main.dataset.ved.VEDDatasetReader import read_VED_dataset
 
 class DatasetRepository:
 
-    def read_dataset(self, dataset_type: DatasetType) -> DatasetDto:
+    def read_dataset(self, dataset_type: DatasetType, specific_trip_id: Optional[str] = None) -> DatasetDto:
         dataset_dto: Optional[DatasetDto] = None
         if dataset_type is DatasetType.CLASSIC:
             dataset_dto = read_classic_ev_range_dataset()
         elif dataset_type is DatasetType.VED:
-            dataset_dto = read_VED_dataset()
+            dataset_dto = read_VED_dataset(specific_trip_id=specific_trip_id)
         return dataset_dto
 
     def read_trips_from_datasets(self, dataset_types: list[DatasetType]) -> list[DatasetTripDto]:

@@ -30,7 +30,8 @@ class TripExecutorConfigDto:
         else:
             # If the dataset is missing, fetch it from repository
             if dataset_dto is None:
-                dataset_dto = DatasetRepository().read_dataset(dataset_type)
+                dataset_dto = DatasetRepository()\
+                    .read_dataset(dataset_type=dataset_type, specific_trip_id=dataset_trip_dto_id)
             # Find the trip
             if dataset_trip_dto_id is not None:
                 self.dataset_trip_dto = list(
