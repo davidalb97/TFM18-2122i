@@ -33,13 +33,7 @@ class TripExecutorConfigDto:
                 dataset_dto = DatasetRepository()\
                     .read_dataset(dataset_type=dataset_type, specific_trip_id=dataset_trip_dto_id)
             # Find the trip
-            if dataset_trip_dto_id is not None:
-                self.dataset_trip_dto = list(
-                    filter(
-                        lambda trip: trip.trip_identifier == dataset_trip_dto_id, dataset_dto.dataset_trip_dto_list
-                    )
-                )[0]
-            else:
+            if dataset_trip_dto_id is None:
                 self.dataset_trip_dto = random.choice(dataset_dto.dataset_trip_dto_list)
 
         if enabled_algorithms is not None and len(enabled_algorithms) > 0:
