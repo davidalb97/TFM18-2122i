@@ -10,8 +10,11 @@ if __name__ == '__main__':
 
     specific_trip_name = 'E1/VED_171213_week_772_455-AC_ON.csv'
 
+    # dataset_type = DatasetType.VED
+    dataset_type = DatasetType.CLASSIC
     dataset_dto = DatasetTripDto = DatasetRepository() \
-        .read_dataset(dataset_type=DatasetType.VED, specific_trip_id=specific_trip_name)
+        .read_dataset(dataset_type=dataset_type, specific_trip_id=specific_trip_name)
+
     all_dataset_trip_dto = dataset_dto.dataset_trip_dto_list[0]
     trip_execution_result: TripExecutionResultDto = TripExecutor().execute_trip(
         config=TripExecutorConfigDto(
