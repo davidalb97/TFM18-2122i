@@ -33,11 +33,13 @@ class AlgorithmRepository:
         elif algorithm_type is AlgorithmType.HISTORY_BASED:
             return HistoryBasedApproach(
                 N=10,  # Number of last computation to take into account
+                # delta=convert_watts_to_kilowatts(50),  # 50W delta step, converted to kilowatt # CONFIRMAR!
                 delta=convert_watts_to_kilowatts(50),  # 50W delta step, converted to kilowatt # CONFIRMAR!
-                # min_timestamp_step_ms=60000,  # 60K milis = 1 minute
+                # min_timestamp_step_ms=600000,  # 600K milis = 10 minutes
+                min_timestamp_step_ms=60000,  # 60K milis = 1 minute
                 # min_timestamp_step_ms=10000,  # 10K milis = 10 secs
-                min_timestamp_step_ms=1000 * 60,  # 1K milis = 1 secs
-                min_instance_energy=2.5,  # 2500W
+                # min_timestamp_step_ms=1000,  # 1K milis = 1 secs
+                min_instance_energy=convert_watts_to_kilowatts(2500),
                 basic_approach=BasicApproach()
             )
         elif algorithm_type is AlgorithmType.ML_LINEAR_REGRESSION:
