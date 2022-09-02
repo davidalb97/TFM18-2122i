@@ -1,3 +1,4 @@
+from Orange.data import Instance
 from infixpy import Seq
 
 csv_splitter = ','
@@ -32,7 +33,7 @@ class VEDInstantDto:
     long_term_fuel_trim_bank_1: float
     long_term_fuel_trim_bank_2: float
 
-    def __init__(self, instance):
+    def __init__(self, instance: Instance):
         self.day_num: float = instance[0]
         self.veh_id: int = instance[1]
         self.trip: float = instance[2]

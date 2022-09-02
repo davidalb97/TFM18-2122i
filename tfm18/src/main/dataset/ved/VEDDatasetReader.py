@@ -80,39 +80,39 @@ def generate_valid_trips():
         instance: Instance
         # For each line
         for instance in orange_table:
-            ved_instance: VEDInstantDto = VEDInstantDto(instance)
+            ved_instance_dto: VEDInstantDto = VEDInstantDto(instance=instance)
 
             # Ignore non electric vehicles
-            if ved_instance.veh_id not in electric_vehicle_ids:
+            if ved_instance_dto.veh_id not in electric_vehicle_ids:
                 continue
 
             # Ignore if missing battery information, vehicle id or trip id
             if NaN_variable in [
-                ved_instance.veh_id,
-                ved_instance.trip,
-                ved_instance.hv_battery_current_amperes,
-                ved_instance.hv_battery_SOC,
-                ved_instance.hv_battery_voltage
+                ved_instance_dto.veh_id,
+                ved_instance_dto.trip,
+                ved_instance_dto.hv_battery_current_amperes,
+                ved_instance_dto.hv_battery_SOC,
+                ved_instance_dto.hv_battery_voltage
             ]:
                 continue
 
             # Mark air conditioner support and update kw/w counterpart if NaN
             has_air_conditioner = True
-            if ved_instance.air_conditioning_power_kw == NaN_variable:
+            if ved_instance_dto.air_conditioning_power_kw == NaN_variable:
                 # Mark that air conditioning information is missing
-                if ved_instance.air_conditioning_power_w == NaN_variable:
+                if ved_instance_dto.air_conditioning_power_w == NaN_variable:
                     has_air_conditioner = False
                 # Fix NaN air conditioning_power kilowatts
                 else:
-                    ved_instance.air_conditioning_power_kw = convert_watts_to_kilowatts(
-                        ved_instance.air_conditioning_power_w)
+                    ved_instance_dto.air_conditioning_power_kw = convert_watts_to_kilowatts(
+                        ved_instance_dto.air_conditioning_power_w)
 
             # Fix NaN air conditioning_power watts
-            elif ved_instance.air_conditioning_power_w == NaN_variable:
-                ved_instance.air_conditioning_power_w = convert_kilowatts_to_watts(
-                    ved_instance.air_conditioning_power_kw)
+            elif ved_instance_dto.air_conditioning_power_w == NaN_variable:
+                ved_instance_dto.air_conditioning_power_w = convert_kilowatts_to_watts(
+                    ved_instance_dto.air_conditioning_power_kw)
 
-            vehicle_index: int = electric_vehicle_ids.index(ved_instance.veh_id)
+            vehicle_index: int = electric_vehicle_ids.index(ved_instance_dto.veh_id)
 
             # File of ../../data/valid_trip_data/E1/TripId_VehId_AC_ON.csv
             # File of ../../data/valid_trip_data/E2/TripId_VehId_AC_OFF.csv
@@ -121,12 +121,12 @@ def generate_valid_trips():
             current_trip_file_path: str = "%s/%s_%s_%s-AC_%s.csv" % (
                 electric_vehicle_path,
                 original_file_name_without_extension,
-                ved_instance.trip,
-                ved_instance.veh_id,
+                ved_instance_dto.trip,
+                ved_instance_dto.veh_id,
                 "ON" if has_air_conditioner else "OFF"
             )
 
-            if ved_instance.hv_battery_SOC < 0:
+            if ved_instance_dto.hv_battery_SOC < 0:
                 if dataset_file_path != debug_old_dataset_file_path:
                     debug_old_dataset_file_path = dataset_file_path
                     print("EV file: %s" % dataset_file_path)
@@ -149,7 +149,7 @@ def generate_valid_trips():
                 current_file.write(csv_header)
 
             # Write currently valid VED instance to file
-            ved_csv_line = ved_instance.to_csv()
+            ved_csv_line = ved_instance_dto.to_csv()
             current_file.write(ved_csv_line)
 
         # Close previously opened file handle, if any
