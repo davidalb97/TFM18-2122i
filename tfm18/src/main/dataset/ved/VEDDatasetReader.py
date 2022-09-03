@@ -186,13 +186,13 @@ def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetTripDto:
 
         # Convert millis to minutes
         timestamp_ms = ved_instance.timestamp_ms
-        timestamp_min = convert_milliseconds_to_minutes(timestamp_ms)
+        timestamp_min = convert_milliseconds_to_minutes(milies=timestamp_ms)
 
         current_a = ved_instance.hv_battery_current_amperes
         # Calulate power
-        power_w = calculate_power(current_a, ved_instance.hv_battery_voltage)
+        power_w = calculate_power(voltage_V=ved_instance.hv_battery_voltage, current_A=current_a)
         # Convert to kilowatts
-        power_kW = convert_watts_to_kilowatts(power_w)
+        power_kW = convert_watts_to_kilowatts(watts=power_w)
 
         # Ignore first instance, undo subsampling
         if prev_speed_km_h is None:
@@ -203,7 +203,7 @@ def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetTripDto:
 
         power_delta_kW = power_kW - prev_power_kW
 
-        timestamp_hour = convert_milliseconds_to_hours(timestamp_ms)
+        timestamp_hour = convert_milliseconds_to_hours(milies=timestamp_ms)
         time_delta_hour: float = timestamp_hour - prev_timestamp_hour
         prev_timestamp_hour = timestamp_hour
         # Ja não acontece, testar
@@ -215,12 +215,12 @@ def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetTripDto:
 
         # power_delta_kW_hour = abs(power_delta_kW_hour)  # CONFIRMAR!
 
-        aceleration_km_h2 = calculate_aceleration_km_h2(prev_speed_km_h, speed_km_h)
+        aceleration_km_h2 = calculate_aceleration_km_h2(speed_km_h1=prev_speed_km_h, speed_km_h2=speed_km_h)
         distance_km = abs(
             calculate_non_linear_distance_km(
-                speed_km_h,
-                aceleration_km_h2,
-                time_delta_hour
+                initial_velocity_km_h=speed_km_h,
+                aceleration_km_h=aceleration_km_h2,
+                time_h=time_delta_hour
             )
         )
         # distance_km = calculate_linear_distance_km(ved_instance.vehicle_speed, time_delta_hour)
