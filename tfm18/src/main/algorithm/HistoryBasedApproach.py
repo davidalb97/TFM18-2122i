@@ -7,7 +7,7 @@ from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
 from tfm18.src.main.algorithm.BaseAlgorithm import BaseAlgorithm
 from tfm18.src.main.algorithm.BasicApproach import BasicApproach
 from tfm18.src.main.algorithm.PredictionInput import PredictionInput
-from tfm18.src.main.util.Formulas import unsafe_mean, convert_milliseconds_to_minutes
+from tfm18.src.main.util.Formulas import unsafe_mean, convert_milliseconds_to_minutes, convert_minutes_to_milliseconds
 
 
 class HistoryBasedApproach(BaseAlgorithm):
@@ -20,6 +20,7 @@ class HistoryBasedApproach(BaseAlgorithm):
     delta: float
     min_timestamp_step_ms: int
     min_instance_energy: float
+    time_for_dynamic_aec_ms: float
     basic_approach: BasicApproach
 
     # Algorithm state
@@ -45,12 +46,14 @@ class HistoryBasedApproach(BaseAlgorithm):
         delta: float,
         min_timestamp_step_ms: int,
         min_instance_energy: float,
-        basic_approach: BasicApproach
+        basic_approach: BasicApproach,
+        time_for_dynamic_aec_ms: float = convert_minutes_to_milliseconds(minutes=10)
     ):
         self.N = N
         self.delta = delta
         self.min_timestamp_step_ms = min_timestamp_step_ms
         self.min_instance_energy = min_instance_energy
+        self.time_for_dynamic_aec_ms = time_for_dynamic_aec_ms
 
         # Members must be initialized on constructor as Python does not update field references until after ctor init...
         self.k = 0
@@ -131,7 +134,7 @@ class HistoryBasedApproach(BaseAlgorithm):
             min_range = self.k - self.N + 1
             if min_range < 1:
                 min_range = 1
-            for current_k in range(min_range, self.k + 1):
+            for current_k in range(min_range, self.k):
                 # Append last K iecs list elements to the end of last_N_iecs
                 last_N_iecs.extend(self.iec_KWh_by_100km_dict[current_k])
 
@@ -204,7 +207,7 @@ class HistoryBasedApproach(BaseAlgorithm):
             return False
 
     def are_iec_and_aec_constants(self, timestamp_ms: float) -> bool:
-        return True if timestamp_ms < self.N * self.min_timestamp_step_ms else False
+        return True if timestamp_ms < self.time_for_dynamic_aec_ms else False
 
     def average_discardzeros(self, _list: list[float]):
         # zero_free_list: list[float] = [i for i in _list if i != 0]
