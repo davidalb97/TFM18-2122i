@@ -13,7 +13,7 @@ if __name__ == '__main__':
     prediction_learner_config: PredictorLearnerConfig = PredictorLearnerConfig(
         dataset_types=[DatasetType.VED],
         specific_run_trip_id=specific_trip_name,
-        algorithms_to_train_types=[AlgorithmType.ML_LINEAR_REGRESSION],
+        algorithms_to_train_types=[AlgorithmType.ML_LINEAR_REGRESSION, AlgorithmType.ML_ENSEMBLE],
         expected_algorithm_type=AlgorithmType.HISTORY_BASED
     )
     # Train algorithms
