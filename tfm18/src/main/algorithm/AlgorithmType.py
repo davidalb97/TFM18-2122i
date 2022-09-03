@@ -9,6 +9,6 @@ class AlgorithmType(Enum):
     HISTORY_BASED = ("History based", Color.RED, False)
     HISTORY_BASED_STOCHRASTIC_DESCENT = ("History based (Stochrastic descent)", Color.SALMON, False)
     ML_LINEAR_REGRESSION = ("Linear regression", Color.PURPLE, True)
-    ML_LINEAR_REGRESSION_STOCHRASTIC_DESCENT = ("Linear regression (Stochrastic descent)", Color.MAGENTA, False)
+    ML_LINEAR_REGRESSION_STOCHRASTIC_DESCENT = ("Linear regression (Stochrastic descent)", Color.MAGENTA, True)
     ML_ENSEMBLE = ("Ensemble", Color.GREEN, True)
-    ML_ENSEMBLE_STOCHRASTIC_DESCENT = ("Ensemble (Stochrastic descent)", Color.LIME, False)
+    ML_ENSEMBLE_STOCHRASTIC_DESCENT = ("Ensemble (Stochrastic descent)", Color.LIME, True)
