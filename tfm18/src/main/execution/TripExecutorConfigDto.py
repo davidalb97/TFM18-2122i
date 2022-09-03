@@ -39,23 +39,21 @@ class TripExecutorConfigDto:
         if enabled_algorithms is not None and len(enabled_algorithms) > 0:
             self.enabled_algorithms = enabled_algorithms
             if enabled_algorithm_types is not None and len(enabled_algorithm_types) > 0:
-                self.enabled_algorithm_types = list(filter(
+                enabled_algorithm_types = list(filter(
                     # Filter by algorithm types that are not already on enabled algorithm list
                     lambda enabled_algorithm_type: len(list(filter(
                         # Check if enabled_algorithm_type is equal to enabled_algorithm type
-                        lambda enabled_algorithm: enabled_algorithm.get_algorithm_type() is enabled_algorithm_type,
+                        lambda enabled_algorithm: enabled_algorithm.get_algorithm_type() == enabled_algorithm_type,
                         self.enabled_algorithms
                     ))) == 0,
                     enabled_algorithm_types
                 ))
             else:
-                self.enabled_algorithm_types = []
+                enabled_algorithm_types = []
         else:
             self.enabled_algorithms = []
             if enabled_algorithm_types is None or len(enabled_algorithm_types) == 0:
-                self.enabled_algorithm_types = [AlgorithmType.BASIC, AlgorithmType.BASIC]
-            else:
-                self.enabled_algorithm_types = enabled_algorithm_types
+                enabled_algorithm_types = [AlgorithmType.BASIC]
 
         # Add missing algorithms from type list
         algorithm_repository = AlgorithmRepository()

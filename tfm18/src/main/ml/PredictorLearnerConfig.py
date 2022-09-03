@@ -1,5 +1,5 @@
 import random
-from random import random, randrange
+from random import random, randrange, shuffle
 from typing import Optional
 
 from tfm18.src.main.algorithm.AlgorithmRepository import AlgorithmRepository
@@ -14,7 +14,7 @@ from tfm18.src.main.dataset.DatasetType import DatasetType
 
 class PredictorLearnerConfig:
 
-    expected_algorithm: BaseAlgorithm
+    expected_algorithm_type: AlgorithmType
     algorithms_to_train: list[MyBaseRegressor]
     training_dataset_trip_list: list[DatasetTripDto]
     run_dataset_trip_dto: Optional[DatasetTripDto]
@@ -29,22 +29,19 @@ class PredictorLearnerConfig:
             specific_run_trip_id: Optional[str] = None,
             training_trip_whitelist: Optional[list[str]] = None,
             training_trip_blacklist: Optional[list[str]] = None,
-            expected_algorithm: Optional[BaseAlgorithm] = None,
             expected_algorithm_type: AlgorithmType = AlgorithmType.BASIC,
             algorithms_to_train: Optional[list[MyBaseRegressor]] = None,
             algorithms_to_train_types: Optional[list[AlgorithmType]] = None,
             shuffle_training_trips: bool = True
     ):
-        algorithm_repository = AlgorithmRepository()
-        # Handle expected_algorithm either through direct object reference or its type
-        if expected_algorithm is not None:
-            self.expected_algorithm = expected_algorithm
-        else:
-            self.expected_algorithm = algorithm_repository.get_algorithm(algorithm_type=expected_algorithm_type)
 
-        if algorithms_to_train is None or len(algorithms_to_train) is 0:
-            if algorithms_to_train_types is None or len(algorithms_to_train_types) is 0:
+        # expected_algorithm must not be initialized
+        self.expected_algorithm_type = expected_algorithm_type
+
+        if algorithms_to_train is None or len(algorithms_to_train) == 0:
+            if algorithms_to_train_types is None or len(algorithms_to_train_types) == 0:
                 algorithms_to_train_types = [AlgorithmType.ML_ENSEMBLE]
+            algorithm_repository = AlgorithmRepository()
             self.algorithms_to_train = list(
                 map(
                     lambda algorithm_type: algorithm_repository.get_algorithm(algorithm_type),
@@ -78,7 +75,7 @@ class PredictorLearnerConfig:
         if specific_run_trip_id is not None:
             for dataset_dto in self.dataset_dtos:
                 for dataset_trip_dto in dataset_dto.dataset_trip_dto_list:
-                    if dataset_trip_dto.trip_identifier is specific_run_trip_id:
+                    if dataset_trip_dto.trip_identifier == specific_run_trip_id:
                         self.run_dataset_trip_dto = dataset_trip_dto
                         self.run_dataset_dto = dataset_dto
                     else:
@@ -108,6 +105,6 @@ class PredictorLearnerConfig:
         # Radomize trips
         if shuffle_training_trips:
             # Shuffle training trip sequence
-            random.shuffle(self.training_dataset_trip_list)
+            shuffle(self.training_dataset_trip_list)
 
 
