@@ -121,9 +121,7 @@ class DatasetTripVisualizer:
             grapth_slots = math.floor(math.pow(func_index + 1, 2)/4)
 
         L = int(func_index - ((func_index / 2) - ((math.pow(-1, func_index) - 1) / - 4)))
-        if L == 0:
-            C = 0
-        elif L % 2 == 0:
+        if L * L < key_count:
             C = L + 1
         else:
             C = L
