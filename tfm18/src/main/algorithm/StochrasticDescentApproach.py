@@ -6,6 +6,7 @@ from pandas import DataFrame
 from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
 from tfm18.src.main.algorithm.BaseAlgorithm import BaseAlgorithm
 from tfm18.src.main.algorithm.MyBaseRegressor import MyBaseRegressor
+from tfm18.src.main.algorithm.PredictionInput import PredictionInput
 
 
 class StochrasticDescentApproach(MyBaseRegressor):
@@ -67,3 +68,15 @@ class StochrasticDescentApproach(MyBaseRegressor):
         source_ml_algorithm: MyBaseRegressor = self.__get_source_ml_algorithm()
         source_prediction: float = source_ml_algorithm.predict_from_dataframe(input_dataframe=input_dataframe)
         return self.__predict_from_source(source_prediction=source_prediction)
+
+    def predict(
+        self,
+        prediction_input: PredictionInput
+    ) -> float:
+        is_source_algorithm_a_ml_algorithm = self.source_algorithm.get_algorithm_type().value[2]
+        if is_source_algorithm_a_ml_algorithm:
+            return MyBaseRegressor.predict(prediction_input=prediction_input)
+        else:
+            return self.__predict_from_source(
+                source_prediction=self.source_algorithm.predict(prediction_input=prediction_input)
+            )
