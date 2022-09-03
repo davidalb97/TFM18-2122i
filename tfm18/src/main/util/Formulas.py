@@ -66,15 +66,15 @@ def calculate_aceleration_km_h2(speed_km_h1: float, speed_km_h2: float) -> float
     return speed_km_h2 - speed_km_h1
 
 
-def calculate_non_linear_distance_km(initial_velocity_km_h: float, aceleration_km_h_: float, time_h: float) -> float:
+def calculate_non_linear_distance_km(initial_velocity_km_h: float, aceleration_km_h: float, time_h: float) -> float:
     """
     Calculates the traveled distance of a nonlinear velocity.
     :param initial_velocity_km_h: The initial speed [km/h].
-    :param aceleration_km_h_: The aceleration [km/h^2].
+    :param aceleration_km_h: The aceleration [km/h^2].
     :param time_h: The time travelled [hours].
     :return: The travel distance [km].
     """
-    return initial_velocity_km_h * time_h + 1 / 2 * aceleration_km_h_ * math.pow(time_h, 2)
+    return initial_velocity_km_h * time_h + 1 / 2 * aceleration_km_h * math.pow(time_h, 2)
 
 
 def calculate_linear_distance_km(speed_km_h: float, time_h: float) -> float:
