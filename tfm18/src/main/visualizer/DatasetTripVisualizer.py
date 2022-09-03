@@ -20,8 +20,13 @@ class DatasetTripVisualizer:
     ):
 
         fig: Figure
-
-        visualizer_graph_list: list[VisualizerGraph] = trip_execution_result_dto.get_visualizer_graphs()
+        # Ignore disabled graphs
+        visualizer_graph_list: list[VisualizerGraph] = list(
+            filter(
+                lambda __visualizer_graph: __visualizer_graph.is_graph_enabled,
+                trip_execution_result_dto.get_visualizer_graphs()
+            )
+        )
         mosaic_setup: list[list[str]]
         unique_mosaic_keys: list[str]
         mosaic_setup, unique_mosaic_keys = self.get_mosaic(key_count=len(visualizer_graph_list))
