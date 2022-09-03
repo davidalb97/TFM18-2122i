@@ -16,6 +16,14 @@ def calculate_power(voltage_V: float, current_A: float) -> float:
     return voltage_V * current_A
 
 
+def convert_minutes_to_milliseconds(minutes: float) -> float:
+    """
+    :param minutes: The miliseconds to convert.
+    :return: The minutes.
+    """
+    return minutes * 1000 * 60
+
+
 def convert_milliseconds_to_minutes(milies: float) -> float:
     """
     :param milies: The miliseconds to convert.

@@ -39,13 +39,14 @@ class HistoryBasedApproach(BaseAlgorithm):
     initial_constant_iec: Optional[float]
 
     # noinspection PyPep8Naming
-    def __init__(self,
-                 N: int,
-                 delta: float,
-                 min_timestamp_step_ms: int,
-                 min_instance_energy: float,
-                 basic_approach: BasicApproach
-                 ):
+    def __init__(
+        self,
+        N: int,
+        delta: float,
+        min_timestamp_step_ms: int,
+        min_instance_energy: float,
+        basic_approach: BasicApproach
+    ):
         self.N = N
         self.delta = delta
         self.min_timestamp_step_ms = min_timestamp_step_ms
@@ -159,7 +160,9 @@ class HistoryBasedApproach(BaseAlgorithm):
                     self.aec_KWh_by_100km += self.delta
 
                 # Pseudocode line: 15
-                self.previous_eRange = math.floor(self.full_battery_energy_FBE * state_of_charge / self.aec_KWh_by_100km)
+                self.previous_eRange = math.floor(
+                    self.full_battery_energy_FBE * state_of_charge / self.aec_KWh_by_100km
+                )
 
             # Debug
             self.execution_timestamps_min.append(convert_milliseconds_to_minutes(timestamp_ms))
@@ -213,12 +216,11 @@ class HistoryBasedApproach(BaseAlgorithm):
         weighted_list.reverse()
         weighted_list = (
             Seq(weighted_list)
-                .enumerate()
-                # V1/2, V2/4, V3/8, ... VN/2^N
-                # aec_ma_N_offset * 1 / 2^N_offset
-                .map(lambda idx_value: idx_value[1] / math.pow(2, idx_value[0] + 1))
-                .tolist()
+            .enumerate()
+            # V1/2, V2/4, V3/8, ... VN/2^N
+            # aec_ma_N_offset * 1 / 2^N_offset
+            .map(lambda idx_value: idx_value[1] / math.pow(2, idx_value[0] + 1))
+            .tolist()
         )
         return math.fsum(weighted_list)
-        #return statistics.mean(weighted_list)
-
+        # return statistics.mean(weighted_list)
