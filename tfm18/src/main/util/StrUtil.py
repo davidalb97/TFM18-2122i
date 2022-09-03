@@ -13,4 +13,4 @@ def replace_last(original_str, old: str, new: str, occurrences: int) -> str:
     :return: The resulting string from replacing the last occureces of a pattern.
     """
     li = original_str.rsplit(sep=old, maxsplit=occurrences)
-    return new.join(__iterable=li)
+    return new.join(li)
