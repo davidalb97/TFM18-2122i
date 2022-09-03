@@ -19,7 +19,12 @@ if __name__ == '__main__':
     trip_execution_result: TripExecutionResultDto = TripExecutor().execute_trip(
         config=TripExecutorConfigDto(
             dataset_trip_dto=all_dataset_trip_dto,
-            enabled_algorithm_types=[AlgorithmType.BASIC, AlgorithmType.HISTORY_BASED]
+            enabled_algorithm_types=[
+                AlgorithmType.BASIC,
+                AlgorithmType.BASIC_STOCHRASTIC_DESCENT,
+                AlgorithmType.HISTORY_BASED,
+                AlgorithmType.HISTORY_BASED_STOCHRASTIC_DESCENT
+            ]
         )
     )
 
