@@ -1,3 +1,4 @@
+from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
 from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
 from tfm18.src.main.dataset.DatasetRepository import DatasetRepository
 from tfm18.src.main.dataset.DatasetType import DatasetType
@@ -25,7 +26,9 @@ if __name__ == '__main__':
                 AlgorithmType.BASIC_STOCHRASTIC_DESCENT,
                 AlgorithmType.HISTORY_BASED,
                 AlgorithmType.HISTORY_BASED_STOCHRASTIC_DESCENT
-            ]
+            ],
+            expected_algorithm_type=AlgorithmType.HISTORY_BASED,
+            algorithm_avaluation_types=[AlgorithmEvaluationType.MAE, AlgorithmEvaluationType.MSE]
         )
     )
 

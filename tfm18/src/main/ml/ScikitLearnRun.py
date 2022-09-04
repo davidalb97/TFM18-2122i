@@ -1,3 +1,4 @@
+from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
 from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
 from tfm18.src.main.dataset.DatasetType import DatasetType
 from tfm18.src.main.execution.TripExecutionResultDto import TripExecutionResultDto
@@ -10,11 +11,12 @@ from tfm18.src.main.visualizer.DatasetTripVisualizer import DatasetTripVisualize
 if __name__ == '__main__':
 
     specific_trip_name = 'E1/VED_171213_week_772_455-AC_ON.csv'
+    expected_algorithm_type: AlgorithmType = AlgorithmType.HISTORY_BASED
     prediction_learner_config: PredictorLearnerConfig = PredictorLearnerConfig(
         dataset_types=[DatasetType.VED],
         specific_run_trip_id=specific_trip_name,
         algorithms_to_train_types=[AlgorithmType.ML_LINEAR_REGRESSION, AlgorithmType.ML_ENSEMBLE],
-        expected_algorithm_type=AlgorithmType.HISTORY_BASED
+        expected_algorithm_type=expected_algorithm_type
     )
     # Train algorithms
     PredictorLearner(config=prediction_learner_config)\
@@ -26,7 +28,9 @@ if __name__ == '__main__':
         config=TripExecutorConfigDto(
             dataset_trip_dto=prediction_learner_config.run_dataset_trip_dto,
             enabled_algorithms=prediction_learner_config.algorithms_to_train,
-            enabled_algorithm_types=[AlgorithmType.BASIC, AlgorithmType.HISTORY_BASED]
+            enabled_algorithm_types=[AlgorithmType.BASIC, AlgorithmType.HISTORY_BASED],
+            expected_algorithm_type=expected_algorithm_type,
+            algorithm_avaluation_types=[AlgorithmEvaluationType.MAE, AlgorithmEvaluationType.MSE]
         )
     )
 

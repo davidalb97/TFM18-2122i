@@ -2,6 +2,7 @@ from typing import Optional, Tuple
 
 from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
 from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
+from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
 from tfm18.src.main.util.Color import Color
 from tfm18.src.main.visualizer.VisualizerFeature import VisualizerFeature
 from tfm18.src.main.visualizer.VisualizerGraph import VisualizerGraph
@@ -10,6 +11,7 @@ from tfm18.src.main.visualizer.VisualizerGraph import VisualizerGraph
 class TripExecutionResultDto:
     dataset_trip_dto: DatasetTripDto
     eRange_distance_results: dict[AlgorithmType, list[float]]
+    eRange_result_evaluation_dict: dict[AlgorithmType, dict[AlgorithmEvaluationType, float]]
     eRange_history_aec_ma_KWh_by_100km_list: list[float]
     eRange_history_aec_wma_KWh_by_100km_list: list[float]
     eRange_history_aec_KWh_by_100km_list: list[float]
@@ -21,7 +23,8 @@ class TripExecutionResultDto:
                  eRange_history_aec_ma_KWh_by_100km_list: list[float],
                  eRange_history_aec_wma_KWh_by_100km_list: list[float],
                  eRange_history_aec_KWh_by_100km_list: list[float],
-                 eRange_history_aec_timestamps_min_list: list[float]
+                 eRange_history_aec_timestamps_min_list: list[float],
+                 eRange_result_evaluation_dict: dict[AlgorithmType, dict[AlgorithmEvaluationType, float]]
                  ):
         self.dataset_trip_dto = dataset_trip_dto
         self.eRange_distance_results = eRange_distance_results
@@ -29,6 +32,7 @@ class TripExecutionResultDto:
         self.eRange_history_aec_wma_KWh_by_100km_list = eRange_history_aec_wma_KWh_by_100km_list
         self.eRange_history_aec_KWh_by_100km_list = eRange_history_aec_KWh_by_100km_list
         self.eRange_history_aec_timestamps_min_list = eRange_history_aec_timestamps_min_list
+        self.eRange_result_evaluation_dict = eRange_result_evaluation_dict
 
     def get_visualizer_graphs(self) -> list[VisualizerGraph]:
         ret_list: list[VisualizerGraph] = self.dataset_trip_dto.get_visualizer_graphs()
@@ -76,6 +80,24 @@ class TripExecutionResultDto:
             )
         )
 
+        def get_x_feature_name_with_errors(algorithm_type: AlgorithmType) -> str:
+            retStr = "time [min]\n"
+            is_first: bool = True
+            algorithm_evaluation_dict: Optional[dict[AlgorithmEvaluationType, float]] =\
+                self.eRange_result_evaluation_dict.get(algorithm_type)
+            if algorithm_evaluation_dict is not None and len(algorithm_evaluation_dict) > 0:
+                algorithm_evaluation: Tuple[AlgorithmEvaluationType, float]
+                for algorithm_evaluation in algorithm_evaluation_dict.items():
+                    evaluation_name: str = algorithm_evaluation[0].value[0]
+                    evaluation_result: float = algorithm_evaluation[1]
+                    if is_first:
+                        is_first = False
+                    else:
+                        retStr += ", "
+                    retStr += "%s: %.2f" % (evaluation_name, evaluation_result)
+
+            return retStr
+
         # Multiple graphs, one for each eRange result for its algorithm
         ret_list.extend(
             list(
@@ -85,7 +107,7 @@ class TripExecutionResultDto:
                         y_min=y_min,
                         y_max=y_max,
                         x_feature=VisualizerFeature(
-                            feature_name="time [min]",
+                            feature_name=get_x_feature_name_with_errors(result_entry[0]),
                             feature_color=None,
                             feature_data=self.dataset_trip_dto.timestamps_min_list,
                             feature_enabled=True
