@@ -39,7 +39,8 @@ class AlgorithmRepository:
                 min_timestamp_step_ms=60000,  # 60K milis = 1 minute
                 # min_timestamp_step_ms=10000,  # 10K milis = 10 secs
                 # min_timestamp_step_ms=1000,  # 1K milis = 1 secs
-                min_instance_energy=convert_watts_to_kilowatts(2500),
+                # min_instance_energy=convert_watts_to_kilowatts(2500),
+                min_instance_energy=convert_watts_to_kilowatts(1500),
                 basic_approach=BasicApproach()
             )
         elif algorithm_type is AlgorithmType.ML_LINEAR_REGRESSION:
