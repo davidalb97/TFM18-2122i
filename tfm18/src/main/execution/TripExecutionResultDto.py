@@ -33,13 +33,29 @@ class TripExecutionResultDto:
     def get_visualizer_graphs(self) -> list[VisualizerGraph]:
         ret_list: list[VisualizerGraph] = self.dataset_trip_dto.get_visualizer_graphs()
 
+        # Ensure all eRange graphs have the same Y scale
+        y_min: Optional[float] = None
+        y_max: Optional[float] = None
+        eRange_result: list[float]
+        for eRange_result in self.eRange_distance_results.values():
+            curr_y_min = min(eRange_result)
+            curr_y_max = max(eRange_result)
+            if y_min is None or y_min > curr_y_min:
+                y_min = curr_y_min
+            if y_max is None or y_max < curr_y_max:
+                y_max = curr_y_max
+
+        # Ensure Y scale has extra room to render the initial lines on a visable scale
+        y_max *= 1.05
+
         # Single graph with all eRange results from the different algorithms
         # The graph is only enabled if more than one eRange algorithm exists
         is_eRange_graph_enabled: bool = len(self.eRange_distance_results) >= 2
         ret_list.append(
             VisualizerGraph(
                 graph_name="Electric Range (eRange)",
-                y_min=0.0,
+                y_min=y_min,
+                y_max=y_max,
                 x_feature=VisualizerFeature(
                     feature_name="time [min]",
                     feature_color=None,
@@ -66,7 +82,8 @@ class TripExecutionResultDto:
                 map(
                     lambda result_entry: VisualizerGraph(
                         graph_name="\"%s\" Electric Range (eRange)" % result_entry[0].value[0],
-                        y_min=0.0,
+                        y_min=y_min,
+                        y_max=y_max,
                         x_feature=VisualizerFeature(
                             feature_name="time [min]",
                             feature_color=None,
