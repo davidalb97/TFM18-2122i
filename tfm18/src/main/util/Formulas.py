@@ -16,6 +16,14 @@ def calculate_power(voltage_V: float, current_A: float) -> float:
     return voltage_V * current_A
 
 
+def convert_hours_to_milliseconds(hours: float) -> float:
+    """
+    :param hours: The hours to convert.
+    :return: The minutes.
+    """
+    return hours * 1000 * 60 * 60
+
+
 def convert_minutes_to_milliseconds(minutes: float) -> float:
     """
     :param minutes: The miliseconds to convert.
@@ -116,6 +124,16 @@ def get_instant_SOC(RBE: float, FBE: float) -> float:
     :return: Instant SOC (State of charge or relative level of charge) in percentage points.
     """
     return RBE / FBE * 100
+
+
+def get_instant_RBE(SOC: float, FBE: float) -> float:
+    """
+    Gets the instant RBE (Remaining battery energy) in kWh.
+    :param SOC: SOC (State of charge or relative level of charge) in percentage points
+    :param FBE: Full battery energy in kWh.
+    :return: Instant SOC (State of charge or relative level of charge) in percentage points.
+    """
+    return FBE * SOC / 100
 
 
 def get_instant_RDD(FBD_AcS: float, RBE: float, FBE: float) -> float:

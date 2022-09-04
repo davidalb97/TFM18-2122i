@@ -1,7 +1,7 @@
 import os
 import pathlib
 import shutil
-from typing import IO, Optional, List
+from typing import IO, Optional
 
 from Orange.data import Instance
 
@@ -14,7 +14,8 @@ from tfm18.src.main.util.Aliases import OrangeTable
 from tfm18.src.main.util.DataPathUtil import load_dataset_file
 from tfm18.src.main.util.Formulas import calculate_power, convert_milliseconds_to_minutes, convert_watts_to_kilowatts, \
     convert_kilowatts_to_watts, convert_milliseconds_to_hours, \
-    calculate_non_linear_distance_km, calculate_aceleration_km_h2
+    calculate_non_linear_distance_km, calculate_aceleration_km_h2, get_instant_RBE, calculate_power_hour_kW_h, \
+    calculate_linear_distance_km
 from tfm18.src.main.util.PickleHandler import read_pickle_file, write_pickle_file
 
 ved_dataset_name = "VED Dataset"
@@ -45,7 +46,7 @@ vehicle_dto = DatasetVehicleDto(
     FBD_km=FBD_nissan_leaf_2013_km,
     FBE_kWh=FBE_nissan_leaf_2013_kWh,
 )
-cache_enabled: bool = False
+cache_enabled: bool = True
 
 
 def generate_valid_trips():
@@ -105,12 +106,14 @@ def generate_valid_trips():
                 # Fix NaN air conditioning_power kilowatts
                 else:
                     ved_instance_dto.air_conditioning_power_kw = convert_watts_to_kilowatts(
-                        ved_instance_dto.air_conditioning_power_w)
+                        ved_instance_dto.air_conditioning_power_w
+                    )
 
             # Fix NaN air conditioning_power watts
             elif ved_instance_dto.air_conditioning_power_w == NaN_variable:
                 ved_instance_dto.air_conditioning_power_w = convert_kilowatts_to_watts(
-                    ved_instance_dto.air_conditioning_power_kw)
+                    ved_instance_dto.air_conditioning_power_kw
+                )
 
             vehicle_index: int = electric_vehicle_ids.index(ved_instance_dto.veh_id)
 
@@ -168,13 +171,27 @@ def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetTripDto:
 
     # For each line
     curr_timestamp = None
-    prev_timestamp_hour: float = 0
-    prev_speed_km_h: Optional[float] = None
     instance: Instance
+    prev_ved_instance: Optional[VEDInstantDto] = None
     prev_power_kW: float = 0
+
+    iec_type_iec_formula = 0  # IEC formula
+    iec_type_power_dc_formula = 1  # DC Power formula
+    iec_type_power_dc_formula_delta = 2  # DC Power formula delta
+    iec_type_soc_FBE_formula = 3  # SOC & FBE based formula
+    prev_soc_delta: Optional[float] = None
+
+    # Config
+    iec_require_above_zero = False
+    distance_ignores_aceleration = False
+    iec_ignore_when_not_moving = False
+    # iec_type = iec_type_iec_formula
+    iec_type = iec_type_power_dc_formula
+    # iec_type = iec_type_power_dc_formula_delta
+    # iec_type = iec_type_soc_FBE_formula
+
     for instance in orange_table:
         ved_instance: VEDInstantDto = VEDInstantDto(instance)
-        speed_km_h = ved_instance.vehicle_speed
 
         # Subsampling of timestep_ms
         if curr_timestamp is None:
@@ -184,68 +201,89 @@ def read_valid_trip(path: str, timestep_ms: int = 1000) -> DatasetTripDto:
         else:
             continue
 
-        # Convert millis to minutes
-        timestamp_ms = ved_instance.timestamp_ms
-        timestamp_min = convert_milliseconds_to_minutes(milies=timestamp_ms)
-
-        current_a = ved_instance.hv_battery_current_amperes
         # Calulate power
-        power_w = calculate_power(voltage_V=ved_instance.hv_battery_voltage, current_A=current_a)
+        power_w = calculate_power(
+            voltage_V=ved_instance.hv_battery_voltage,
+            current_A=ved_instance.hv_battery_current_amperes
+        )
         # Convert to kilowatts
         power_kW = convert_watts_to_kilowatts(watts=power_w)
 
         # Ignore first instance, undo subsampling
-        if prev_speed_km_h is None:
-            prev_speed_km_h = speed_km_h
+        if prev_ved_instance is None:
+            prev_ved_instance = ved_instance
             prev_power_kW = power_kW
             curr_timestamp = None
             continue
 
         power_delta_kW = power_kW - prev_power_kW
 
-        timestamp_hour = convert_milliseconds_to_hours(milies=timestamp_ms)
-        time_delta_hour: float = timestamp_hour - prev_timestamp_hour
-        prev_timestamp_hour = timestamp_hour
-        # Ja não acontece, testar
-        # if time_delta_hour == 0:
-        #     power_delta_kW_hour = 0
-        # else:
-        #     #power_delta_kW_hour = calculate_power_hour_kW_h(power_delta_kW, time_delta_hour)
-        #     power_delta_kW_hour = power_delta_kW
+        time_delta_ms = ved_instance.timestamp_ms - prev_ved_instance.timestamp_ms
 
-        # power_delta_kW_hour = abs(power_delta_kW_hour)  # CONFIRMAR!
-
-        aceleration_km_h2 = calculate_aceleration_km_h2(speed_km_h1=prev_speed_km_h, speed_km_h2=speed_km_h)
-        distance_km = abs(
-            calculate_non_linear_distance_km(
-                initial_velocity_km_h=speed_km_h,
-                aceleration_km_h=aceleration_km_h2,
+        time_delta_hour: float = convert_milliseconds_to_hours(milies=time_delta_ms)
+        if distance_ignores_aceleration:
+            distance_km = calculate_linear_distance_km(
+                speed_km_h=ved_instance.vehicle_speed,
                 time_h=time_delta_hour
             )
-        )
-        # distance_km = calculate_linear_distance_km(ved_instance.vehicle_speed, time_delta_hour)
-
-        if distance_km != 0.0:
-            # iec_power_hour_100km = calculate_kwh_100km(power_delta_kW_hour, distance_km)
-            # iec_power_hour_100km = power_delta_kW_hour / distance_km
-            # iec_power_hour_100km = (power_delta_kW * (time_delta_hour / 1000)) * 100 / distance_km
-            # iec_power_hour_100km = (power_delta_kW * (time_delta_hour / 1000)) * 10 / distance_km
-            iec_power_hour_100km = - power_delta_kW
         else:
+            aceleration_km_h2 = calculate_aceleration_km_h2(
+                speed_km_h1=prev_ved_instance.vehicle_speed,
+                speed_km_h2=ved_instance.vehicle_speed
+            )
+            distance_km = abs(
+                calculate_non_linear_distance_km(
+                    initial_velocity_km_h=ved_instance.vehicle_speed,
+                    aceleration_km_h=aceleration_km_h2,
+                    time_h=time_delta_hour
+                )
+            )
+
+        if iec_type == iec_type_iec_formula:
+
+            power_delta_kW_hour = calculate_power_hour_kW_h(power_delta_kW, time_delta_hour)
+            # power_delta_kW_hour = abs(power_delta_kW_hour)  # CONFIRMAR!
+            if distance_km != 0.0:
+
+                # iec_power_hour_100km = calculate_kwh_100km(power_delta_kW_hour, distance_km)
+                # iec_power_hour_100km = power_delta_kW_hour / distance_km
+                # iec_power_hour_100km = (power_delta_kW * (time_delta_hour / 1000)) * 100 / distance_km
+                iec_power_hour_100km = (power_delta_kW * (time_delta_hour / 1000)) * 10 / distance_km
+            else:
+                iec_power_hour_100km = 0
+        elif iec_type == iec_type_power_dc_formula:
+            iec_power_hour_100km = - power_kW
+        elif iec_type == iec_type_power_dc_formula_delta:
+            iec_power_hour_100km = - power_delta_kW
+        elif iec_type == iec_type_soc_FBE_formula:
+            soc_delta = prev_ved_instance.hv_battery_SOC - ved_instance.hv_battery_SOC
+            if soc_delta == 0 and prev_soc_delta is not None:
+                soc_delta = prev_soc_delta
+            prev_soc_delta = soc_delta
+            consumed_energy_kWh = get_instant_RBE(SOC=soc_delta, FBE=vehicle_dto.FBE_kWh)
+            # Power = E / T
+            iec_power_hour_100km = consumed_energy_kWh / convert_milliseconds_to_hours(time_delta_ms)
+
+        if (iec_require_above_zero and iec_power_hour_100km <= 0) or (
+            iec_ignore_when_not_moving and ved_instance.vehicle_speed == 0
+        ):
             iec_power_hour_100km = 0
 
         timestamp_dataset_entry_list.append(
             DatasetTimestampDto(
-                timestamp_ms=timestamp_ms,
-                timestamp_min=timestamp_min,
+                timestamp_ms=ved_instance.timestamp_ms,
+                timestamp_min=convert_milliseconds_to_minutes(milies=ved_instance.timestamp_ms),
                 soc_percentage=ved_instance.hv_battery_SOC,
-                speed_kmh=speed_km_h,
+                speed_kmh=ved_instance.vehicle_speed,
                 iec_power_KWh_by_100km=iec_power_hour_100km,
-                current_ampers=current_a,
+                current_ampers=ved_instance.hv_battery_current_amperes,
                 power_kW=power_kW,
                 ac_power_kW=ved_instance.air_conditioning_power_kw
             )
         )
+
+        prev_ved_instance = ved_instance
+        prev_power_kW = power_kW
 
     dataset_trip_dto: DatasetTripDto = DatasetTripDto(
         trip_identifier=path,
@@ -310,8 +348,8 @@ def read_all_cached_valid_trips(pickle_path: str) -> list[DatasetTripDto]:
 
 
 def read_all_cached_valid_trips_and_create_if_not_cached(
-        timestep_ms: int = 1000,
-        specific_trip_id: Optional[str] = None
+    timestep_ms: int = 1000,
+    specific_trip_id: Optional[str] = None
 ) -> list[DatasetTripDto]:
     valid_trip_dataset_pickle_file_path = valid_trip_dataset_pickle_file_path_prefix + \
                                           str(timestep_ms) + \
@@ -344,8 +382,8 @@ def read_all_cached_valid_trips_and_create_if_not_cached(
 
 # noinspection PyPep8Naming
 def read_VED_dataset(
-        timestep_ms: int = 1000,
-        specific_trip_id: Optional[str] = None
+    timestep_ms: int = 1000,
+    specific_trip_id: Optional[str] = None
 ) -> DatasetDto:
     return DatasetDto(
         dataset_name="VED",
