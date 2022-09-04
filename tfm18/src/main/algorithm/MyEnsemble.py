@@ -13,25 +13,28 @@ from tfm18.src.main.util.Formulas import float_to_int, int_to_float
 
 class MyEnsemble(MyBaseRegressor):
 
-    regressor: StackingRegressor = StackingRegressor(
-        estimators=[
-            ('dtr', DecisionTreeRegressor(random_state=0)),
-            ('rfr', RandomForestRegressor(max_depth=2, random_state=0)),
-            ('knr', KNeighborsRegressor(
-                n_neighbors=10,
-                metric='euclidean'
+    regressor: StackingRegressor
+
+    def __init__(self):
+        self.regressor = StackingRegressor(
+            estimators=[
+                ('dtr', DecisionTreeRegressor(random_state=0)),
+                ('rfr', RandomForestRegressor(max_depth=2, random_state=0)),
+                ('knr', KNeighborsRegressor(
+                    n_neighbors=10,
+                    metric='euclidean'
+                )
+                 )
+            ],
+            final_estimator=AdaBoostRegressor(),
+            cv=StratifiedKFold(
+                # n_splits=10, # Ensemble stack article value :(
+                # n_splits=2, # Working
+                n_splits=2,
+                random_state=None,
+                shuffle=False
             )
-             )
-        ],
-        final_estimator=AdaBoostRegressor(),
-        cv=StratifiedKFold(
-            # n_splits=10, # Ensemble stack article value :(
-            # n_splits=2, # Working
-            n_splits=10,
-            random_state=None,
-            shuffle=False
         )
-    )
 
     def get_algorithm_type(self) -> AlgorithmType:
         return AlgorithmType.ML_ENSEMBLE
