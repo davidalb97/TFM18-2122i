@@ -377,6 +377,9 @@ def read_all_cached_valid_trips_and_create_if_not_cached(
     # Ensure pickle file had valid data
     ensure_all_trips_are_valid(pickle_trips)
 
+    if specific_trip_id is not None:
+        return list(filter(lambda trip: trip.trip_identifier == specific_trip_id, pickle_trips))
+
     return pickle_trips
 
 
