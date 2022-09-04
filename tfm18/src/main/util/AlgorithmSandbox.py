@@ -9,9 +9,10 @@ from tfm18.src.main.visualizer.DatasetTripVisualizer import DatasetTripVisualize
 if __name__ == '__main__':
 
     specific_trip_name = 'E1/VED_171213_week_772_455-AC_ON.csv'
+    # specific_trip_name = None
 
-    # dataset_type = DatasetType.VED
-    dataset_type = DatasetType.CLASSIC
+    dataset_type = DatasetType.VED
+    # dataset_type = DatasetType.CLASSIC
     dataset_dto = DatasetTripDto = DatasetRepository() \
         .read_dataset(dataset_type=dataset_type, specific_trip_id=specific_trip_name)
 
