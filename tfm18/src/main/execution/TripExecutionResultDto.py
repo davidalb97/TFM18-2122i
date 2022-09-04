@@ -33,9 +33,9 @@ class TripExecutionResultDto:
     def get_visualizer_graphs(self) -> list[VisualizerGraph]:
         ret_list: list[VisualizerGraph] = self.dataset_trip_dto.get_visualizer_graphs()
 
-        is_eRange_graph_enabled: bool = bool(self.eRange_distance_results)
-
         # Single graph with all eRange results from the different algorithms
+        # The graph is only enabled if more than one eRange algorithm exists
+        is_eRange_graph_enabled: bool = len(self.eRange_distance_results) >= 2
         ret_list.append(
             VisualizerGraph(
                 graph_name="Electric Range (eRange)",
@@ -52,7 +52,7 @@ class TripExecutionResultDto:
                                 feature_name="\"%s\" eRange (km)" % result_entry[0].value[0],
                                 feature_color=result_entry[0].value[1].value,
                                 feature_data=result_entry[1],
-                                feature_enabled=True
+                                feature_enabled=is_eRange_graph_enabled
                             ),
                             self.eRange_distance_results.items()
                         )
@@ -71,7 +71,7 @@ class TripExecutionResultDto:
                             feature_name="time [min]",
                             feature_color=None,
                             feature_data=self.dataset_trip_dto.timestamps_min_list,
-                            feature_enabled=is_eRange_graph_enabled
+                            feature_enabled=True
                         ),
                         y_features=[
                             VisualizerFeature(
