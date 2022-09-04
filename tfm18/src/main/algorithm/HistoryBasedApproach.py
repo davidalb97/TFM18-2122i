@@ -134,7 +134,7 @@ class HistoryBasedApproach(BaseAlgorithm):
             min_range = self.k - self.N + 1
             if min_range < 1:
                 min_range = 1
-            for current_k in range(min_range, self.k):
+            for current_k in range(min_range, self.k + 1):  # + 1 due to range() being exclusive
                 # Append last K iecs list elements to the end of last_N_iecs
                 last_N_iecs.extend(self.iec_KWh_by_100km_dict[current_k])
 
