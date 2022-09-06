@@ -1,4 +1,3 @@
-import itertools
 import os
 import pathlib
 from typing import Optional, Tuple
@@ -130,4 +129,3 @@ class DatasetRepository:
     def ensure_all_trips_are_valid(self, trip_names: list[DatasetTripDto]):
         if any(not trip.is_valid() for trip in trip_names):
             raise Exception("Unknown error writing!")
-

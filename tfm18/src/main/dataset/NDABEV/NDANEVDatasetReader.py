@@ -21,7 +21,8 @@ from tfm18.src.main.util.Formulas import convert_milliseconds_to_minutes, conver
 class NDANEVDatasetReader(BaseDatasetReader):
 
     ndanev_data_path = os.path.join(
-        pathlib.Path(__file__).resolve().parent, '..', '..', '..', '..', 'data', 'NDANEV_data', 'NDANEV_after_silce_data',
+        pathlib.Path(__file__).resolve().parent, '..', '..', '..', '..', 'data', 'NDANEV_data',
+        'NDANEV_after_silce_data',
     )
     ndanev_dataset_path = os.path.join(ndanev_data_path, 'data', 'after_silce', 'train_list_recover')
     NaN_variable = None
@@ -149,7 +150,9 @@ class NDANEVDatasetReader(BaseDatasetReader):
             mean_power_moving_kW = 0
         # mean_power_moving_kW - last_driving_time_secs
         # AEC - 1h
-        E_1_kWh = mean_power_moving_kW * convert_hours_to_milliseconds(1) / convert_seconds_to_milliseconds(last_driving_time_secs)
+        E_1_kWh = mean_power_moving_kW * convert_hours_to_milliseconds(1) / convert_seconds_to_milliseconds(
+            last_driving_time_secs
+        )
         # FBE = 100 * last_motor_power_kw / soc_delta
 
         mean_power_kW = last_motor_power_kw / len(timestamp_dataset_entry_list)
@@ -167,74 +170,89 @@ class NDANEVDatasetReader(BaseDatasetReader):
         I_A = sum_motor_current_A / len(timestamp_dataset_entry_list)
         T_h = convert_milliseconds_to_hours(milies=timestamp_dataset_entry_list[-1].timestamp_ms)
         P_kw = convert_watts_to_kilowatts(V_v * I_A)
-        E_5_kWh = P_kw * T_h        # E = P * T = V * I * T
+        E_5_kWh = P_kw * T_h  # E = P * T = V * I * T
 
         E_6_kWh = sum_E_kWh
         # E_7_kWh = sum_moving_E_kWh # same as E_6
 
         if distance_km > 0:
-            # AEC_1 = E_1_kWh * 100 / distance_km                             # Bad [98,  8083,   2,      82,     18,     1276,   115]
+            # AEC_1 = E_1_kWh * 100 / distance_km                             # Bad [98,  8083,   2,      82,     18,
+            # 1276,   115]
             # aec_dict[1].append(AEC_1)
-            # AEC_2 = E_2_kWh * 100 / distance_km                             # Bad [84,  4409,   1,      67,     15,     1218,   104]
+            # AEC_2 = E_2_kWh * 100 / distance_km                             # Bad [84,  4409,   1,      67,     15,
+            # 1218,   104]
             # aec_dict[2].append(AEC_2)
-            AEC_3 = E_3_kWh * 100 / distance_km                             # Ok? [32,  4,      18,     35,     26,     18,     32]
+            AEC_3 = E_3_kWh * 100 / distance_km  # Ok? [32,  4,      18,     35,     26,     18,     32]
             self.aec_dict[3].append(AEC_3)
-            # AEC_4 = E_4_kWh * 100 / distance_km                             # Bad [3743,22,     10580,  3893,   6514,   444,    3926]
+            # AEC_4 = E_4_kWh * 100 / distance_km                             # Bad [3743,22,     10580,  3893,
+            # 6514,   444,    3926]
             # aec_dict[4].append(AEC_4)
-            AEC_5 = E_5_kWh * 100 / distance_km                             # Ok? [27,  3,      15,     28,     24,     15,     28]
+            AEC_5 = E_5_kWh * 100 / distance_km  # Ok? [27,  3,      15,     28,     24,     15,     28]
             self.aec_dict[5].append(AEC_5)
-            AEC_6 = E_6_kWh * 100 / distance_km                             # OK? [27,  4,      15,     27,     23,     15,     27]
+            AEC_6 = E_6_kWh * 100 / distance_km  # OK? [27,  4,      15,     27,     23,     15,     27]
             self.aec_dict[6].append(AEC_6)
             # Same as AEC_6
-            # AEC_7 = E_7_kWh * 100 / distance_km                             # OK? [27,  4,      15,     27,     23,     15,     27]
+            # AEC_7 = E_7_kWh * 100 / distance_km                             # OK? [27,  4,      15,     27,     23,
+            # 15,     27]
             # aec_dict[7].append(AEC_7)
 
         # if soc_delta > 0:
-        # FBE_1 = mean_power_kW * 100 / soc_delta                         # Bad [171, 118,    14,     163,    41,     344,    145]
+        # FBE_1 = mean_power_kW * 100 / soc_delta                         # Bad [171, 118,    14,     163,    41,
+        # 344,    145]
         # fbe_dict[1].append(FBE_1)
 
-        # FBE_3 = mean_power_moving_kW * 100 / soc_delta                  # Bad [199, 216,    22,     201,    52,     360,    161]
+        # FBE_3 = mean_power_moving_kW * 100 / soc_delta                  # Bad [199, 216,    22,     201,    52,
+        # 360,    161]
         # fbe_dict[3].append(FBE_3)
 
-        # FBE_5 = E_5_kWh * 100 / soc_delta                               # Bad [89,  3,      4,      93,     50,     36,     69]
+        # FBE_5 = E_5_kWh * 100 / soc_delta                               # Bad [89,  3,      4,      93,     50,
+        # 36,     69]
         # fbe_dict[5].append(FBE_5)
 
-        # FBE_7 = E_2_kWh * 100 / soc_delta                               # Bad [278, 4257,   4,      224,    30,     2877,   259]
+        # FBE_7 = E_2_kWh * 100 / soc_delta                               # Bad [278, 4257,   4,      224,    30,
+        # 2877,   259]
         # fbe_dict[7].append(FBE_7)
 
-        # FBE_9 = E_3_kWh * 100 / soc_delta                               # Bad [106, 4,      58,     119,    56,     42,     82]
+        # FBE_9 = E_3_kWh * 100 / soc_delta                               # Bad [106, 4,      58,     119,    56,
+        # 42,     82]
         # fbe_dict[9].append(FBE_9)
 
-        # FBE_11 = E_6_kWh * 100 / soc_delta                              # Bad [88,  4,      48,     91,     50,     36,     68]
+        # FBE_11 = E_6_kWh * 100 / soc_delta                              # Bad [88,  4,      48,     91,     50,
+        # 36,     68]
         # fbe_dict[11].append(FBE_11)
 
-        # FBE_13 = E_7_kWh * 100 / soc_delta                              # Bad [88,  4,      48,     92,     49,     36,     68]
+        # FBE_13 = E_7_kWh * 100 / soc_delta                              # Bad [88,  4,      48,     92,     49,
+        # 36,     68]
         # fbe_dict[13].append(FBE_13)
 
         # Q = P / V
-        FBE_2 = mean_power_kW / convert_watts_to_kilowatts(V_v)         # Ok? [25,  2,      14,     24,     20,     20,     30]
+        FBE_2 = mean_power_kW / convert_watts_to_kilowatts(V_v)  # Ok? [25,  2,      14,     24,     20,     20,     30]
         self.fbe_dict[2].append(FBE_2)
 
-        FBE_4 = mean_power_moving_kW / convert_watts_to_kilowatts(V_v)  # Ok? [29,  4,      21,     30,     25,     21,     34]
+        FBE_4 = mean_power_moving_kW / convert_watts_to_kilowatts(
+            V_v
+        )  # Ok? [29,  4,      21,     30,     25,     21,     34]
         self.fbe_dict[4].append(FBE_4)
 
-        FBE_6 = E_5_kWh / convert_watts_to_kilowatts(V_v)               # Bad [13,  0,      48,     13,     24,     2,      14]
+        FBE_6 = E_5_kWh / convert_watts_to_kilowatts(V_v)  # Bad [13,  0,      48,     13,     24,     2,      14]
         self.fbe_dict[6].append(FBE_6)
 
-        # FBE_8 = E_2_kWh / convert_watts_to_kilowatts(V_v)               # Bad [41,  80,     4,      33,     15,     163,    54]
+        # FBE_8 = E_2_kWh / convert_watts_to_kilowatts(V_v)               # Bad [41,  80,     4,      33,     15,
+        # 163,    54]
         # fbe_dict[8].append(FBE_8)
 
-        FBE_10 = E_3_kWh / convert_watts_to_kilowatts(V_v)              # Bad [15,  0,      57,     17,     27,     2,      17]
+        FBE_10 = E_3_kWh / convert_watts_to_kilowatts(V_v)  # Bad [15,  0,      57,     17,     27,     2,      17]
         self.fbe_dict[10].append(FBE_10)
 
-        FBE_12 = E_6_kWh / convert_watts_to_kilowatts(V_v)              # Bad [13,  0,      47,     14,     24,     2,      14]
+        FBE_12 = E_6_kWh / convert_watts_to_kilowatts(V_v)  # Bad [13,  0,      47,     14,     24,     2,      14]
         self.fbe_dict[12].append(FBE_12)
 
-        V = 562 # 100% SOC voltage
+        V = 562  # 100% SOC voltage
         FBE_13 = sum_positive_E_kWh * 100 / soc_delta
 
         # Same as FBE_12
-        # FBE_14 = E_7_kWh / convert_watts_to_kilowatts(V_v)              # Bad [13,  0,      47,     14,     24,     2,      14]
+        # FBE_14 = E_7_kWh / convert_watts_to_kilowatts(V_v)              # Bad [13,  0,      47,     14,     24,
+        # 2,      14]
         # fbe_dict[14].append(FBE_14)
 
         blacklisted_E_idx_list = [1, 2, 4, 6]
@@ -293,19 +311,28 @@ class NDANEVDatasetReader(BaseDatasetReader):
             loop_list = aec_item[1]
             if len(loop_list) == 0:
                 continue
-            print("AEC_%d: min=%.2f, max=%.2f, avg=%.2f," % (loop_id, min(loop_list), max(loop_list), statistics.mean(loop_list)))
+            print(
+                "AEC_%d: min=%.2f, max=%.2f, avg=%.2f," % (
+                    loop_id, min(loop_list), max(loop_list), statistics.mean(loop_list))
+            )
 
         for fbe_item in self.fbe_dict.items():
             loop_id = fbe_item[0]
             loop_list = fbe_item[1]
             if len(loop_list) == 0:
                 continue
-            print("FBE_%d: min=%.2f, max=%.2f, avg=%.2f," % (loop_id, min(loop_list), max(loop_list), statistics.mean(loop_list)))
+            print(
+                "FBE_%d: min=%.2f, max=%.2f, avg=%.2f," % (
+                    loop_id, min(loop_list), max(loop_list), statistics.mean(loop_list))
+            )
 
         for fdd_item in self.fbd_dict.items():
             loop_list = fdd_item[1]
             if len(loop_list) == 0:
                 continue
-            print("%s: min=%.2f, max=%.2f, avg=%.2f," % (fdd_item[0], min(loop_list), max(loop_list), statistics.mean(loop_list)))
+            print(
+                "%s: min=%.2f, max=%.2f, avg=%.2f," % (
+                    fdd_item[0], min(loop_list), max(loop_list), statistics.mean(loop_list))
+            )
 
         return dataset_data_list

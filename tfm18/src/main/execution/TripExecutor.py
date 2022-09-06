@@ -15,8 +15,8 @@ from tfm18.src.main.execution.TripExecutorConfigDto import TripExecutorConfigDto
 class TripExecutor:
 
     def execute_trip(
-            self,
-            config: TripExecutorConfigDto
+        self,
+        config: TripExecutorConfigDto
     ) -> TripExecutionResultDto:
 
         # Initialize eRange_distance_results dictionary

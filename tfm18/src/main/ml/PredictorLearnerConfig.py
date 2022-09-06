@@ -4,7 +4,6 @@ from typing import Optional
 
 from tfm18.src.main.algorithm.AlgorithmRepository import AlgorithmRepository
 from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
-from tfm18.src.main.algorithm.BaseAlgorithm import BaseAlgorithm
 from tfm18.src.main.algorithm.MyBaseRegressor import MyBaseRegressor
 from tfm18.src.main.dataset.DatasetDto import DatasetDto
 from tfm18.src.main.dataset.DatasetRepository import DatasetRepository
@@ -23,19 +22,19 @@ class PredictorLearnerConfig:
     run_dataset_dto: DatasetDto
 
     def __init__(
-            self,
-            dataset_dtos: Optional[list[DatasetDto]] = None,
-            dataset_types: Optional[list[DatasetType]] = None,
-            timestep_ms: int = 1000,
-            min_trip_time_ms: int = convert_minutes_to_milliseconds(10),
-            specific_run_trip: Optional[DatasetTripDto] = None,
-            specific_run_trip_id: Optional[str] = None,
-            training_trip_whitelist: Optional[list[str]] = None,
-            training_trip_blacklist: Optional[list[str]] = None,
-            expected_algorithm_type: AlgorithmType = AlgorithmType.BASIC,
-            algorithms_to_train: Optional[list[MyBaseRegressor]] = None,
-            algorithms_to_train_types: Optional[list[AlgorithmType]] = None,
-            shuffle_training_trips: bool = True
+        self,
+        dataset_dtos: Optional[list[DatasetDto]] = None,
+        dataset_types: Optional[list[DatasetType]] = None,
+        timestep_ms: int = 1000,
+        min_trip_time_ms: int = convert_minutes_to_milliseconds(10),
+        specific_run_trip: Optional[DatasetTripDto] = None,
+        specific_run_trip_id: Optional[str] = None,
+        training_trip_whitelist: Optional[list[str]] = None,
+        training_trip_blacklist: Optional[list[str]] = None,
+        expected_algorithm_type: AlgorithmType = AlgorithmType.BASIC,
+        algorithms_to_train: Optional[list[MyBaseRegressor]] = None,
+        algorithms_to_train_types: Optional[list[AlgorithmType]] = None,
+        shuffle_training_trips: bool = True
     ):
 
         # expected_algorithm must not be initialized
@@ -105,11 +104,11 @@ class PredictorLearnerConfig:
         # Filter by black list if not empty
         if training_trip_blacklist is not None and len(training_trip_blacklist) > 0:
             self.training_dataset_trip_list = \
-                list(filter(lambda x: x.trip_identifier not in training_trip_blacklist, self.training_dataset_trip_list))
+                list(
+                    filter(lambda x: x.trip_identifier not in training_trip_blacklist, self.training_dataset_trip_list)
+                )
 
         # Radomize trips
         if shuffle_training_trips:
             # Shuffle training trip sequence
             shuffle(self.training_dataset_trip_list)
-
-

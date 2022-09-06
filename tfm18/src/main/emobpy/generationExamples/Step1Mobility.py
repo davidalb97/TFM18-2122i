@@ -12,14 +12,14 @@ def main():
     )
 
     # hrs = 168       # one week
-    hrs = 24          # one week
+    hrs = 24  # one week
 
     # Available steps at: from emobpy.constants import TIME_FREQ
     # steps = 1.0     # 1h
     # steps = 0.5     # 30m
     # steps = 0.25    # 15m
     # steps = 0.125   # 450s
-    steps = 1 / 60    # 60s
+    steps = 1 / 60  # 60s
     # steps = 1/3600  # 1s
     mobility.set_params(
         name_prefix="Step1Mobility",

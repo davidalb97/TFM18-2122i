@@ -15,9 +15,9 @@ class DatasetTripVisualizer:
 
     # noinspection PyPep8Naming
     def plot_dataset_eRange_results(
-            self,
-            dataset_type_list: list[DatasetType],
-            trip_execution_result_dto: TripExecutionResultDto
+        self,
+        dataset_type_list: list[DatasetType],
+        trip_execution_result_dto: TripExecutionResultDto
     ):
 
         fig: Figure
@@ -54,11 +54,11 @@ class DatasetTripVisualizer:
         pyplot.show(block=True)
 
     def configure_plot(
-            self,
-            axis: Axes,
-            visualizer_graph: VisualizerGraph,
-            fontsize: int = None,
-            marker: str = None
+        self,
+        axis: Axes,
+        visualizer_graph: VisualizerGraph,
+        fontsize: int = None,
+        marker: str = None
     ) -> list[Axes]:
 
         axis.set_title(visualizer_graph.graph_name)
@@ -128,10 +128,10 @@ class DatasetTripVisualizer:
 
     def get_mosaic(self, key_count: int) -> Tuple[list[list[str]], list[str]]:
         func_index = 0
-        grapth_slots = math.floor(math.pow(func_index + 1, 2)/4)
+        grapth_slots = math.floor(math.pow(func_index + 1, 2) / 4)
         while key_count > grapth_slots:
             func_index += 1
-            grapth_slots = math.floor(math.pow(func_index + 1, 2)/4)
+            grapth_slots = math.floor(math.pow(func_index + 1, 2) / 4)
 
         L = int(func_index - ((func_index / 2) - ((math.pow(-1, func_index) - 1) / - 4)))
         if L * L < key_count:

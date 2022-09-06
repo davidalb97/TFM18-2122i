@@ -17,15 +17,16 @@ class TripExecutionResultDto:
     eRange_history_aec_KWh_by_100km_list: list[float]
     eRange_history_aec_timestamps_min_list: list[float]
 
-    def __init__(self,
-                 dataset_trip_dto: DatasetTripDto,
-                 eRange_distance_results: dict[AlgorithmType, list[float]],
-                 eRange_history_aec_ma_KWh_by_100km_list: list[float],
-                 eRange_history_aec_wma_KWh_by_100km_list: list[float],
-                 eRange_history_aec_KWh_by_100km_list: list[float],
-                 eRange_history_aec_timestamps_min_list: list[float],
-                 eRange_result_evaluation_dict: dict[AlgorithmType, dict[AlgorithmEvaluationType, float]]
-                 ):
+    def __init__(
+        self,
+        dataset_trip_dto: DatasetTripDto,
+        eRange_distance_results: dict[AlgorithmType, list[float]],
+        eRange_history_aec_ma_KWh_by_100km_list: list[float],
+        eRange_history_aec_wma_KWh_by_100km_list: list[float],
+        eRange_history_aec_KWh_by_100km_list: list[float],
+        eRange_history_aec_timestamps_min_list: list[float],
+        eRange_result_evaluation_dict: dict[AlgorithmType, dict[AlgorithmEvaluationType, float]]
+    ):
         self.dataset_trip_dto = dataset_trip_dto
         self.eRange_distance_results = eRange_distance_results
         self.eRange_history_aec_ma_KWh_by_100km_list = eRange_history_aec_ma_KWh_by_100km_list
@@ -67,23 +68,23 @@ class TripExecutionResultDto:
                     feature_enabled=is_eRange_graph_enabled
                 ),
                 y_features=list(
-                        map(
-                            lambda result_entry: VisualizerFeature(
-                                feature_name="\"%s\" eRange (km)" % result_entry[0].value[0],
-                                feature_color=result_entry[0].value[1].value,
-                                feature_data=result_entry[1],
-                                feature_enabled=is_eRange_graph_enabled
-                            ),
-                            self.eRange_distance_results.items()
-                        )
+                    map(
+                        lambda result_entry: VisualizerFeature(
+                            feature_name="\"%s\" eRange (km)" % result_entry[0].value[0],
+                            feature_color=result_entry[0].value[1].value,
+                            feature_data=result_entry[1],
+                            feature_enabled=is_eRange_graph_enabled
+                        ),
+                        self.eRange_distance_results.items()
                     )
+                )
             )
         )
 
         def get_x_feature_name_with_errors(algorithm_type: AlgorithmType) -> str:
             retStr = "time [min]\n"
             is_first: bool = True
-            algorithm_evaluation_dict: Optional[dict[AlgorithmEvaluationType, float]] =\
+            algorithm_evaluation_dict: Optional[dict[AlgorithmEvaluationType, float]] = \
                 self.eRange_result_evaluation_dict.get(algorithm_type)
             if algorithm_evaluation_dict is not None and len(algorithm_evaluation_dict) > 0:
                 algorithm_evaluation: Tuple[AlgorithmEvaluationType, float]

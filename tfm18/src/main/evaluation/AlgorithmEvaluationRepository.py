@@ -25,4 +25,3 @@ class AlgorithmEvaluationRepository:
             return R_2AlgorithmEvaluation()
         else:
             raise Exception("Unsuported algorithm %s." % algorithm_evaluation_type)
-

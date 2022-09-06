@@ -5,7 +5,6 @@ from sklearn.ensemble import StackingRegressor
 from sklearn.model_selection import StratifiedKFold
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
-from sklearn.utils.multiclass import type_of_target
 
 from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
 from tfm18.src.main.algorithm.MyBaseRegressor import MyBaseRegressor
@@ -55,13 +54,14 @@ class MyEnsemble(MyBaseRegressor):
             expected_output_numpy_array: numpy.ndarray = expected_output_dataframe.to_numpy()
             expected_output_numpy_array: numpy.ndarray = expected_output_numpy_array.ravel()
             if self.use_int_rounding:
-                expected_output_numpy_array: numpy.ndarray =\
+                expected_output_numpy_array: numpy.ndarray = \
                     numpy.array(list(map(lambda x: float_to_int(x, self.precision), expected_output_numpy_array)))
 
         elif use_approach == old_approach:
-            expected_output_numpy_array = expected_output_dataframe.iloc[:,0]
+            expected_output_numpy_array = expected_output_dataframe.iloc[:, 0]
             # expected_output_numpy_array = expected_output_dataframe.loc[:, :]
-
+        else:
+            raise Exception("Unknown approach!")
         # print('Input type: ' + type_of_target(input_dataframe))
         # print('Output type: ' + type_of_target(expected_output_numpy_array))
 

@@ -1,5 +1,4 @@
 from abc import abstractmethod
-from typing import Optional
 
 from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
 from tfm18.src.main.dataset.DatasetType import DatasetType

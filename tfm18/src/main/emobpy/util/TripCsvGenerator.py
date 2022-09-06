@@ -1,10 +1,6 @@
 from __future__ import annotations  # Allow postponed evaluation of annotations
 
-import os
-from typing import List
 import pkg_resources
-import csv
-from tfm18.src.main.emobpy.util.EmobpyUtil import emobpy_config_folder
 
 
 # class CsvWriter:
@@ -36,15 +32,15 @@ class TripHalfHour:
     workplace: float
 
     def __init__(
-            self,
-            days: str,
-            time: int,
-            errands: float,
-            escort: float,
-            home: float,
-            leisure: float,
-            shopping: float,
-            workplace: float
+        self,
+        days: str,
+        time: int,
+        errands: float,
+        escort: float,
+        home: float,
+        leisure: float,
+        shopping: float,
+        workplace: float
     ):
         """
         :param days: Day type, can be 'saturday', 'sunday' or 'weekdays'

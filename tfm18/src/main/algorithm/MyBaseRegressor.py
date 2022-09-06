@@ -10,7 +10,11 @@ from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
 
 class MyBaseRegressor(BaseAlgorithm):
 
-    def learn_from_full_trip_for_each_instant(self, input_dataset_trip_dto: DatasetTripDto, expected_output: list[float]):
+    def learn_from_full_trip_for_each_instant(
+        self,
+        input_dataset_trip_dto: DatasetTripDto,
+        expected_output: list[float]
+    ):
         dataset_timestamp_dto_list = input_dataset_trip_dto.dataset_timestamp_dto_list
         for dataset_timestamp_dto, timestamp_output in zip(dataset_timestamp_dto_list, expected_output):
             self.learn_from_dataframes(
@@ -64,8 +68,8 @@ class MyBaseRegressor(BaseAlgorithm):
         pass
 
     def predict(
-            self,
-            prediction_input: PredictionInput
+        self,
+        prediction_input: PredictionInput
     ) -> float:
         return self.predict_from_dataframe(
             pandas.DataFrame(

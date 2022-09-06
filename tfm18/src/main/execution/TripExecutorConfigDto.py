@@ -1,8 +1,6 @@
 import random
 from typing import Optional
 
-from tfm18.src.main.evaluation.AlgorithmEvaluationRepository import AlgorithmEvaluationRepository
-from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
 from tfm18.src.main.algorithm.AlgorithmRepository import AlgorithmRepository
 from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
 from tfm18.src.main.algorithm.BaseAlgorithm import BaseAlgorithm
@@ -10,6 +8,8 @@ from tfm18.src.main.dataset.DatasetDto import DatasetDto
 from tfm18.src.main.dataset.DatasetRepository import DatasetRepository
 from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
 from tfm18.src.main.dataset.DatasetType import DatasetType
+from tfm18.src.main.evaluation.AlgorithmEvaluationRepository import AlgorithmEvaluationRepository
+from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
 from tfm18.src.main.evaluation.BaseAlgorithmEvaluation import BaseAlgorithmEvaluation
 from tfm18.src.main.util.Formulas import convert_minutes_to_milliseconds
 

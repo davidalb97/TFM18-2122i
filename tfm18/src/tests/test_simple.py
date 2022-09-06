@@ -32,10 +32,10 @@ class TestSimple(unittest.TestCase):
 
     def get_mosaic(self, key_count: int) -> Tuple[list[list[str]], list[str]]:
         func_index = 0
-        grapth_slots = math.floor(math.pow(func_index + 1, 2)/4)
+        grapth_slots = math.floor(math.pow(func_index + 1, 2) / 4)
         while key_count > grapth_slots:
             func_index += 1
-            grapth_slots = math.floor(math.pow(func_index + 1, 2)/4)
+            grapth_slots = math.floor(math.pow(func_index + 1, 2) / 4)
 
         L = int(func_index - ((func_index / 2) - ((math.pow(-1, func_index) - 1) / - 4)))
         if L * L < key_count:
@@ -74,7 +74,7 @@ class TestSimple(unittest.TestCase):
         len_my_list = len(my_list)
         result: list[list[int]]
         index = 0
-        _index = math.floor(math.pow(index, 2)/4)
+        _index = math.floor(math.pow(index, 2) / 4)
 
         # L = index ç
         # C =
@@ -132,8 +132,9 @@ class TestSimple(unittest.TestCase):
         # [ 10 11 12 13 14 ]
         # [ 15 16 17 18 19 ]
         # [ 20 21 22 23 24 ]
-        elif len_my_list <= 25: # 5x6:
+        elif len_my_list <= 25:  # 5x6:
             doStuff()
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,5 +1,3 @@
-
-
 def replace_last(original_str, old: str, new: str, occurrences: int) -> str:
     """
     Returns a string with the last specified occurences of a pattern replaced with another string.

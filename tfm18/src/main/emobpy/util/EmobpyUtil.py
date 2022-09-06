@@ -42,8 +42,8 @@ def purge_database() -> None:
     """
     (
         Seq(glob.glob(emobpy_db_location + '/*'))
-            .filter(lambda file_name: os.path.isfile(file_name))
-            .foreach(lambda file_name: os.remove(file_name))
+        .filter(lambda file_name: os.path.isfile(file_name))
+        .foreach(lambda file_name: os.remove(file_name))
     )
 
 

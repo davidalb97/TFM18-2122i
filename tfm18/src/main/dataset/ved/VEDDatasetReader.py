@@ -13,7 +13,8 @@ from tfm18.src.main.dataset.DatasetVehicleDto import DatasetVehicleDto
 from tfm18.src.main.dataset.ved.VEDInstantDto import csv_header, VEDInstantDto
 from tfm18.src.main.util.Aliases import OrangeTable
 from tfm18.src.main.util.DataPathUtil import load_dataset_file
-from tfm18.src.main.util.Formulas import calculate_DC_power, convert_milliseconds_to_minutes, convert_watts_to_kilowatts, \
+from tfm18.src.main.util.Formulas import calculate_DC_power, convert_milliseconds_to_minutes, \
+    convert_watts_to_kilowatts, \
     convert_kilowatts_to_watts, convert_milliseconds_to_hours, \
     calculate_non_linear_distance_km, calculate_aceleration_km_h2, get_instant_RBE, calculate_power_hour_kW_h, \
     calculate_linear_distance_km

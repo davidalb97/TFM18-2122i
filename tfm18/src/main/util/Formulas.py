@@ -6,6 +6,7 @@ import numpy
 from scipy.signal import savgol_filter
 from sklearn import preprocessing
 
+
 def calculate_DC_power(voltage_V: float, current_A: float) -> float:
     """
     :param voltage_V: The voltage (in volts).

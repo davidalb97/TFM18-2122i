@@ -12,13 +12,14 @@ class VisualizerGraph:
     y_min: Optional[float]
     y_max: Optional[float]
 
-    def __init__(self,
-                 graph_name: str,
-                 x_feature: VisualizerFeature,
-                 y_features: list[VisualizerFeature],
-                 y_min: Optional[float] = None,
-                 y_max: Optional[float] = None
-                 ):
+    def __init__(
+        self,
+        graph_name: str,
+        x_feature: VisualizerFeature,
+        y_features: list[VisualizerFeature],
+        y_min: Optional[float] = None,
+        y_max: Optional[float] = None
+    ):
         self.graph_name = graph_name
         self.x_feature = x_feature
         self.y_features = y_features

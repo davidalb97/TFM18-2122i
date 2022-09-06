@@ -19,10 +19,10 @@ class PredictorLearner:
     def train_full_trip(self, dataset_trip_dto: DatasetTripDto):
         # Obtain expected trip results
         expected_output: list[float] = self.trip_executor.execute_trip(
-                config=TripExecutorConfigDto(
-                        dataset_trip_dto=dataset_trip_dto,
-                        enabled_algorithm_types=[self.config.expected_algorithm_type]
-                )
+            config=TripExecutorConfigDto(
+                dataset_trip_dto=dataset_trip_dto,
+                enabled_algorithm_types=[self.config.expected_algorithm_type]
+            )
         ).eRange_distance_results[self.config.expected_algorithm_type]
 
         for algorithm in self.config.algorithms_to_train:

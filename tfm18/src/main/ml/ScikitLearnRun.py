@@ -1,6 +1,6 @@
-from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
 from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
 from tfm18.src.main.dataset.DatasetType import DatasetType
+from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
 from tfm18.src.main.execution.TripExecutionResultDto import TripExecutionResultDto
 from tfm18.src.main.execution.TripExecutor import TripExecutor
 from tfm18.src.main.execution.TripExecutorConfigDto import TripExecutorConfigDto
@@ -29,7 +29,7 @@ if __name__ == '__main__':
         shuffle_training_trips=False
     )
     # Train algorithms
-    PredictorLearner(config=prediction_learner_config)\
+    PredictorLearner(config=prediction_learner_config) \
         .train_full_trip_list()
 
     # Execute demonstration trip

@@ -14,4 +14,3 @@ class MAEAlgorithmEvaluation(BaseAlgorithmEvaluation):
         for expected_y, result_y in zip(expected, result):
             _sum += math.fabs(expected_y - result_y)
         return _sum / len(expected)
-

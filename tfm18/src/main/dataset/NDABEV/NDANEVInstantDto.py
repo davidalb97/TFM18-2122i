@@ -1,7 +1,6 @@
 from typing import Optional
 
 from Orange.data import Instance
-from infixpy import Seq
 
 csv_splitter = ','
 csv_header = 'DayNum,VehId,Trip,Timestamp(ms),Latitude[deg],Longitude[deg],Vehicle Speed[km/h],MAF[g/sec],' \

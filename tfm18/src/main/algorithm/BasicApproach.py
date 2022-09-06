@@ -22,4 +22,3 @@ class BasicApproach(BaseAlgorithm):
             FBD_AcS=prediction_input.dataset_vehicle_dto.FBD_km,
             SOC=prediction_input.dataset_timestamp_dto.soc_percentage
         )
-

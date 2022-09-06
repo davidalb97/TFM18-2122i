@@ -26,18 +26,18 @@ class DatasetTripDto:
     ac_power_kilowatt_enabled: bool
 
     def __init__(
-            self,
-            dataset_type: DatasetType,
-            trip_identifier: str,
-            vehicle_static_data: DatasetVehicleDto,
-            dataset_timestamp_dto_list: list[DatasetTimestampDto],
-            timestamps_min_enabled=True,
-            soc_percentage_enabled=True,
-            iec_power_KWh_by_100km_enabled=True,
-            current_ampers_enabled=True,
-            speed_kmh_enabled=True,
-            power_kilowatt_enabled=True,
-            ac_power_kilowatt_enabled=True
+        self,
+        dataset_type: DatasetType,
+        trip_identifier: str,
+        vehicle_static_data: DatasetVehicleDto,
+        dataset_timestamp_dto_list: list[DatasetTimestampDto],
+        timestamps_min_enabled=True,
+        soc_percentage_enabled=True,
+        iec_power_KWh_by_100km_enabled=True,
+        current_ampers_enabled=True,
+        speed_kmh_enabled=True,
+        power_kilowatt_enabled=True,
+        ac_power_kilowatt_enabled=True
     ):
         self.dataset_type = dataset_type
         self.trip_identifier = trip_identifier

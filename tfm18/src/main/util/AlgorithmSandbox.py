@@ -1,7 +1,6 @@
-from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
 from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
-from tfm18.src.main.dataset.DatasetRepository import DatasetRepository
 from tfm18.src.main.dataset.DatasetType import DatasetType
+from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
 from tfm18.src.main.execution.TripExecutionResultDto import TripExecutionResultDto
 from tfm18.src.main.execution.TripExecutor import TripExecutor
 from tfm18.src.main.execution.TripExecutorConfigDto import TripExecutorConfigDto
@@ -23,7 +22,7 @@ if __name__ == '__main__':
         expected_algorithm_type=AlgorithmType.HISTORY_BASED,
         algorithm_avaluation_types=[AlgorithmEvaluationType.MAE, AlgorithmEvaluationType.MSE]
     )
-    trip_execution_result: TripExecutionResultDto = TripExecutor()\
+    trip_execution_result: TripExecutionResultDto = TripExecutor() \
         .execute_trip(config=config)
 
     DatasetTripVisualizer().plot_dataset_eRange_results(

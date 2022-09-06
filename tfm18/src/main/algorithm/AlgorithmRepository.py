@@ -12,7 +12,7 @@ from tfm18.src.main.algorithm.StochrasticDescentApproach import StochrasticDesce
 from tfm18.src.main.util.Formulas import convert_watts_to_kilowatts, convert_minutes_to_milliseconds
 from tfm18.src.main.util.StrUtil import replace_last
 
-T = TypeVar('T')      # Declare type variable
+T = TypeVar('T')  # Declare type variable
 
 
 class AlgorithmRepository:

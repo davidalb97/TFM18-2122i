@@ -18,8 +18,8 @@ def data_list_subdirectories(data_subdir_path: str = "") -> list[str]:
 
 
 def data_list_subdirectories_filtered(
-        data_subdir_path: str = "",
-        predicate: Function[[str], bool] = lambda a: True
+    data_subdir_path: str = "",
+    predicate: Function[[str], bool] = lambda a: True
 ) -> list[str]:
     """
     :param data_subdir_path: The data's subfolder path.
@@ -30,8 +30,8 @@ def data_list_subdirectories_filtered(
         Seq(
             data_list_subdirectories(data_subdir_path=data_subdir_path)
         )
-            .filter(lambda it: predicate(it))
-            .tolist()
+        .filter(lambda it: predicate(it))
+        .tolist()
     )
 
 
@@ -79,7 +79,8 @@ if __name__ == '__main__':
     # pkg_resources.resource_listdir(module_name, module_name)
     # pkg_resources.resource_listdir(module_name, 'data')
     # pkg_resources.resource_listdir('tfm18', 'data')
-    # pkg_resources.resource_filename(pkg_resources.Requirement.parse("src"), 'data/emobpy_data/config_files/DepartureDestinationTrip.csv')
+    # pkg_resources.resource_filename(pkg_resources.Requirement.parse("src"),
+    # 'data/emobpy_data/config_files/DepartureDestinationTrip.csv')
     # pkg_resources.resource_filename("tfm18", '../data/emobpy_data/config_files/DepartureDestinationTrip.csv')
     # pkg_resources.resource_listdir("tfm18", 'data/emobpy_data')
     # is_dir = pkg_resources.resource_isdir("tfm18", 'data/emobpy_data')

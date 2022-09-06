@@ -22,8 +22,10 @@ def plot_values():
     availability_nbplot: NBplot = NBplot(availability_database)
     availability_column_names: list[str] = list(availability_database.db.keys())
     availability_column_name: str = availability_column_names[0]
-    availability_sgplot_ga_figure: Figure = availability_nbplot.sgplot_ga(availability_column_name, rng=None,
-                                                                          to_html=False, path=None)
+    availability_sgplot_ga_figure: Figure = availability_nbplot.sgplot_ga(
+        availability_column_name, rng=None,
+        to_html=False, path=None
+    )
     availability_sgplot_ga_figure.show()
 
     # Instance of profiles' database whose input is the pickle files' folder
