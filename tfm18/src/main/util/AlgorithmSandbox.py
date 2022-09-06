@@ -32,7 +32,9 @@ if __name__ == '__main__':
         )
     )
 
+    dataset_type_list: list[DatasetType] = [DatasetType.CLASSIC, DatasetType.VED]
+
     DatasetTripVisualizer().plot_dataset_eRange_results(
-        dataset_names=[dataset_dto.dataset_name],
+        dataset_type_list=dataset_type_list,
         trip_execution_result_dto=trip_execution_result
     )

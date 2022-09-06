@@ -5,6 +5,7 @@ from matplotlib import pyplot  # gridspec
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
+from tfm18.src.main.dataset.DatasetType import DatasetType
 from tfm18.src.main.execution.TripExecutionResultDto import TripExecutionResultDto
 from tfm18.src.main.visualizer.VisualizerFeature import VisualizerFeature
 from tfm18.src.main.visualizer.VisualizerGraph import VisualizerGraph
@@ -15,7 +16,7 @@ class DatasetTripVisualizer:
     # noinspection PyPep8Naming
     def plot_dataset_eRange_results(
             self,
-            dataset_names: list[str],
+            dataset_type_list: list[DatasetType],
             trip_execution_result_dto: TripExecutionResultDto
     ):
 
@@ -42,7 +43,14 @@ class DatasetTripVisualizer:
         for axis, visualizer_graph in zip(axis_list, visualizer_graph_list):
             self.configure_plot(axis=axis, visualizer_graph=visualizer_graph)
 
-        pyplot.suptitle(",".join(dataset_names))
+        # Title
+        subtitle_str: str = ", ".join(list(map(lambda dataset_type: dataset_type.value, dataset_type_list)))
+        subtitle_str += " dataset"
+        # Plural
+        if len(dataset_type_list) > 1:
+            subtitle_str += "s"
+
+        pyplot.suptitle(subtitle_str)
         pyplot.show(block=True)
 
     def configure_plot(

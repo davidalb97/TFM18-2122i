@@ -12,6 +12,8 @@ if __name__ == '__main__':
 
     specific_trip_name = 'E1/VED_171213_week_772_455-AC_ON.csv'
     expected_algorithm_type: AlgorithmType = AlgorithmType.HISTORY_BASED
+    # expected_algorithm_type: AlgorithmType = AlgorithmType.BASIC
+    dataset_types: list[DatasetType] = [DatasetType.VED]
     prediction_learner_config: PredictorLearnerConfig = PredictorLearnerConfig(
         dataset_types=[DatasetType.VED],
         specific_run_trip_id=specific_trip_name,
@@ -36,6 +38,6 @@ if __name__ == '__main__':
 
     # Display demonstration trip results
     DatasetTripVisualizer().plot_dataset_eRange_results(
-        dataset_names=list(map(lambda dataset_dto: dataset_dto.dataset_name, prediction_learner_config.dataset_dtos)),
+        dataset_type_list=dataset_types,
         trip_execution_result_dto=trip_execution_result_dto
     )
