@@ -12,23 +12,21 @@ if __name__ == '__main__':
     # specific_trip_name = 'E1/VED_171213_week_772_455-AC_ON.csv'
     specific_trip_name = None
     dataset_type_list: list[DatasetType] = [DatasetType.CLASSIC, DatasetType.VED]
-    trip_execution_result: TripExecutionResultDto = TripExecutor().execute_trip(
-        config=TripExecutorConfigDto(
-            dataset_type_list=dataset_type_list,
-            enabled_algorithm_types=[
-                AlgorithmType.BASIC,
-                AlgorithmType.BASIC_STOCHRASTIC_DESCENT,
-                AlgorithmType.HISTORY_BASED,
-                AlgorithmType.HISTORY_BASED_STOCHRASTIC_DESCENT
-            ],
-            expected_algorithm_type=AlgorithmType.HISTORY_BASED,
-            algorithm_avaluation_types=[AlgorithmEvaluationType.MAE, AlgorithmEvaluationType.MSE]
-        )
+    config: TripExecutorConfigDto = TripExecutorConfigDto(
+        dataset_type_list=dataset_type_list,
+        enabled_algorithm_types=[
+            AlgorithmType.BASIC,
+            AlgorithmType.BASIC_STOCHRASTIC_DESCENT,
+            AlgorithmType.HISTORY_BASED,
+            AlgorithmType.HISTORY_BASED_STOCHRASTIC_DESCENT
+        ],
+        expected_algorithm_type=AlgorithmType.HISTORY_BASED,
+        algorithm_avaluation_types=[AlgorithmEvaluationType.MAE, AlgorithmEvaluationType.MSE]
     )
-
-    dataset_type_list: list[DatasetType] = [DatasetType.CLASSIC, DatasetType.VED]
+    trip_execution_result: TripExecutionResultDto = TripExecutor()\
+        .execute_trip(config=config)
 
     DatasetTripVisualizer().plot_dataset_eRange_results(
-        dataset_type_list=dataset_type_list,
+        dataset_type_list=[config.dataset_trip_dto.dataset_type],
         trip_execution_result_dto=trip_execution_result
     )
