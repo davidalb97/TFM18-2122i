@@ -1,10 +1,12 @@
 from tfm18.src.main.dataset.DatasetTimestampDto import DatasetTimestampDto
+from tfm18.src.main.dataset.DatasetType import DatasetType
 from tfm18.src.main.dataset.DatasetVehicleDto import DatasetVehicleDto
 from tfm18.src.main.visualizer.VisualizerFeature import VisualizerFeature
 from tfm18.src.main.visualizer.VisualizerGraph import VisualizerGraph
 
 
 class DatasetTripDto:
+    dataset_type: DatasetType
     trip_identifier: str
     vehicle_static_data: DatasetVehicleDto
     dataset_timestamp_dto_list: list[DatasetTimestampDto]
@@ -25,6 +27,7 @@ class DatasetTripDto:
 
     def __init__(
             self,
+            dataset_type: DatasetType,
             trip_identifier: str,
             vehicle_static_data: DatasetVehicleDto,
             dataset_timestamp_dto_list: list[DatasetTimestampDto],
@@ -36,6 +39,7 @@ class DatasetTripDto:
             power_kilowatt_enabled=True,
             ac_power_kilowatt_enabled=True
     ):
+        self.dataset_type = dataset_type
         self.trip_identifier = trip_identifier
         self.vehicle_static_data = vehicle_static_data
         self.dataset_timestamp_dto_list = dataset_timestamp_dto_list

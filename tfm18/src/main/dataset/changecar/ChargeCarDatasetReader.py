@@ -25,6 +25,7 @@ class ChargeCarDatasetReader(BaseDatasetReader):
 
         dataset_timestamp_dto_list = []
         dataset_trip_dto = DatasetTripDto(
+            dataset_type=DatasetType.CHANGE_CAR,
             trip_identifier='TODO',
             vehicle_static_data=DatasetVehicleDto(
                 vehicle_name="Unknown",

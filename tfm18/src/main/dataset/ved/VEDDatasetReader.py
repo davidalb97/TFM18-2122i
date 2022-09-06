@@ -303,6 +303,7 @@ class VEDDatasetReader(BaseDatasetReader):
             prev_power_kW = power_kW
 
         dataset_trip_dto: DatasetTripDto = DatasetTripDto(
+            dataset_type=DatasetType.VED,
             trip_identifier=trip_id,
             vehicle_static_data=self.vehicle_dto,
             dataset_timestamp_dto_list=timestamp_dataset_entry_list,

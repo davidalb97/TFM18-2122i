@@ -68,6 +68,7 @@ class ClassicEvRangeDatasetReader(BaseDatasetReader):
             )
 
         return DatasetTripDto(
+            dataset_type=DatasetType.CLASSIC,
             trip_identifier=self.__classic_ev_range_trip_name,
             vehicle_static_data=DatasetVehicleDto(
                 vehicle_name=self.__classic_ev_x_vehicle_name,

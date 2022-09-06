@@ -249,6 +249,7 @@ class NDANEVDatasetReader(BaseDatasetReader):
                 self.fbd_dict['FBE_%d,E_%d' % (fbe_key, e_idx)].append(fbe * distance_km / E_kWh)
 
         dataset_trip_dto: DatasetTripDto = DatasetTripDto(
+            dataset_type=DatasetType.NDANEV,
             trip_identifier=trip_id,
             vehicle_static_data=DatasetVehicleDto(
                 vehicle_name="<Undisclosed model>",
