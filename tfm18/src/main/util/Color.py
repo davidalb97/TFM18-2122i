@@ -16,3 +16,8 @@ class Color(Enum):
 
     GOLDEN_ROD = 'goldenrod'
     CHOCOLATE = 'chocolate'
+
+    ORANGE = 'orange'
+
+    GRAY = 'gray'
+    BLACK = 'black'

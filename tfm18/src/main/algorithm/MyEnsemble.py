@@ -5,6 +5,7 @@ from sklearn.ensemble import StackingRegressor
 from sklearn.model_selection import StratifiedKFold
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
+from sklearn.utils.multiclass import type_of_target
 
 from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
 from tfm18.src.main.algorithm.MyBaseRegressor import MyBaseRegressor
@@ -12,7 +13,8 @@ from tfm18.src.main.util.Formulas import float_to_int, int_to_float
 
 
 class MyEnsemble(MyBaseRegressor):
-
+    use_int_rounding: bool
+    precision: int
     regressor: StackingRegressor
 
     def __init__(self):
@@ -21,7 +23,7 @@ class MyEnsemble(MyBaseRegressor):
                 ('dtr', DecisionTreeRegressor(random_state=0)),
                 ('rfr', RandomForestRegressor(max_depth=2, random_state=0)),
                 ('knr', KNeighborsRegressor(
-                    n_neighbors=10,
+                    n_neighbors=2,
                     metric='euclidean'
                 )
                  )
@@ -35,6 +37,8 @@ class MyEnsemble(MyBaseRegressor):
                 shuffle=False
             )
         )
+        self.precision = 2
+        self.use_int_rounding = True
 
     def get_algorithm_type(self) -> AlgorithmType:
         return AlgorithmType.ML_ENSEMBLE
@@ -42,17 +46,29 @@ class MyEnsemble(MyBaseRegressor):
     def learn_from_dataframes(self, input_dataframe: DataFrame, expected_output_dataframe: DataFrame):
         input_numpy_array = input_dataframe.loc[:, :]
 
-        expected_output_numpy_array: numpy.ndarray = expected_output_dataframe.to_numpy()
-        expected_output_numpy_array: numpy.ndarray = expected_output_numpy_array.ravel()
-        expected_output_numpy_array: numpy.ndarray = numpy.array(list(map(lambda x: float_to_int(x, 2), expected_output_numpy_array)))
+        old_approach = 0
+        working_approach = 1
+        new_approach = 2
+        use_approach = working_approach
+
+        if use_approach == working_approach:
+            expected_output_numpy_array: numpy.ndarray = expected_output_dataframe.to_numpy()
+            expected_output_numpy_array: numpy.ndarray = expected_output_numpy_array.ravel()
+            if self.use_int_rounding:
+                expected_output_numpy_array: numpy.ndarray =\
+                    numpy.array(list(map(lambda x: float_to_int(x, self.precision), expected_output_numpy_array)))
+
+        elif use_approach == old_approach:
+            expected_output_numpy_array = expected_output_dataframe.iloc[:,0]
+            # expected_output_numpy_array = expected_output_dataframe.loc[:, :]
 
         # print('Input type: ' + type_of_target(input_dataframe))
         # print('Output type: ' + type_of_target(expected_output_numpy_array))
 
-        # cv: StratifiedKFold = self.regressor.cv
-        # cv.split()
         self.regressor.fit(X=input_numpy_array, y=expected_output_numpy_array)
-        # self.regressor.fit(input_dataframe.loc[:, :], expected_output_dataframe.loc[:, :])
 
     def predict_from_dataframe(self, input_dataframe: DataFrame) -> float:
-        return int_to_float(self.regressor.predict(input_dataframe.loc[:, :])[0])
+        eRange = self.regressor.predict(input_dataframe.loc[:, :])[0]
+        if self.use_int_rounding:
+            eRange = int_to_float(eRange, self.precision)
+        return eRange

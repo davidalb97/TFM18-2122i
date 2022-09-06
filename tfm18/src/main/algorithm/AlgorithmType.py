@@ -11,4 +11,7 @@ class AlgorithmType(Enum):
     ML_LINEAR_REGRESSION = ("Linear regression", Color.PURPLE, True)
     ML_LINEAR_REGRESSION_STOCHRASTIC_DESCENT = ("Linear regression (Stochrastic descent)", Color.MAGENTA, True)
     ML_ENSEMBLE = ("Ensemble", Color.GREEN, True)
-    ML_ENSEMBLE_STOCHRASTIC_DESCENT = ("Ensemble (Stochrastic descent)", Color.LIME, True)
+    ML_ENSEMBLE_STOCHRASTIC_DESCENT = ("Ensemble (Stochrastic descent)", Color.LIME, True),
+    ML_LASSO_REGRESSION = ("Lasso regression", Color.ORANGE, True)
+    ML_RIDGE_REGRESSION = ("Ridge regression", Color.BLACK, True)
+    ML_BAYESIAN_RIDGE_REGRESSION = ("Bayesian ridge regression", Color.GRAY, True)

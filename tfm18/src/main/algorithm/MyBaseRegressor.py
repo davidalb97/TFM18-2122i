@@ -22,10 +22,10 @@ class MyBaseRegressor(BaseAlgorithm):
                         'timestamp [min]': [dataset_timestamp_dto.timestamp_ms],
                         'soc [%]': [dataset_timestamp_dto.soc_percentage],
                         'iec_power [kWh/100km]': [dataset_timestamp_dto.iec_power_KWh_by_100km],
-                        'current [A]': [dataset_timestamp_dto.current_ampers],
+                        # 'current [A]': [dataset_timestamp_dto.current_ampers],
                         'speed [km/h]': [dataset_timestamp_dto.speed_kmh],
-                        'power [kW]': [dataset_timestamp_dto.power_kW],
-                        'ac_power [kW]': [dataset_timestamp_dto.ac_power_kW]
+                        # 'power [kW]': [dataset_timestamp_dto.power_kW],
+                        # 'ac_power [kW]': [dataset_timestamp_dto.ac_power_kW]
                     }
                 ),
                 expected_output_dataframe=pandas.DataFrame(
@@ -46,10 +46,10 @@ class MyBaseRegressor(BaseAlgorithm):
                     'timestamp [min]': input_dataset_trip_dto.timestamps_min_list,
                     'soc [%]': input_dataset_trip_dto.soc_percentage_list,
                     'iec_power [kWh/100km]': input_dataset_trip_dto.iec_power_KWh_by_100km_list,
-                    'current [A]': input_dataset_trip_dto.current_ampers_list,
+                    # 'current [A]': input_dataset_trip_dto.current_ampers_list,
                     'speed [km/h]': input_dataset_trip_dto.speed_kmh_list,
-                    'power [kW]': input_dataset_trip_dto.power_kilowatt_list,
-                    'ac_power [kW]': input_dataset_trip_dto.ac_power_kilowatt_list
+                    # 'power [kW]': input_dataset_trip_dto.power_kilowatt_list,
+                    # 'ac_power [kW]': input_dataset_trip_dto.ac_power_kilowatt_list
                 }
             ),
             expected_output_dataframe=pandas.DataFrame(
@@ -76,10 +76,10 @@ class MyBaseRegressor(BaseAlgorithm):
                     'timestamp [min]': [prediction_input.dataset_timestamp_dto.timestamp_min],
                     'soc [%]': [prediction_input.dataset_timestamp_dto.soc_percentage],
                     'iec_power [kWh/100km]': [prediction_input.dataset_timestamp_dto.iec_power_KWh_by_100km],
-                    'current [A]': [prediction_input.dataset_timestamp_dto.current_ampers],
+                    # 'current [A]': [prediction_input.dataset_timestamp_dto.current_ampers],
                     'speed [km/h]': [prediction_input.dataset_timestamp_dto.speed_kmh],
-                    'power [kW]': [prediction_input.dataset_timestamp_dto.power_kW],
-                    'ac_power [kW]': [prediction_input.dataset_timestamp_dto.ac_power_kW]
+                    # 'power [kW]': [prediction_input.dataset_timestamp_dto.power_kW],
+                    # 'ac_power [kW]': [prediction_input.dataset_timestamp_dto.ac_power_kW]
                 }
             )
         )
