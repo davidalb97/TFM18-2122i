@@ -101,6 +101,9 @@ class DatasetRepository:
 
             dataset_reader: BaseDatasetReader = self.__get_dataset_reader_by_type(dataset_type=dataset_type)
 
+            if dataset_reader.requires_pre_pocessing():
+                dataset_reader.pre_process()
+
             if specific_trip_id is None:
                 trip_dto_list = dataset_reader.get_all_trips(timestep_ms=timestep_ms)
             else:
