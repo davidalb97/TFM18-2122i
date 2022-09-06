@@ -6,7 +6,7 @@ from tfm18.src.main.algorithm.HistoryBasedApproach import HistoryBasedApproach
 from tfm18.src.main.algorithm.MyEnsemble import MyEnsemble
 from tfm18.src.main.algorithm.MyLinearRegression import MyLinearRegression
 from tfm18.src.main.algorithm.StochrasticDescentApproach import StochrasticDescentApproach
-from tfm18.src.main.util.Formulas import convert_watts_to_kilowatts
+from tfm18.src.main.util.Formulas import convert_watts_to_kilowatts, convert_minutes_to_milliseconds
 from tfm18.src.main.util.StrUtil import replace_last
 
 T = TypeVar('T')      # Declare type variable
@@ -41,7 +41,8 @@ class AlgorithmRepository:
                 # min_timestamp_step_ms=1000,  # 1K milis = 1 secs
                 # min_instance_energy=convert_watts_to_kilowatts(2500),
                 min_instance_energy=convert_watts_to_kilowatts(1500),
-                basic_approach=BasicApproach()
+                basic_approach=BasicApproach(),
+                time_for_dynamic_aec_ms=convert_minutes_to_milliseconds(minutes=5)
             )
         elif algorithm_type is AlgorithmType.ML_LINEAR_REGRESSION:
             return MyLinearRegression()
