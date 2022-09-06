@@ -221,11 +221,11 @@ def get_expected_list_basic_stochrastic_descent(original_function: list[float]) 
 
 
 def float_to_int(original_value: float, decimal_precision: int = 2) -> int:
-    return int(float("%.2f" % round(original_value, decimal_precision)) * 10 * decimal_precision)
+    return int(float("%.2f" % round(original_value * math.pow(10, decimal_precision), decimal_precision)))
 
 
 def int_to_float(original_value: int, decimal_precision: int = 2) -> float:
-    return original_value / (10 * decimal_precision)
+    return original_value / math.pow(10, decimal_precision)
 
 
 def float_to_int_func(original_function: list[float], decimal_precision: int = 2) -> list[int]:
