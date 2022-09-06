@@ -6,8 +6,7 @@ import numpy
 from scipy.signal import savgol_filter
 from sklearn import preprocessing
 
-
-def calculate_power(voltage_V: float, current_A: float) -> float:
+def calculate_DC_power(voltage_V: float, current_A: float) -> float:
     """
     :param voltage_V: The voltage (in volts).
     :param current_A: The current (in ampers).
@@ -26,10 +25,18 @@ def convert_hours_to_milliseconds(hours: float) -> float:
 
 def convert_minutes_to_milliseconds(minutes: float) -> float:
     """
-    :param minutes: The miliseconds to convert.
+    :param minutes: The minutes to convert.
     :return: The minutes.
     """
     return minutes * 1000 * 60
+
+
+def convert_seconds_to_milliseconds(seconds: float) -> float:
+    """
+    :param seconds: The seconds to convert.
+    :return: The minutes.
+    """
+    return seconds * 1000
 
 
 def convert_milliseconds_to_minutes(milies: float) -> float:
@@ -46,6 +53,14 @@ def convert_milliseconds_to_hours(milies: float) -> float:
     :return: The minutes.
     """
     return milies / 1000 / 60 / 60
+
+
+def convert_seconds_to_hours(seconds: float) -> float:
+    """
+    :param seconds: The seconds to convert.
+    :return: The minutes.
+    """
+    return seconds / 60 / 60
 
 
 def convert_watts_to_kilowatts(watts: float) -> float:
@@ -114,6 +129,22 @@ def calculate_kwh_100km(kilowats_hour_kwh: float, distance_km: float) -> float:
     # kilowats_hour_kwh - distance_km
     #       x           - 100 Km
     return unsafe_division(n=kilowats_hour_kwh * 100, d=distance_km)
+
+
+def convert_miles_to_km(miles: float) -> float:
+    """
+    :param miles: The miles to convert [Kw/h].
+    :return: The kilometers [km].
+    """
+    return miles * 1.609347218694
+
+
+def convert_mph_to_km(mph: float) -> float:
+    """
+    :param mph: The miles per hour to convert [mph].
+    :return: The kilometers [km].
+    """
+    return mph * 1.609347218694
 
 
 def get_instant_SOC(RBE: float, FBE: float) -> float:

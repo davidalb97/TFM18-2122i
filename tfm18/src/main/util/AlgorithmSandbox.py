@@ -9,18 +9,12 @@ from tfm18.src.main.visualizer.DatasetTripVisualizer import DatasetTripVisualize
 
 if __name__ == '__main__':
 
-    specific_trip_name = 'E1/VED_171213_week_772_455-AC_ON.csv'
-    # specific_trip_name = None
-
-    dataset_type = DatasetType.VED
-    # dataset_type = DatasetType.CLASSIC
-    dataset_dto = DatasetTripDto = DatasetRepository() \
-        .read_dataset(dataset_type=dataset_type, specific_trip_id=specific_trip_name)
-
-    all_dataset_trip_dto = dataset_dto.dataset_trip_dto_list[0]
+    # specific_trip_name = 'E1/VED_171213_week_772_455-AC_ON.csv'
+    specific_trip_name = None
+    dataset_type_list: list[DatasetType] = [DatasetType.CLASSIC, DatasetType.VED]
     trip_execution_result: TripExecutionResultDto = TripExecutor().execute_trip(
         config=TripExecutorConfigDto(
-            dataset_trip_dto=all_dataset_trip_dto,
+            dataset_type_list=dataset_type_list,
             enabled_algorithm_types=[
                 AlgorithmType.BASIC,
                 AlgorithmType.BASIC_STOCHRASTIC_DESCENT,

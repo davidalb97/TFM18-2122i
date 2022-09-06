@@ -15,10 +15,18 @@ if __name__ == '__main__':
     # expected_algorithm_type: AlgorithmType = AlgorithmType.BASIC
     dataset_types: list[DatasetType] = [DatasetType.VED]
     prediction_learner_config: PredictorLearnerConfig = PredictorLearnerConfig(
-        dataset_types=[DatasetType.VED],
+        dataset_types=dataset_types,
         specific_run_trip_id=specific_trip_name,
-        algorithms_to_train_types=[AlgorithmType.ML_LINEAR_REGRESSION, AlgorithmType.ML_ENSEMBLE],
-        expected_algorithm_type=expected_algorithm_type
+        # algorithms_to_train_types=[AlgorithmType.ML_LINEAR_REGRESSION],
+        algorithms_to_train_types=[
+            AlgorithmType.ML_LINEAR_REGRESSION,
+            AlgorithmType.ML_ENSEMBLE,
+            AlgorithmType.ML_LASSO_REGRESSION,
+            AlgorithmType.ML_RIDGE_REGRESSION,
+            AlgorithmType.ML_BAYESIAN_RIDGE_REGRESSION
+        ],
+        expected_algorithm_type=expected_algorithm_type,
+        shuffle_training_trips=False
     )
     # Train algorithms
     PredictorLearner(config=prediction_learner_config)\

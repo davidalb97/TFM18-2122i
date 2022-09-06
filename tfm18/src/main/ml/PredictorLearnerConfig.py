@@ -10,6 +10,7 @@ from tfm18.src.main.dataset.DatasetDto import DatasetDto
 from tfm18.src.main.dataset.DatasetRepository import DatasetRepository
 from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
 from tfm18.src.main.dataset.DatasetType import DatasetType
+from tfm18.src.main.util.Formulas import convert_minutes_to_milliseconds
 
 
 class PredictorLearnerConfig:
@@ -25,6 +26,8 @@ class PredictorLearnerConfig:
             self,
             dataset_dtos: Optional[list[DatasetDto]] = None,
             dataset_types: Optional[list[DatasetType]] = None,
+            timestep_ms: int = 1000,
+            min_trip_time_ms: int = convert_minutes_to_milliseconds(10),
             specific_run_trip: Optional[DatasetTripDto] = None,
             specific_run_trip_id: Optional[str] = None,
             training_trip_whitelist: Optional[list[str]] = None,
@@ -60,13 +63,15 @@ class PredictorLearnerConfig:
             # Default dataset type list if they are not passed
             if dataset_types is None:
                 dataset_types = [DatasetType.VED]
-            dataset_repository = DatasetRepository()
 
-            self.dataset_dtos: list[DatasetDto] = list(
-                map(
-                    lambda dataset_type: dataset_repository.read_dataset(dataset_type=dataset_type), dataset_types
-                )
+            dataset_dto_list: list[DatasetDto]
+            dataset_dto_list, _ = DatasetRepository().read_datasets(
+                dataset_type_list=dataset_types,
+                timestep_ms=timestep_ms,
+                min_trip_time_ms=min_trip_time_ms
             )
+
+            self.dataset_dtos: list[DatasetDto] = dataset_dto_list
 
         # Extract run and training trip dtos
         self.training_dataset_trip_list = []

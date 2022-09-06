@@ -11,6 +11,7 @@ from tfm18.src.main.dataset.DatasetRepository import DatasetRepository
 from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
 from tfm18.src.main.dataset.DatasetType import DatasetType
 from tfm18.src.main.evaluation.BaseAlgorithmEvaluation import BaseAlgorithmEvaluation
+from tfm18.src.main.util.Formulas import convert_minutes_to_milliseconds
 
 
 class TripExecutorConfigDto:
@@ -21,10 +22,12 @@ class TripExecutorConfigDto:
 
     def __init__(
         self,
+        timestep_ms: int = 1000,
+        min_trip_time_ms: int = convert_minutes_to_milliseconds(10),
         dataset_trip_dto_id: Optional[str] = None,
         dataset_trip_dto: Optional[DatasetTripDto] = None,
-        dataset_type: Optional[DatasetType] = DatasetType.VED,
-        dataset_dto: Optional[DatasetDto] = None,
+        dataset_type_list: Optional[list[DatasetType]] = None,
+        dataset_dto_list: Optional[list[DatasetDto]] = None,
         enabled_algorithm_types: Optional[list[AlgorithmType]] = None,
         enabled_algorithms: Optional[list[BaseAlgorithm]] = None,
         expected_algorithm_type: Optional[AlgorithmType] = None,
@@ -37,12 +40,21 @@ class TripExecutorConfigDto:
         # If the trip is missing, fetch it from dataset
         else:
             # If the dataset is missing, fetch it from repository
-            if dataset_dto is None:
-                dataset_dto = DatasetRepository() \
-                    .read_dataset(dataset_type=dataset_type, specific_trip_id=dataset_trip_dto_id)
-            # Find the trip
+            if dataset_dto_list is None:
+                dataset_type_list = [DatasetType.VED]
+
+            dataset_dto_list: list[DatasetDto]
+            dataset_trip_dto_list: list[DatasetTripDto]
+            dataset_dto_list, dataset_trip_dto_list = DatasetRepository().read_datasets(
+                dataset_type_list=dataset_type_list,
+                timestep_ms=timestep_ms,
+                min_trip_time_ms=min_trip_time_ms,
+                specific_trip_id=dataset_trip_dto_id
+            )
+
+            # Find a random trip
             if dataset_trip_dto_id is None:
-                self.dataset_trip_dto = random.choice(dataset_dto.dataset_trip_dto_list)
+                self.dataset_trip_dto = random.choice(dataset_trip_dto_list)
 
         if enabled_algorithms is not None and len(enabled_algorithms) > 0:
             self.enabled_algorithms = enabled_algorithms
