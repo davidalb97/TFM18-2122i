@@ -2,6 +2,7 @@ import math
 
 from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
 from tfm18.src.main.evaluation.BaseAlgorithmEvaluation import BaseAlgorithmEvaluation
+from tfm18.src.main.util.Formulas import unsafe_division
 
 
 # noinspection PyPep8Naming
@@ -17,4 +18,4 @@ class R_2AlgorithmEvaluation(BaseAlgorithmEvaluation):
         for expected_y, result_y in zip(expected, result):
             _sum1 += math.pow((expected_y - result_y), 2)
             _sum2 += math.pow((result_y - _avg_result), 2)
-        return 1 - (_sum1 / _sum2)
+        return 1 - unsafe_division(_sum1, _sum2)
