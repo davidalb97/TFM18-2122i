@@ -100,7 +100,7 @@ class DatasetTripVisualizer:
 
             print("Mapping visualizer feature \"%s\"" % curr_y_feature_name)
 
-            curr_axis.plot(x_feature_data, curr_y_feature_data, color=curr_y_feature_color, marker=marker, scalex=False, scaley=False)
+            curr_axis.plot(x_feature_data, curr_y_feature_data, color=curr_y_feature_color, marker=marker)
             curr_axis.set_ylabel(ylabel=curr_y_feature_name, color=curr_y_feature_color, fontsize=fontsize)
             # Disable right ticks from additional spines with shared X axis
             curr_axis.tick_params(axis='y', labelcolor=Color.BLACK.value, right=False, labelright=False)
