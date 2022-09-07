@@ -8,10 +8,11 @@ from tfm18.src.main.visualizer.DatasetTripVisualizer import DatasetTripVisualize
 
 if __name__ == '__main__':
 
-    # specific_trip_name = 'E1/VED_171213_week_772_455-AC_ON.csv'
-    specific_trip_name = None
+    specific_trip_name = 'E1/VED_171213_week_772_455-AC_ON.csv'
+    # specific_trip_name = None
     dataset_type_list: list[DatasetType] = [DatasetType.CLASSIC, DatasetType.VED]
     config: TripExecutorConfigDto = TripExecutorConfigDto(
+        dataset_trip_dto_id=specific_trip_name,
         dataset_type_list=dataset_type_list,
         enabled_algorithm_types=[
             AlgorithmType.BASIC,
