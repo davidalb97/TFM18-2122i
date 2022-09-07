@@ -12,6 +12,7 @@ from tfm18.src.main.dataset.classic_ev_range.ClassicEvRangeDatasetReader import 
 from tfm18.src.main.dataset.ved.VEDDatasetReader import VEDDatasetReader
 from tfm18.src.main.util.Formulas import convert_minutes_to_milliseconds, convert_milliseconds_to_minutes
 from tfm18.src.main.util.PickleHandler import read_pickle_file, write_pickle_file
+from tfm18.src.main.util.StrUtil import replace_last
 
 
 class DatasetRepository:
@@ -83,8 +84,11 @@ class DatasetRepository:
         specific_trip_id: Optional[str] = None
     ) -> list[DatasetTripDto]:
         if specific_trip_id is not None:
+            # Do not use os.path.sep as it can cause exception when it changes host
+            trip_name: str = replace_last(original_str=specific_trip_id, old="/", new="-", occurrences=1)
+            trip_name: str = replace_last(original_str=trip_name, old="\\", new="-", occurrences=1)
             pickle_file_name = "%s_%d_%d_%s%s" % (
-                dataset_type.value, timestep_ms, min_trip_time_ms, specific_trip_id, self.__pickle_file_extension
+                dataset_type.value, timestep_ms, min_trip_time_ms, trip_name, self.__pickle_file_extension
             )
         else:
             pickle_file_name = "%s_%d_%d%s" % (
