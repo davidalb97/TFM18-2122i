@@ -55,6 +55,8 @@ class TripExecutorConfigDto:
             # Find a random trip
             if dataset_trip_dto_id is None:
                 self.dataset_trip_dto = random.choice(dataset_trip_dto_list)
+            else:
+                self.dataset_trip_dto = dataset_trip_dto_list[0]
 
         if enabled_algorithms is not None and len(enabled_algorithms) > 0:
             self.enabled_algorithms = enabled_algorithms
