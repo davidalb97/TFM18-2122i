@@ -20,7 +20,13 @@ if __name__ == '__main__':
             AlgorithmType.HISTORY_BASED_STOCHRASTIC_DESCENT
         ],
         expected_algorithm_type=AlgorithmType.HISTORY_BASED,
-        algorithm_avaluation_types=[AlgorithmEvaluationType.MAE, AlgorithmEvaluationType.MSE]
+        algorithm_avaluation_types=[
+            AlgorithmEvaluationType.MAE,
+            AlgorithmEvaluationType.MSE,
+            AlgorithmEvaluationType.MAPE,
+            AlgorithmEvaluationType.RMSE,
+            AlgorithmEvaluationType.R_2
+        ]
     )
     trip_execution_result: TripExecutionResultDto = TripExecutor() \
         .execute_trip(config=config)

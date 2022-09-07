@@ -13,6 +13,7 @@ if __name__ == '__main__':
     specific_trip_name = 'E1/VED_171213_week_772_455-AC_ON.csv'
     expected_algorithm_type: AlgorithmType = AlgorithmType.HISTORY_BASED
     # expected_algorithm_type: AlgorithmType = AlgorithmType.BASIC
+    # dataset_types: list[DatasetType] = [DatasetType.VED, DatasetType.CLASSIC]
     dataset_types: list[DatasetType] = [DatasetType.VED]
     prediction_learner_config: PredictorLearnerConfig = PredictorLearnerConfig(
         dataset_types=dataset_types,
@@ -40,7 +41,13 @@ if __name__ == '__main__':
             enabled_algorithms=prediction_learner_config.algorithms_to_train,
             enabled_algorithm_types=[AlgorithmType.BASIC, AlgorithmType.HISTORY_BASED],
             expected_algorithm_type=expected_algorithm_type,
-            algorithm_avaluation_types=[AlgorithmEvaluationType.MAE, AlgorithmEvaluationType.MSE]
+            algorithm_avaluation_types=[
+                AlgorithmEvaluationType.MAE,
+                AlgorithmEvaluationType.MSE,
+                AlgorithmEvaluationType.MAPE,
+                AlgorithmEvaluationType.RMSE,
+                AlgorithmEvaluationType.R_2
+            ]
         )
     )
 
