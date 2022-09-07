@@ -7,6 +7,7 @@ from matplotlib.figure import Figure
 
 from tfm18.src.main.dataset.DatasetType import DatasetType
 from tfm18.src.main.execution.TripExecutionResultDto import TripExecutionResultDto
+from tfm18.src.main.util.Color import Color
 from tfm18.src.main.visualizer.VisualizerFeature import VisualizerFeature
 from tfm18.src.main.visualizer.VisualizerGraph import VisualizerGraph
 
@@ -99,9 +100,10 @@ class DatasetTripVisualizer:
 
             print("Mapping visualizer feature \"%s\"" % curr_y_feature_name)
 
-            curr_axis.plot(x_feature_data, curr_y_feature_data, color=curr_y_feature_color, marker=marker)
+            curr_axis.plot(x_feature_data, curr_y_feature_data, color=curr_y_feature_color, marker=marker, scalex=False, scaley=False)
             curr_axis.set_ylabel(ylabel=curr_y_feature_name, color=curr_y_feature_color, fontsize=fontsize)
-            curr_axis.tick_params(axis='y', labelcolor=curr_y_feature_color)
+            # Disable right ticks from additional spines with shared X axis
+            curr_axis.tick_params(axis='y', labelcolor=Color.BLACK.value, right=False, labelright=False)
             all_y_points.extend(curr_y_feature_data)
 
             prev_axis = curr_axis
@@ -115,14 +117,15 @@ class DatasetTripVisualizer:
         #     pyplot.gca().yaxis.set_major_locator(pyplot.MultipleLocator(5))
 
         axis.set_ylim(min_y_point, max_y_point)
-        #
-        # axis.set_xlim(min(x_feature_data), max(x_feature_data))
 
         ret_axis_len = len(ret_axis)
         if ret_axis_len > 2:
-            for ret_axis_idx in range(2, len(ret_axis)):
+            for ret_axis_idx in range(1, len(ret_axis)):
                 ret_axis[ret_axis_idx].spines["right"] \
-                    .set_position(("axes", 0.95 + 0.05 * ret_axis_idx))
+                    .set_position(("axes", 0.97 + 0.05 * ret_axis_idx))
+
+                # Disable right Y spines as they share X axis
+                ret_axis[ret_axis_idx].spines["right"].set_visible(False)
 
         return ret_axis
 
