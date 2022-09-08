@@ -1,5 +1,5 @@
 import random
-from random import random, randrange, shuffle
+from random import randrange, shuffle
 from typing import Optional
 
 from tfm18.src.main.algorithm.AlgorithmRepository import AlgorithmRepository
