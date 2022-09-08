@@ -49,7 +49,7 @@ class DatasetRepository:
         self,
         dataset_type_list: list[DatasetType],
         timestep_ms: int = 1000,
-        min_trip_time_ms: int = convert_minutes_to_milliseconds(10),
+        min_trip_time_ms: float = convert_minutes_to_milliseconds(10),
         specific_trip_id: Optional[str] = None
     ) -> Tuple[list[DatasetDto], list[DatasetTripDto]]:
         dataset_dto_list: list[DatasetDto] = []
@@ -80,18 +80,18 @@ class DatasetRepository:
         self,
         dataset_type: DatasetType,
         timestep_ms: int = 1000,
-        min_trip_time_ms: int = convert_minutes_to_milliseconds(10),
+        min_trip_time_ms: float = convert_minutes_to_milliseconds(10),
         specific_trip_id: Optional[str] = None
     ) -> list[DatasetTripDto]:
         if specific_trip_id is not None:
             # Do not use os.path.sep as it can cause exception when it changes host
             trip_name: str = replace_last(original_str=specific_trip_id, old="/", new="-", occurrences=1)
             trip_name: str = replace_last(original_str=trip_name, old="\\", new="-", occurrences=1)
-            pickle_file_name = "%s_%d_%d_%s%s" % (
+            pickle_file_name = "%s_%d_%.2f_%s%s" % (
                 dataset_type.value, timestep_ms, min_trip_time_ms, trip_name, self.__pickle_file_extension
             )
         else:
-            pickle_file_name = "%s_%d_%d%s" % (
+            pickle_file_name = "%s_%d_%.2f%s" % (
                 dataset_type.value, timestep_ms, min_trip_time_ms, self.__pickle_file_extension
             )
         pickle_file_path = os.path.join(self.__dataset_trip_list_pickle_file_path, pickle_file_name)
