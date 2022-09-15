@@ -6,7 +6,6 @@ from tfm18.src.main.algorithm.HistoryBasedApproach import HistoryBasedApproach
 from tfm18.src.main.algorithm.MyBayesianRidgeRegression import MyBayesianRidgeRegression
 from tfm18.src.main.algorithm.MyDecisionTreeRegression import MyDecisionTreeRegression
 from tfm18.src.main.algorithm.MyEnsemble import MyEnsemble
-from tfm18.src.main.algorithm.MyEnsembleCustom import MyEnsembleCustom
 from tfm18.src.main.algorithm.MyLassoRegression import MyLassoRegression
 from tfm18.src.main.algorithm.MyLinearRegression import MyLinearRegression
 from tfm18.src.main.algorithm.MyRandomForestRegression import MyRandomForestRegression
