@@ -121,6 +121,8 @@ class DatasetRepository:
         min_trip_time_min: float = convert_milliseconds_to_minutes(min_trip_time_ms)
         trip_dto_list = list(filter(lambda x: x.timestamps_min_list[-1] > min_trip_time_min, trip_dto_list))
 
+        self.ensure_all_trips_are_valid(dataset_trip_dto_list=trip_dto_list)
+
         # Write the pickle file
         if requires_writting:
             write_pickle_file(file_path=pickle_file_path, obj=trip_dto_list)
@@ -133,6 +135,6 @@ class DatasetRepository:
 
         return trip_dto_list
 
-    def ensure_all_trips_are_valid(self, trip_names: list[DatasetTripDto]):
-        if any(not trip.is_valid() for trip in trip_names):
+    def ensure_all_trips_are_valid(self, dataset_trip_dto_list: list[DatasetTripDto]):
+        if any(not trip.is_valid() for trip in dataset_trip_dto_list):
             raise Exception("Unknown error writing!")
