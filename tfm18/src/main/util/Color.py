@@ -21,3 +21,6 @@ class Color(Enum):
 
     GRAY = 'gray'
     BLACK = 'black'
+
+    YELLOW = 'yellow'
+    DARK_CYAN = 'darkcyan'
