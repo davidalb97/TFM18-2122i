@@ -22,7 +22,7 @@ class TripExecutorConfigDto:
 
     def __init__(
         self,
-        timestep_ms: int = 1000,
+        timestep_ms: int = 0,
         min_trip_time_ms: int = convert_minutes_to_milliseconds(10),
         dataset_trip_dto_id: Optional[str] = None,
         dataset_trip_dto: Optional[DatasetTripDto] = None,

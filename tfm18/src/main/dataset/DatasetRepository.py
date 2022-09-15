@@ -48,7 +48,7 @@ class DatasetRepository:
     def read_datasets(
         self,
         dataset_type_list: list[DatasetType],
-        timestep_ms: int = 1000,
+        timestep_ms: int = 0,
         min_trip_time_ms: float = convert_minutes_to_milliseconds(10),
         specific_trip_id: Optional[str] = None
     ) -> Tuple[list[DatasetDto], list[DatasetTripDto]]:
@@ -79,7 +79,7 @@ class DatasetRepository:
     def __read_single_dataset(
         self,
         dataset_type: DatasetType,
-        timestep_ms: int = 1000,
+        timestep_ms: int = 0,
         min_trip_time_ms: float = convert_minutes_to_milliseconds(10),
         specific_trip_id: Optional[str] = None
     ) -> list[DatasetTripDto]:

@@ -25,7 +25,7 @@ class PredictorLearnerConfig:
         self,
         dataset_dtos: Optional[list[DatasetDto]] = None,
         dataset_types: Optional[list[DatasetType]] = None,
-        timestep_ms: int = 1000,
+        timestep_ms: int = 0,
         min_trip_time_ms: float = convert_minutes_to_milliseconds(10),
         specific_run_trip: Optional[DatasetTripDto] = None,
         specific_run_trip_id: Optional[str] = None,
