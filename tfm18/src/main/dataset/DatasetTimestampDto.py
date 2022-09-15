@@ -7,6 +7,7 @@ class DatasetTimestampDto:
     current_ampers: float
     power_kW: float
     ac_power_kW: float
+    distance_kM: float
 
     def __init__(
         self,
@@ -17,7 +18,8 @@ class DatasetTimestampDto:
         iec_power_KWh_by_100km: float,
         current_ampers: float,
         power_kW: float,
-        ac_power_kW: float
+        ac_power_kW: float,
+        distance_kM: float
     ):
         self.timestamp_ms = timestamp_ms
         self.timestamp_min = timestamp_min
@@ -27,3 +29,4 @@ class DatasetTimestampDto:
         self.current_ampers = current_ampers
         self.power_kW = power_kW
         self.ac_power_kW = ac_power_kW
+        self.distance_kM = distance_kM

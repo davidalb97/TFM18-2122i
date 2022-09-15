@@ -17,6 +17,7 @@ class DatasetTripDto:
     speed_kmh_list: list[float]
     power_kilowatt_list: list[float]
     ac_power_kilowatt_list: list[float]
+    distance_km_list: list[float]
     timestamps_min_enabled: bool
     soc_percentage_enabled: bool
     iec_power_KWh_by_100km_enabled: bool
@@ -59,6 +60,7 @@ class DatasetTripDto:
         self.speed_kmh_list = list()
         self.power_kilowatt_list = list()
         self.ac_power_kilowatt_list = list()
+        self.distance_km_list = list()
 
         dataset_timestamp_dto: DatasetTimestampDto
         for dataset_timestamp_dto in dataset_timestamp_dto_list:
@@ -69,6 +71,7 @@ class DatasetTripDto:
             self.speed_kmh_list.append(dataset_timestamp_dto.speed_kmh)
             self.power_kilowatt_list.append(dataset_timestamp_dto.power_kW)
             self.ac_power_kilowatt_list.append(dataset_timestamp_dto.ac_power_kW)
+            self.distance_km_list.append(dataset_timestamp_dto.distance_kM)
 
     def is_valid(self) -> bool:
         len_dataset_timestamp_dto_list = len(self.dataset_timestamp_dto_list)
@@ -79,7 +82,9 @@ class DatasetTripDto:
             len_dataset_timestamp_dto_list == len(self.current_ampers_list) and \
             len_dataset_timestamp_dto_list == len(self.speed_kmh_list) and \
             len_dataset_timestamp_dto_list == len(self.power_kilowatt_list) and \
-            len_dataset_timestamp_dto_list == len(self.ac_power_kilowatt_list)
+            len_dataset_timestamp_dto_list == len(self.ac_power_kilowatt_list) and \
+            len_dataset_timestamp_dto_list == len(self.distance_km_list)
+
 
     def get_visualizer_graphs(self) -> list[VisualizerGraph]:
         ret_list: list[VisualizerGraph] = list()

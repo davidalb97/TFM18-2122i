@@ -1,5 +1,6 @@
 import os
 import pathlib
+from typing import Optional
 
 from tfm18.src.main.dataset.BaseDatasetReader import BaseDatasetReader
 from tfm18.src.main.dataset.DatasetTimestampDto import DatasetTimestampDto
@@ -8,7 +9,8 @@ from tfm18.src.main.dataset.DatasetType import DatasetType
 from tfm18.src.main.dataset.DatasetVehicleDto import DatasetVehicleDto
 from tfm18.src.main.util.Aliases import OrangeTable
 from tfm18.src.main.util.DataPathUtil import load_dataset_file
-from tfm18.src.main.util.Formulas import convert_milliseconds_to_minutes, get_instant_SOC, convert_watts_to_kilowatts
+from tfm18.src.main.util.Formulas import convert_milliseconds_to_minutes, get_instant_SOC, convert_watts_to_kilowatts, \
+    calculate_linear_distance_km, calculate_aceleration_km_h2, calculate_non_linear_distance_km
 
 
 class ClassicEvRangeDatasetReader(BaseDatasetReader):
@@ -43,27 +45,54 @@ class ClassicEvRangeDatasetReader(BaseDatasetReader):
         orange_table_speed: OrangeTable = load_dataset_file(self.__classic_ev_range_data_speed)
         orange_table_iec: OrangeTable = load_dataset_file(self.__classic_ev_range_data_iec)
 
-        for (timestamp_ms_row, rbe_Wh_row, speed_km_s_row, iec_kWh_100km_row) in zip(
+        distance_ignores_aceleration = False
+        prev_timestamp_ms = 0
+        prev_speed_km_h = 0
+        for (timestamp_ms_row, rbe_Wh_row, speed_km_h_row, iec_kWh_100km_row) in zip(
             orange_table_timestamp_ms,
             orange_table_rbe,
             orange_table_speed,
             orange_table_iec
         ):
+
             timestamp_ms: float = timestamp_ms_row.list[0]
             rbe_kWh: float = convert_watts_to_kilowatts(rbe_Wh_row.list[0])
-            speed_km_s: float = speed_km_s_row.list[0]
+            speed_km_h: float = speed_km_h_row.list[0]
             iec_kWh_100km: float = iec_kWh_100km_row.list[0]
+
+            time_delta_hour = timestamp_ms - prev_timestamp_ms
+
+            if distance_ignores_aceleration:
+                distance_km = calculate_linear_distance_km(
+                    speed_km_h=speed_km_h,
+                    time_h=time_delta_hour
+                )
+            else:
+                aceleration_km_h2 = calculate_aceleration_km_h2(
+                    speed_km_h1=prev_speed_km_h,
+                    speed_km_h2=speed_km_h
+                )
+                distance_km = abs(
+                    calculate_non_linear_distance_km(
+                        initial_velocity_km_h=speed_km_h,
+                        aceleration_km_h=aceleration_km_h2,
+                        time_h=time_delta_hour
+                    )
+                )
+            prev_speed_km_h = speed_km_h
+            prev_timestamp_ms = timestamp_ms
 
             timestamp_dataset_entries.append(
                 DatasetTimestampDto(
                     timestamp_ms=timestamp_ms,
                     timestamp_min=convert_milliseconds_to_minutes(milies=timestamp_ms),
                     soc_percentage=get_instant_SOC(RBE=rbe_kWh, FBE=FBE_bmw_I3_94Ah_kWh),
-                    speed_kmh=speed_km_s,
+                    speed_kmh=speed_km_h,
                     iec_power_KWh_by_100km=iec_kWh_100km,
                     current_ampers=not_applicable_value,
                     power_kW=not_applicable_value,
-                    ac_power_kW=not_applicable_value
+                    ac_power_kW=not_applicable_value,
+                    distance_kM=distance_km
                 )
             )
 

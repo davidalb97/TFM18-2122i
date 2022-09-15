@@ -296,7 +296,8 @@ class VEDDatasetReader(BaseDatasetReader):
                     iec_power_KWh_by_100km=iec_power_hour_100km,
                     current_ampers=ved_instance.hv_battery_current_amperes,
                     power_kW=power_kW,
-                    ac_power_kW=ved_instance.air_conditioning_power_kw
+                    ac_power_kW=ved_instance.air_conditioning_power_kw,
+                    distance_kM=distance_km
                 )
             )
 

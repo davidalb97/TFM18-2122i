@@ -71,7 +71,8 @@ class NDANEVDatasetReader(BaseDatasetReader):
         iec_require_above_zero = False
         iec_ignore_when_not_moving = False
 
-        last_mile: Optional[float] = None
+        last_mile: float = 0.0
+        delta_mile: float = 0.0
         last_motor_power_w: Optional[float] = None
         last_driving_time_secs: Optional[float] = None
         sum_motor_current_A: float = 0
@@ -83,12 +84,9 @@ class NDANEVDatasetReader(BaseDatasetReader):
         sum_moving_E_kWh = 0
         for instance in orange_table:
             ndanev_instance: NDANEVInstantDto = NDANEVInstantDto(instance)
-            last_mile = ndanev_instance.mile
-            last_motor_power_w = ndanev_instance.motor_power
-            last_driving_time_secs = ndanev_instance.driving_time_secs
             sum_motor_current_A += ndanev_instance.motor_current
             sum_motor_voltage_V += ndanev_instance.motor_voltage
-
+            delta_mile = ndanev_instance.mile - last_mile
             V_v = ndanev_instance.motor_voltage
             I_A = ndanev_instance.motor_current
             T_h = convert_seconds_to_hours(seconds=ndanev_instance.time_interval_secs)
@@ -127,6 +125,10 @@ class NDANEVDatasetReader(BaseDatasetReader):
             ):
                 iec_power_hour_100km = 0
 
+            last_mile = ndanev_instance.mile
+            last_motor_power_w = ndanev_instance.motor_power
+            last_driving_time_secs = ndanev_instance.driving_time_secs
+
             timestamp_dataset_entry_list.append(
                 DatasetTimestampDto(
                     timestamp_ms=timestamp_ms,
@@ -137,7 +139,8 @@ class NDANEVDatasetReader(BaseDatasetReader):
                     iec_power_KWh_by_100km=iec_power_hour_100km,
                     current_ampers=ndanev_instance.total_current,
                     power_kW=power_kW,
-                    ac_power_kW=not_applicable_value
+                    ac_power_kW=not_applicable_value,
+                    distance_kM=convert_miles_to_km(delta_mile)
                 )
             )
 
