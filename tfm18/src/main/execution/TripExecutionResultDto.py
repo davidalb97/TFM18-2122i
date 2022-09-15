@@ -104,7 +104,7 @@ class TripExecutionResultDto:
             list(
                 map(
                     lambda result_entry: VisualizerGraph(
-                        graph_name="\"%s\" Electric Range (eRange)" % result_entry[0].value[0],
+                        graph_name="\"%s\" (eRange)" % result_entry[0].value[0],
                         y_min=y_min,
                         y_max=y_max,
                         x_feature=VisualizerFeature(
