@@ -1,3 +1,4 @@
+import datetime
 from typing import Optional
 
 from tfm18.src.main.algorithm.AlgorithmRepository import AlgorithmRepository
@@ -18,6 +19,11 @@ class TripExecutor:
         self,
         config: TripExecutorConfigDto
     ) -> TripExecutionResultDto:
+
+        # Initialize trip execution start time
+        start_time: Optional[datetime] = None
+        if config.print_execution_time:
+            start_time = datetime.datetime.now()
 
         # Initialize eRange_distance_results dictionary
         eRange_distance_results: dict[AlgorithmType, list[float]] = dict()
@@ -80,24 +86,41 @@ class TripExecutor:
                 expected_timestamp_result: float = expected_algorithm.predict(prediction_input=prediction_input)
                 expected_result_list.append(expected_timestamp_result)
 
+        # Print trip execution time
+        if config.print_execution_time:
+            time_delta_secs: float = (datetime.datetime.now() - start_time).total_seconds()
+            print("Time for trip %s's execution: %.2f" % (config.dataset_trip_dto.trip_identifier, time_delta_secs))
+
         eRange_result_evaluation_dict: dict[AlgorithmType, dict[AlgorithmEvaluationType, float]] = dict()
         algorithm_evaluation_dict: dict[AlgorithmEvaluationType, float]
         if config.expected_algorithm is not None:
-
+            metrics_str: str = ""
             for algorithm_type in enabled_algorithm_types:
+
+                # Do not calculate evaluation metrics for target algorithm
+                if algorithm_type == config.expected_algorithm.get_algorithm_type():
+                    continue
 
                 # Initialize algorithm evaluation results dict
                 algorithm_evaluation_dict = dict()
                 eRange_result_evaluation_dict[algorithm_type] = algorithm_evaluation_dict
+                metrics_str += algorithm_type.value[0] + ": "
 
                 # Calculate each evaluation for the specific enabled algorithm
                 avaluation_algorithm: BaseAlgorithmEvaluation
                 for avaluation_algorithm in config.avaluation_algorithms:
                     algorithm_evaluation_type: AlgorithmEvaluationType = avaluation_algorithm.get_type()
-                    algorithm_evaluation_dict[algorithm_evaluation_type] = avaluation_algorithm.evaluate(
+                    evaluation_value: float = avaluation_algorithm.evaluate(
                         expected=expected_result_list,
                         result=eRange_distance_results[algorithm_type]
                     )
+                    algorithm_evaluation_dict[algorithm_evaluation_type] = evaluation_value
+                    # Save evaluation value for printing later
+                    # noinspection PyUnresolvedReferences
+                    metrics_str += "%s=%.2f, " % (algorithm_evaluation_type.value[0], evaluation_value)
+                metrics_str = metrics_str[:-2]  # Remove last comma and space
+                metrics_str += "\n"
+            print("Trip evaluation metrics:\n%s" % metrics_str)
 
         return TripExecutionResultDto(
             dataset_trip_dto=config.dataset_trip_dto,

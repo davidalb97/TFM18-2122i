@@ -19,6 +19,7 @@ class TripExecutorConfigDto:
     enabled_algorithms: list[BaseAlgorithm]
     expected_algorithm: Optional[BaseAlgorithm]
     avaluation_algorithms: list[BaseAlgorithmEvaluation]
+    print_execution_time: bool
 
     def __init__(
         self,
@@ -32,9 +33,10 @@ class TripExecutorConfigDto:
         enabled_algorithms: Optional[list[BaseAlgorithm]] = None,
         expected_algorithm_type: Optional[AlgorithmType] = None,
         expected_algorithm: Optional[BaseAlgorithm] = None,
-        algorithm_avaluation_types: Optional[list[AlgorithmEvaluationType]] = None
+        algorithm_avaluation_types: Optional[list[AlgorithmEvaluationType]] = None,
+        print_execution_time: bool = True
     ):
-
+        self.print_execution_time = print_execution_time
         if dataset_trip_dto is not None:
             self.dataset_trip_dto = dataset_trip_dto
         # If the trip is missing, fetch it from dataset
