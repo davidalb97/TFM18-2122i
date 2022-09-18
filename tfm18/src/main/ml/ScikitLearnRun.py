@@ -6,11 +6,13 @@ from tfm18.src.main.execution.TripExecutor import TripExecutor
 from tfm18.src.main.execution.TripExecutorConfigDto import TripExecutorConfigDto
 from tfm18.src.main.ml.PredictorLearner import PredictorLearner
 from tfm18.src.main.ml.PredictorLearnerConfig import PredictorLearnerConfig
+from tfm18.src.main.util.Formulas import convert_minutes_to_milliseconds
 from tfm18.src.main.visualizer.DatasetTripVisualizer import DatasetTripVisualizer
 
 if __name__ == '__main__':
 
     specific_trip_name = 'E1/VED_171213_week_772_455-AC_ON.csv'
+    # specific_trip_name = None
     expected_algorithm_type: AlgorithmType = AlgorithmType.HISTORY_BASED
     # expected_algorithm_type: AlgorithmType = AlgorithmType.BASIC
     # dataset_types: list[DatasetType] = [DatasetType.VED, DatasetType.CLASSIC]
@@ -18,6 +20,7 @@ if __name__ == '__main__':
     prediction_learner_config: PredictorLearnerConfig = PredictorLearnerConfig(
         dataset_types=dataset_types,
         specific_run_trip_id=specific_trip_name,
+        min_trip_time_ms=convert_minutes_to_milliseconds(30),
         # algorithms_to_train_types=[AlgorithmType.ML_LINEAR_REGRESSION],
         algorithms_to_train_types=[
             AlgorithmType.ML_LINEAR_REGRESSION,
