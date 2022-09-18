@@ -15,6 +15,7 @@ class StratifiedKFoldReg(StratifiedKFold):
     for regression setups, such that these partitions
     resemble the original sample distribution of the
     target variable.
+    Credits: jrasero, https://github.com/jrasero
 
     """
 
