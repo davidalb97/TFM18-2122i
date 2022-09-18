@@ -98,7 +98,7 @@ class DatasetTripVisualizer:
             else:
                 curr_axis.set_xlabel(xlabel=x_feature_name, fontsize=fontsize)
 
-            print("Mapping visualizer feature \"%s\"" % curr_y_feature_name)
+            # print("Mapping visualizer feature \"%s\"" % curr_y_feature_name)
 
             curr_axis.plot(x_feature_data, curr_y_feature_data, color=curr_y_feature_color, marker=marker)
             curr_axis.set_ylabel(ylabel=curr_y_feature_name, color=curr_y_feature_color, fontsize=fontsize)
