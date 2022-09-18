@@ -20,7 +20,7 @@ if __name__ == '__main__':
             AlgorithmType.HISTORY_BASED,
             AlgorithmType.HISTORY_BASED_STOCHRASTIC_DESCENT
         ],
-        expected_algorithm_type=AlgorithmType.HISTORY_BASED,
+        expected_algorithm_type=None,
         algorithm_avaluation_types=[
             AlgorithmEvaluationType.MAE,
             AlgorithmEvaluationType.MSE,
