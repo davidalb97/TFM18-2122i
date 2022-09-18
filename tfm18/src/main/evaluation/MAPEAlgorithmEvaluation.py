@@ -1,4 +1,4 @@
-import math
+from sklearn.metrics import mean_absolute_percentage_error
 
 from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
 from tfm18.src.main.evaluation.BaseAlgorithmEvaluation import BaseAlgorithmEvaluation
@@ -10,7 +10,4 @@ class MAPEAlgorithmEvaluation(BaseAlgorithmEvaluation):
         return AlgorithmEvaluationType.MAPE
 
     def _evaluate(self, expected: list[float], result: list[float]) -> float:
-        _sum: float = 0.0
-        for expected_y, result_y in zip(expected, result):
-            _sum += math.fabs((expected_y - result_y) / expected_y)
-        return (_sum / len(expected)) * 100
+        return mean_absolute_percentage_error(y_true=expected, y_pred=result)

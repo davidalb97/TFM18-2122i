@@ -1,8 +1,7 @@
-import math
+from sklearn.metrics import r2_score
 
 from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
 from tfm18.src.main.evaluation.BaseAlgorithmEvaluation import BaseAlgorithmEvaluation
-from tfm18.src.main.util.Formulas import unsafe_division
 
 
 # noinspection PyPep8Naming
@@ -12,10 +11,4 @@ class R_2AlgorithmEvaluation(BaseAlgorithmEvaluation):
         return AlgorithmEvaluationType.R_2
 
     def _evaluate(self, expected: list[float], result: list[float]) -> float:
-        _sum1: float = 0.0
-        _sum2: float = 0.0
-        _avg_result = sum(result) / len(result)
-        for expected_y, result_y in zip(expected, result):
-            _sum1 += math.pow((expected_y - result_y), 2)
-            _sum2 += math.pow((result_y - _avg_result), 2)
-        return 1 - unsafe_division(_sum1, _sum2)
+        return r2_score(y_true=expected, y_pred=result)
