@@ -83,7 +83,7 @@ class DatasetTripVisualizer:
 
         ret_axis.append(axis)
 
-        print("Mapping visualizer graph \"%s\"" % visualizer_graph.graph_name)
+        # print("Mapping visualizer graph \"%s\"" % visualizer_graph.graph_name)
 
         curr_y_feature: VisualizerFeature
         for idx, curr_y_feature in zip(range(len(enabled_y_features)), enabled_y_features):
