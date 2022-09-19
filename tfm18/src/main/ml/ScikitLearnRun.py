@@ -51,7 +51,8 @@ if __name__ == '__main__':
                 AlgorithmEvaluationType.MSE,
                 AlgorithmEvaluationType.MAPE,
                 AlgorithmEvaluationType.RMSE,
-                AlgorithmEvaluationType.R_2
+                AlgorithmEvaluationType.R_2,
+                AlgorithmEvaluationType.R_2_ADJUSTED
             ]
         )
     )

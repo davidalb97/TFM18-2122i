@@ -112,7 +112,8 @@ class TripExecutor:
                     algorithm_evaluation_type: AlgorithmEvaluationType = avaluation_algorithm.get_type()
                     evaluation_value: float = avaluation_algorithm.evaluate(
                         expected=expected_result_list,
-                        result=eRange_distance_results[algorithm_type]
+                        result=eRange_distance_results[algorithm_type],
+                        variable_count=11  # TODO make it not constant
                     )
                     algorithm_evaluation_dict[algorithm_evaluation_type] = evaluation_value
                     # Save evaluation value for printing later

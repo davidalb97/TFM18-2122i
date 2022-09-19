@@ -11,5 +11,5 @@ class MAEAlgorithmEvaluation(BaseAlgorithmEvaluation):
     def get_type(self) -> AlgorithmEvaluationType:
         return AlgorithmEvaluationType.MAE
 
-    def _evaluate(self, expected: list[float], result: list[float]) -> float:
+    def _evaluate(self, expected: list[float], result: list[float], variable_count: int) -> float:
         return mean_absolute_error(y_true=expected, y_pred=result)

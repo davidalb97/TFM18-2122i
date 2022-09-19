@@ -14,5 +14,5 @@ class RMSEAlgorithmEvaluation(BaseAlgorithmEvaluation):
     def get_type(self) -> AlgorithmEvaluationType:
         return AlgorithmEvaluationType.RMSE
 
-    def _evaluate(self, expected: list[float], result: list[float]) -> float:
-        return math.sqrt(self.__mse_instance.evaluate(expected=expected, result=result))
+    def _evaluate(self, expected: list[float], result: list[float], variable_count: int) -> float:
+        return math.sqrt(self.__mse_instance.evaluate(expected=expected, result=result, variable_count=variable_count))
