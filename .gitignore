@@ -1,3 +1,8 @@
+# Size blacklisted pickles:
+tfm18/data/VED_0_300000.00.pickle
+tfm18/data/VED_0_60000.00.pickle
+
+
 .$*
 
 .vscode/
