@@ -1,3 +1,5 @@
+import math
+
 import numpy
 from pandas import DataFrame
 from sklearn.ensemble import RandomForestRegressor, AdaBoostRegressor, AdaBoostClassifier, StackingClassifier, \
@@ -28,6 +30,10 @@ class MyEnsemble(MyBaseRegressor):
         decision_tree_number_of_leafs = 4782        # Ensemble stack article value
         random_forest_min_number_of_trees = 65      # Ensemble stack article value
         random_forest_tree_depth = 15               # Ensemble stack article value
+        feature_count = 11
+        max_features = math.sqrt(feature_count)
+        # max_features = math.log(feature_count)
+        max_features = round(max_features)
         k_nearest_neighbor = 10                     # Ensemble stack article value
         k_nearest_neighbor_metric = 'euclidean'     # Ensemble stack article value
         stratified_k_fold_k = 10                    # Ensemble stack article value
@@ -43,14 +49,14 @@ class MyEnsemble(MyBaseRegressor):
                         random_state=0,
                         min_samples_split=2,
                         min_samples_leaf=1,
-                        # max_features=4,
+                        max_features=max_features,
                         max_depth=decision_tree_tree_depth,
                         max_leaf_nodes=decision_tree_number_of_leafs
                     )),
                     ('rfr', RandomForestRegressor(
                         n_estimators=random_forest_min_number_of_trees,
                         max_depth=random_forest_tree_depth,
-                        # max_features=4,
+                        max_features=max_features,
                         random_state=0,
                         min_samples_split=2,
                         min_samples_leaf=1
@@ -79,14 +85,14 @@ class MyEnsemble(MyBaseRegressor):
                         random_state=0,
                         min_samples_split=2,
                         min_samples_leaf=1,
-                        # max_features=4,
+                        max_features=max_features,
                         max_depth=decision_tree_tree_depth,
                         max_leaf_nodes=decision_tree_number_of_leafs
                     )),
                     ('rfr', RandomForestClassifier(
                         n_estimators=random_forest_min_number_of_trees,
                         max_depth=random_forest_tree_depth,
-                        # max_features=4,
+                        max_features=max_features,
                         random_state=0,
                         min_samples_split=2,
                         min_samples_leaf=1
@@ -116,8 +122,8 @@ class MyEnsemble(MyBaseRegressor):
 
         old_approach = 0
         working_approach = 1
-        new_approach = 2
-        use_approach = working_approach
+        no_change_approach = 2
+        use_approach = no_change_approach
 
         if use_approach == working_approach:
             expected_output_numpy_array: numpy.ndarray = expected_output_dataframe.to_numpy()
@@ -132,6 +138,9 @@ class MyEnsemble(MyBaseRegressor):
         elif use_approach == old_approach:
             expected_output_numpy_array = expected_output_dataframe.iloc[:, 0]
             # expected_output_numpy_array = expected_output_dataframe.loc[:, :]
+        elif use_approach == no_change_approach:
+            self.base_stacking.fit(X=input_numpy_array, y=expected_output_dataframe)
+            return
         else:
             raise Exception("Unknown approach!")
 
