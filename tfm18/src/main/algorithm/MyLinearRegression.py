@@ -17,12 +17,7 @@ class MyLinearRegression(MyBaseRegressor):
         return AlgorithmType.ML_LINEAR_REGRESSION
 
     def learn_from_dataframes(self, input_dataframe: DataFrame, expected_output_dataframe: DataFrame):
-        # self.linear_regression.fit(input_dataframe.loc[:, :], expected_output_dataframe.loc[:, :])
-        expected_output_numpy_array: numpy.ndarray = expected_output_dataframe.to_numpy()
-        expected_output_numpy_array: numpy.ndarray = expected_output_numpy_array.ravel()
-
-        input_output_numpy_array: numpy.ndarray = input_dataframe.to_numpy()
-        self.linear_regression.fit(input_output_numpy_array, expected_output_numpy_array)
+        self.linear_regression.fit(input_dataframe, expected_output_dataframe)
 
     def predict_from_dataframe(self, input_dataframe: DataFrame) -> float:
         # return self.linear_regression.predict(input_dataframe.loc[:, :])[0][0]
