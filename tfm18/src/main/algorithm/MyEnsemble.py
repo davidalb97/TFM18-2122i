@@ -31,12 +31,13 @@ class MyEnsemble(MyBaseRegressor):
         random_forest_min_number_of_trees = 65      # Ensemble stack article value
         random_forest_tree_depth = 15               # Ensemble stack article value
         feature_count = 11
-        max_features = math.sqrt(feature_count)
-        # max_features = math.log(feature_count)
+        max_features = math.sqrt(feature_count)     # R^2=0.62
+        # max_features = math.log(feature_count)    # R^2=0.42
         max_features = round(max_features)
         k_nearest_neighbor = 10                     # Ensemble stack article value
         k_nearest_neighbor_metric = 'euclidean'     # Ensemble stack article value
         stratified_k_fold_k = 10                    # Ensemble stack article value
+        # stratified_k_fold_k = 20
         ada_boost_learn_rate = 1.0                  # Ensemble stack article value
         # ada_boost_learn_rate = 0.0005
         ada_boost_learn_num_estimators = 100        # Ensemble stack article value
