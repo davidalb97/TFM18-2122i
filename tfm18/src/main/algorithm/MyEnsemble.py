@@ -42,6 +42,7 @@ class MyEnsemble(MyBaseRegressor):
         # ada_boost_learn_rate = 0.0005
         ada_boost_learn_num_estimators = 100        # Ensemble stack article value
         ada_boost_learn_algorithm = "SAMME.R"       # Ensemble stack article value
+        ada_boost_loss_function = "linear"          # Ensemble stack article value
 
         if self.use_regression:
             self.base_stacking = StackingRegressor(
@@ -72,6 +73,7 @@ class MyEnsemble(MyBaseRegressor):
                 final_estimator=AdaBoostRegressor(
                     learning_rate=ada_boost_learn_rate,
                     n_estimators=ada_boost_learn_num_estimators,
+                    loss=ada_boost_loss_function
                 ),
                 cv=StratifiedKFoldReg(
                     n_splits=stratified_k_fold_k,
@@ -108,7 +110,8 @@ class MyEnsemble(MyBaseRegressor):
                     n_estimators=ada_boost_learn_num_estimators,
                     algorithm=ada_boost_learn_algorithm
                 ),
-                cv=StratifiedKFoldReg(
+                # cv=StratifiedKFoldReg(
+                cv=StratifiedKFold(
                     n_splits=stratified_k_fold_k,
                     random_state=None,
                     shuffle=False
