@@ -32,6 +32,8 @@ class PredictorLearner:
                 )
             ).eRange_distance_results[self.config.expected_algorithm_type]
             for timestamp, expected in zip(dataset_trip_dto.dataset_timestamp_dto_list, expected_output):
+                # TODO: Replace loop concat with list! Avoid quadratic operation!
+                # See: https://stackoverflow.com/questions/36489576/why-does-concatenation-of-dataframes-get-exponentially-slower
                 input_instant_dataframe = DataFrame(
                     {
                         'FBD': [dataset_trip_dto.vehicle_static_data.FBD_km],
