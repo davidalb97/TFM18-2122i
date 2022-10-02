@@ -21,41 +21,40 @@ class PredictorLearner:
     def train_full_trip_list(self):
         pre_train_time_start_time: datetime = datetime.datetime.now()
 
-        input_dataframe = DataFrame()
-        output_dataframe = DataFrame()
+        input_list_of_lists = []
+        output_list_of_lists = []
         for dataset_trip_dto in self.config.training_dataset_trip_list:
-            expected_output: list[float] = self.trip_executor.execute_trip(
+            expected_output_list: list[float] = self.trip_executor.execute_trip(
                 config=TripExecutorConfigDto(
                     dataset_trip_dto=dataset_trip_dto,
                     enabled_algorithm_types=[self.config.expected_algorithm_type],
                     print_execution_time=False
                 )
             ).eRange_distance_results[self.config.expected_algorithm_type]
-            for timestamp, expected in zip(dataset_trip_dto.dataset_timestamp_dto_list, expected_output):
-                # TODO: Replace loop concat with list! Avoid quadratic operation!
-                # See: https://stackoverflow.com/questions/36489576/why-does-concatenation-of-dataframes-get-exponentially-slower
-                input_instant_dataframe = DataFrame(
-                    {
-                        'FBD': [dataset_trip_dto.vehicle_static_data.FBD_km],
-                        'FBE': [dataset_trip_dto.vehicle_static_data.FBE_kWh],
-                        'AEC': [dataset_trip_dto.vehicle_static_data.AEC_KWh_km],
-                        'timestamp [min]': [timestamp.timestamp_min],
-                        'soc [%]': [timestamp.soc_percentage],
-                        'iec_power [kWh/100km]': [timestamp.iec_power_KWh_by_100km],
-                        'current [A]': [timestamp.current_ampers],
-                        'speed [km/h]': [timestamp.speed_kmh],
-                        'power [kW]': [timestamp.power_kW],
-                        'ac_power [kW]': [timestamp.ac_power_kW],
-                        'distance [km]': [timestamp.distance_kM]
-                    }
-                )
-                input_dataframe = pandas.concat([input_dataframe, input_instant_dataframe])
-                output_instant_dataframe = DataFrame(
-                    {
-                        'expected eRange [km]': [expected]
-                    }
-                )
-                output_dataframe = pandas.concat([output_dataframe, output_instant_dataframe])
+            for expectd_output in expected_output_list:
+                output_list_of_lists.append([expectd_output])
+            # output_list_of_lists.append(expected_output_list)
+            for timestamp in dataset_trip_dto.dataset_timestamp_dto_list:
+                input_list_of_lists.append([
+                    dataset_trip_dto.vehicle_static_data.FBD_km,
+                    dataset_trip_dto.vehicle_static_data.FBE_kWh,
+                    dataset_trip_dto.vehicle_static_data.AEC_KWh_km,
+                    timestamp.timestamp_min,
+                    timestamp.soc_percentage,
+                    timestamp.iec_power_KWh_by_100km,
+                    timestamp.current_ampers,
+                    timestamp.speed_kmh,
+                    timestamp.power_kW,
+                    timestamp.ac_power_kW,
+                    timestamp.distance_kM
+                ])
+        input_dataframe: DataFrame = DataFrame(input_list_of_lists, columns=[
+            'FBD', 'FBE', 'AEC', 'timestamp [min]', 'soc [%]', 'iec_power [kWh/100km]', 'current [A]', 'speed [km/h]',
+            'power [kW]', 'ac_power [kW]', 'distance [km]'
+        ])
+
+        output_dataframe: DataFrame = DataFrame(output_list_of_lists, columns=['expected eRange [km]'])
+
         pre_train_time_delta_secs: float = (datetime.datetime.now() - pre_train_time_start_time).total_seconds()
         print("Time for pre training: %.2f" % pre_train_time_delta_secs)
 
