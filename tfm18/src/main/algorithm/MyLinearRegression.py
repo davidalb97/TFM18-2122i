@@ -21,5 +21,6 @@ class MyLinearRegression(MyBaseRegressor):
 
     def predict_from_dataframe(self, input_dataframe: DataFrame) -> float:
         # return self.linear_regression.predict(input_dataframe.loc[:, :])[0][0]
+        # return self.linear_regression.predict(X=input_dataframe)
         input_output_numpy_array: numpy.ndarray = input_dataframe.to_numpy()
         return self.linear_regression.predict(input_output_numpy_array)[0]

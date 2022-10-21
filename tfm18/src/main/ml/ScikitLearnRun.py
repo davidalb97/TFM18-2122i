@@ -20,7 +20,7 @@ if __name__ == '__main__':
     prediction_learner_config: PredictorLearnerConfig = PredictorLearnerConfig(
         dataset_types=dataset_types,
         specific_run_trip_id=specific_trip_name,
-        min_trip_time_ms=convert_minutes_to_milliseconds(30),
+        min_trip_time_ms=convert_minutes_to_milliseconds(0),
         # timestep_ms=5000,
         timestep_ms=0,
         # algorithms_to_train_types=[AlgorithmType.ML_LINEAR_REGRESSION],
