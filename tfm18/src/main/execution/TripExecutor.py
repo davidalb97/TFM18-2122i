@@ -108,7 +108,7 @@ class TripExecutor:
 
                 # Calculate each evaluation for the specific enabled algorithm
                 avaluation_algorithm: BaseAlgorithmEvaluation
-                for avaluation_algorithm in config.avaluation_algorithms:
+                for avaluation_algorithm in config.evaluation_algorithms:
                     algorithm_evaluation_type: AlgorithmEvaluationType = avaluation_algorithm.get_type()
                     evaluation_value: float = avaluation_algorithm.evaluate(
                         expected=expected_result_list,

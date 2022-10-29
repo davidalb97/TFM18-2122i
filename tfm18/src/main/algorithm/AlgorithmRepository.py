@@ -12,7 +12,7 @@ from tfm18.src.main.algorithm.MyLassoRegression import MyLassoRegression
 from tfm18.src.main.algorithm.MyLinearRegression import MyLinearRegression
 from tfm18.src.main.algorithm.MyRandomForestRegression import MyRandomForestRegression
 from tfm18.src.main.algorithm.MyRidgeRegression import MyRidgeRegression
-from tfm18.src.main.algorithm.StochrasticDescentApproach import StochrasticDescentApproach
+from tfm18.src.main.algorithm.StochasticDescentApproach import StochasticDescentApproach
 from tfm18.src.main.util.Formulas import convert_watts_to_kilowatts, convert_minutes_to_milliseconds
 from tfm18.src.main.util.StrUtil import replace_last
 
@@ -22,13 +22,13 @@ T = TypeVar('T')  # Declare type variable
 class AlgorithmRepository:
 
     def get_algorithm(self, algorithm_type: AlgorithmType) -> T:
-        if algorithm_type.name.endswith("_STOCHRASTIC_DESCENT"):
-            return StochrasticDescentApproach(
+        if algorithm_type.name.endswith("_STOCHASTIC_DESCENT"):
+            return StochasticDescentApproach(
                 source_algorithm=self.get_algorithm(
                     algorithm_type=AlgorithmType[
                         replace_last(
                             original_str=algorithm_type.name,
-                            old="_STOCHRASTIC_DESCENT",
+                            old="_STOCHASTIC_DESCENT",
                             new="",
                             occurrences=1
                         )

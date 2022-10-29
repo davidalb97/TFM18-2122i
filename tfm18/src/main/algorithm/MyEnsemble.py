@@ -1,4 +1,5 @@
 import math
+from typing import Any
 
 import numpy
 from pandas import DataFrame
@@ -19,7 +20,7 @@ from tfm18.src.main.util.Formulas import float_to_int, int_to_float
 class MyEnsemble(MyBaseRegressor):
     use_regression: bool
     int_to_float_precision: int
-    base_stacking: _BaseStacking
+    __base_stacking_model: _BaseStacking
 
     def __init__(self):
         self.use_regression = True
@@ -45,7 +46,7 @@ class MyEnsemble(MyBaseRegressor):
         ada_boost_loss_function = "linear"          # Ensemble stack article value
 
         if self.use_regression:
-            self.base_stacking = StackingRegressor(
+            self.__base_stacking_model = StackingRegressor(
                 estimators=[
                     ('dtr', DecisionTreeRegressor(
                         random_state=0,
@@ -82,7 +83,7 @@ class MyEnsemble(MyBaseRegressor):
                 )
             )
         else:
-            self.base_stacking = StackingClassifier(
+            self.__base_stacking_model = StackingClassifier(
                 estimators=[
                     ('dtr', DecisionTreeClassifier(
                         random_state=0,
@@ -121,6 +122,9 @@ class MyEnsemble(MyBaseRegressor):
     def get_algorithm_type(self) -> AlgorithmType:
         return AlgorithmType.ML_ENSEMBLE
 
+    def get_model(self) -> Any:
+        return self.__base_stacking_model
+
     def learn_from_dataframes(self, input_dataframe: DataFrame, expected_output_dataframe: DataFrame):
         input_numpy_array = input_dataframe.loc[:, :]
 
@@ -143,7 +147,7 @@ class MyEnsemble(MyBaseRegressor):
             expected_output_numpy_array = expected_output_dataframe.iloc[:, 0]
             # expected_output_numpy_array = expected_output_dataframe.loc[:, :]
         elif use_approach == no_change_approach:
-            self.base_stacking.fit(X=input_numpy_array, y=expected_output_dataframe)
+            self.__base_stacking_model.fit(X=input_numpy_array, y=expected_output_dataframe)
             return
         else:
             raise Exception("Unknown approach!")
@@ -151,10 +155,10 @@ class MyEnsemble(MyBaseRegressor):
         # print('Input type: ' + type_of_target(input_dataframe))
         # print('Output type: ' + type_of_target(expected_output_numpy_array))
 
-        self.base_stacking.fit(X=input_numpy_array, y=expected_output_numpy_array)
+        self.__base_stacking_model.fit(X=input_numpy_array, y=expected_output_numpy_array)
 
     def predict_from_dataframe(self, input_dataframe: DataFrame) -> float:
-        eRange = self.base_stacking.predict(input_dataframe.loc[:, :])[0]
+        eRange = self.__base_stacking_model.predict(input_dataframe.loc[:, :])[0]
         if not self.use_regression:
             eRange = int_to_float(eRange, self.int_to_float_precision)
         return eRange

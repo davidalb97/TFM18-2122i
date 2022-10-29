@@ -129,7 +129,7 @@ class TripExecutionResultDto:
 
         # AEC debug information from History approach
         history_algo_enabled: bool = (AlgorithmType.HISTORY_BASED in self.eRange_distance_results) or \
-                                     (AlgorithmType.HISTORY_BASED_STOCHRASTIC_DESCENT in self.eRange_distance_results)
+                                     (AlgorithmType.HISTORY_BASED_STOCHASTIC_DESCENT in self.eRange_distance_results)
         ret_list.append(
             VisualizerGraph(
                 graph_name="Average Energy Consumpton (AEC)",

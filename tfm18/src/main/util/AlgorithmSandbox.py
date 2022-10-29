@@ -16,12 +16,12 @@ if __name__ == '__main__':
         dataset_type_list=dataset_type_list,
         enabled_algorithm_types=[
             AlgorithmType.BASIC,
-            AlgorithmType.BASIC_STOCHRASTIC_DESCENT,
+            AlgorithmType.BASIC_STOCHASTIC_DESCENT,
             AlgorithmType.HISTORY_BASED,
-            AlgorithmType.HISTORY_BASED_STOCHRASTIC_DESCENT
+            AlgorithmType.HISTORY_BASED_STOCHASTIC_DESCENT
         ],
         expected_algorithm_type=None,
-        algorithm_avaluation_types=[
+        algorithm_evaluation_types=[
             AlgorithmEvaluationType.MAE,
             AlgorithmEvaluationType.MSE,
             AlgorithmEvaluationType.MAPE,

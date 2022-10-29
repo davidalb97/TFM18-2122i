@@ -1,3 +1,6 @@
+import sklearn
+
+from main.ml.StratifiedKFoldReg import StratifiedKFoldReg
 from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
 from tfm18.src.main.dataset.DatasetType import DatasetType
 from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
@@ -17,6 +20,14 @@ if __name__ == '__main__':
     # expected_algorithm_type: AlgorithmType = AlgorithmType.BASIC
     # dataset_types: list[DatasetType] = [DatasetType.VED, DatasetType.CLASSIC]
     dataset_types: list[DatasetType] = [DatasetType.VED]
+    algorithm_evaluation_types = [
+        AlgorithmEvaluationType.MAE,
+        AlgorithmEvaluationType.MSE,
+        AlgorithmEvaluationType.MAPE,
+        AlgorithmEvaluationType.RMSE,
+        AlgorithmEvaluationType.R_2,
+        AlgorithmEvaluationType.R_2_ADJUSTED
+    ]
     prediction_learner_config: PredictorLearnerConfig = PredictorLearnerConfig(
         dataset_types=dataset_types,
         specific_run_trip_id=specific_trip_name,
@@ -36,6 +47,7 @@ if __name__ == '__main__':
             # AlgorithmType.ML_RANDOM_FOREST_REGRESSION
         ],
         expected_algorithm_type=expected_algorithm_type,
+        algorithm_evaluation_types=algorithm_evaluation_types,
         shuffle_training_trips=False
     )
     # Train algorithms
@@ -50,14 +62,7 @@ if __name__ == '__main__':
             enabled_algorithms=prediction_learner_config.algorithms_to_train,
             enabled_algorithm_types=[AlgorithmType.BASIC, AlgorithmType.HISTORY_BASED],
             expected_algorithm_type=expected_algorithm_type,
-            algorithm_avaluation_types=[
-                AlgorithmEvaluationType.MAE,
-                AlgorithmEvaluationType.MSE,
-                AlgorithmEvaluationType.MAPE,
-                AlgorithmEvaluationType.RMSE,
-                AlgorithmEvaluationType.R_2,
-                AlgorithmEvaluationType.R_2_ADJUSTED
-            ]
+            algorithm_evaluation_types=algorithm_evaluation_types
         )
     )
 

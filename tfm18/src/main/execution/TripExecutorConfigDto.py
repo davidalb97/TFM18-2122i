@@ -18,7 +18,7 @@ class TripExecutorConfigDto:
     dataset_trip_dto: DatasetTripDto
     enabled_algorithms: list[BaseAlgorithm]
     expected_algorithm: Optional[BaseAlgorithm]
-    avaluation_algorithms: list[BaseAlgorithmEvaluation]
+    evaluation_algorithms: list[BaseAlgorithmEvaluation]
     print_execution_time: bool
 
     def __init__(
@@ -33,7 +33,7 @@ class TripExecutorConfigDto:
         enabled_algorithms: Optional[list[BaseAlgorithm]] = None,
         expected_algorithm_type: Optional[AlgorithmType] = None,
         expected_algorithm: Optional[BaseAlgorithm] = None,
-        algorithm_avaluation_types: Optional[list[AlgorithmEvaluationType]] = None,
+        algorithm_evaluation_types: Optional[list[AlgorithmEvaluationType]] = None,
         print_execution_time: bool = True
     ):
         self.print_execution_time = print_execution_time
@@ -107,16 +107,16 @@ class TripExecutorConfigDto:
 
         self.expected_algorithm = expected_algorithm
 
-        # Initialize expected vs result evalutation instances
-        if algorithm_avaluation_types is None or len(algorithm_avaluation_types) == 0:
-            algorithm_avaluation_types = [AlgorithmEvaluationType.MAE, AlgorithmEvaluationType.MSE]
+        # Initialize expected vs result evaluation instances
+        if algorithm_evaluation_types is None or len(algorithm_evaluation_types) == 0:
+            algorithm_evaluation_types = [AlgorithmEvaluationType.MAE, AlgorithmEvaluationType.MSE]
 
-        algorithm_avaluation_repository = AlgorithmEvaluationRepository()
-        self.avaluation_algorithms = list(
+        algorithm_evaluation_repository = AlgorithmEvaluationRepository()
+        self.evaluation_algorithms = list(
             map(
-                lambda evaluation_algorithm_type: algorithm_avaluation_repository.get_algorithm_evaluation_by_type(
+                lambda evaluation_algorithm_type: algorithm_evaluation_repository.get_algorithm_evaluation_by_type(
                     algorithm_evaluation_type=evaluation_algorithm_type
                 ),
-                algorithm_avaluation_types
+                algorithm_evaluation_types
             )
         )

@@ -1,4 +1,5 @@
 from abc import abstractmethod
+from typing import Any
 
 import pandas
 from pandas import DataFrame
@@ -9,6 +10,10 @@ from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
 
 
 class MyBaseRegressor(BaseAlgorithm):
+
+    @abstractmethod
+    def get_model(self) -> Any:
+        pass
 
     @abstractmethod
     def learn_from_dataframes(self, input_dataframe: DataFrame, expected_output_dataframe: DataFrame):

@@ -2,6 +2,9 @@ import random
 from random import randrange, shuffle
 from typing import Optional
 
+from main.evaluation.AlgorithmEvaluationRepository import AlgorithmEvaluationRepository
+from main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
+from main.evaluation.BaseAlgorithmEvaluation import BaseAlgorithmEvaluation
 from tfm18.src.main.algorithm.AlgorithmRepository import AlgorithmRepository
 from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
 from tfm18.src.main.algorithm.MyBaseRegressor import MyBaseRegressor
@@ -20,6 +23,8 @@ class PredictorLearnerConfig:
     run_dataset_trip_dto: Optional[DatasetTripDto]
     dataset_dtos: list[DatasetDto]
     run_dataset_dto: DatasetDto
+    algorithm_evaluation_types: list[AlgorithmEvaluationType]
+    evaluation_algorithms: list[BaseAlgorithmEvaluation]
 
     def __init__(
         self,
@@ -34,6 +39,7 @@ class PredictorLearnerConfig:
         expected_algorithm_type: AlgorithmType = AlgorithmType.BASIC,
         algorithms_to_train: Optional[list[MyBaseRegressor]] = None,
         algorithms_to_train_types: Optional[list[AlgorithmType]] = None,
+        algorithm_evaluation_types: Optional[list[AlgorithmEvaluationType]] = None,
         shuffle_training_trips: bool = True
     ):
 
@@ -112,3 +118,19 @@ class PredictorLearnerConfig:
         if shuffle_training_trips:
             # Shuffle training trip sequence
             shuffle(self.training_dataset_trip_list)
+
+        # Initialize expected vs result evaluation instances
+        if algorithm_evaluation_types is None or len(algorithm_evaluation_types) == 0:
+            self.algorithm_evaluation_types = []
+        else:
+            self.algorithm_evaluation_types = algorithm_evaluation_types
+
+        algorithm_evaluation_repository = AlgorithmEvaluationRepository()
+        self.evaluation_algorithms = list(
+            map(
+                lambda evaluation_algorithm_type: algorithm_evaluation_repository.get_algorithm_evaluation_by_type(
+                    algorithm_evaluation_type=evaluation_algorithm_type
+                ),
+                algorithm_evaluation_types
+            )
+        )
