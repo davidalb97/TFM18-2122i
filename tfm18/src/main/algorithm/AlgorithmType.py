@@ -11,9 +11,11 @@ class AlgorithmType(Enum):
     ML_LINEAR_REGRESSION = ("Linear regression", Color.PURPLE, True)
     ML_LINEAR_REGRESSION_STOCHRASTIC_DESCENT = ("Linear regression (Stochrastic descent)", Color.MAGENTA, True)
     ML_ENSEMBLE = ("ESG", Color.GREEN, True)
-    ML_ENSEMBLE_STOCHRASTIC_DESCENT = ("Ensemble (Stochrastic descent)", Color.LIME, True),
+    ML_ENSEMBLE_STOCHRASTIC_DESCENT = ("Ensemble (Stochrastic descent)", Color.LIME, True)
     ML_LASSO_REGRESSION = ("Lasso", Color.ORANGE, True)
     ML_RIDGE_REGRESSION = ("Ridge", Color.BLACK, True)
     ML_BAYESIAN_RIDGE_REGRESSION = ("Bayesian Ridge", Color.GRAY, True)
     ML_DECISION_TREE_REGRESSION = ("Decision Tree", Color.YELLOW, True)
     ML_RANDOM_FOREST_REGRESSION = ("Random Forest", Color.DARK_CYAN, True)
+    ML_LIGHT_GBM_REGRESSION = ("Light GBM", Color.YELLOW_GREEN, True)
+    ML_XGBOOST_REGRESSION = ("XGBoost", Color.OLIVE, True)

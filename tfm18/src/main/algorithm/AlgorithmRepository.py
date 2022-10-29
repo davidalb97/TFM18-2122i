@@ -1,5 +1,7 @@
 from typing import TypeVar
 
+from main.algorithm.MyLightGBMRegressor import MyLightGBMRegressor
+from main.algorithm.MyXGBoostRegressor import MyXGBoostRegressor
 from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
 from tfm18.src.main.algorithm.BasicApproach import BasicApproach
 from tfm18.src.main.algorithm.HistoryBasedApproach import HistoryBasedApproach
@@ -63,5 +65,9 @@ class AlgorithmRepository:
             return MyDecisionTreeRegression()
         elif algorithm_type is AlgorithmType.ML_RANDOM_FOREST_REGRESSION:
             return MyRandomForestRegression()
+        elif algorithm_type is AlgorithmType.ML_LIGHT_GBM_REGRESSION:
+            return MyLightGBMRegressor()
+        elif algorithm_type is AlgorithmType.ML_XGBOOST_REGRESSION:
+            return MyXGBoostRegressor()
         else:
             raise Exception("Unsupported algorithm %s" % algorithm_type.name)

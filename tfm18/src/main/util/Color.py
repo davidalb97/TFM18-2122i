@@ -24,3 +24,6 @@ class Color(Enum):
 
     YELLOW = 'yellow'
     DARK_CYAN = 'darkcyan'
+
+    YELLOW_GREEN = 'yellowgreen'
+    OLIVE = 'olive'

@@ -169,10 +169,10 @@ setup(
         'chart_studio==1.1.0',  # Might be useful for emobpy pandas dataframe iplot()?
         'scikit-learn==1.1.2',
         'xgboost==1.6.2',           # Liang Zhao's eRange prediction algorithm
-        'lightgbm==3.3.2',          # Liang Zhao's eRange prediction algorithm
+        'lightgbm==3.3.3',          # Liang Zhao's eRange prediction algorithm
         'joblib==1.1.0',            # Liang Zhao's eRange prediction algorithm
         'scipy==1.9.1',             # Liang Zhao's eRange prediction algorithm
-        'python-dateutil==2.8.2'    # Liang Zhao's eRange prediction algorithm
+        'python-dateutil==2.8.2',    # Liang Zhao's eRange prediction algorithm
         'seaborn==0.11.2'           # Liang Zhao's eRange prediction algorithm
         # 'check-python-versions=='
     ],  # Optional
