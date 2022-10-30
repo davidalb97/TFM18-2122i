@@ -51,6 +51,15 @@ class ChargeCarDatasetReader(BaseDatasetReader):
         for (dir_path, dir_names, file_names) in os.walk(self.__cc_data_path):
             for file_name in file_names:
                 if re.match(r"^\d+\.[tT][xX][tT]$", file_name):
-                    dataset_trip_dto_list.append(self.get_trip_by_id(trip_id=file_name))
+                    curr_abs_folder: str = dir_path
+                    curr_relative_folder: str = os.path.basename(dir_path)
+                    root_abs_folder: str = os.path.abspath(self.__cc_data_path)
+                    while True:
+                        curr_abs_folder = os.path.abspath(os.path.join(curr_abs_folder, os.pardir))
+                        if curr_abs_folder == root_abs_folder:
+                            break
+                        curr_relative_folder = os.path.join(os.path.basename(curr_abs_folder), curr_relative_folder)
+                    file_id: str = os.path.join(curr_relative_folder, file_name)
+                    dataset_trip_dto_list.append(self.get_trip_by_id(trip_id=file_id))
 
         return dataset_trip_dto_list
