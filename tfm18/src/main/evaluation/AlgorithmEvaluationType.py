@@ -3,6 +3,7 @@ from enum import Enum
 
 class AlgorithmEvaluationType(Enum):
     # Short Name, Long Name, Scikit-learn name, Greater is better?
+    # Scikit-learn names: https://scikit-learn.org/stable/modules/model_evaluation.html
     MAE = ("MAE", "Mean absolute error", "neg_mean_absolute_error", False)
     MSE = ("MSE", "Mean squared error", "neg_mean_squared_error", False)
     RMSE = ("RMSE", "root mean square error", "neg_root_mean_squared_error", False)
