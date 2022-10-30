@@ -42,8 +42,9 @@ class TripExecutorConfigDto:
         # If the trip is missing, fetch it from dataset
         else:
             # If the dataset is missing, fetch it from repository
-            if dataset_dto_list is None:
-                dataset_type_list = [DatasetType.VED]
+            if dataset_dto_list is None or len(dataset_dto_list) == 0:
+                if dataset_type_list is None or len(dataset_type_list) == 0:
+                    dataset_type_list = [DatasetType.VED]
 
             dataset_dto_list: list[DatasetDto]
             dataset_trip_dto_list: list[DatasetTripDto]
