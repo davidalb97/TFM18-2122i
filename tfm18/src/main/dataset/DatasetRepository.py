@@ -7,7 +7,7 @@ from tfm18.src.main.dataset.DatasetDto import DatasetDto
 from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
 from tfm18.src.main.dataset.DatasetType import DatasetType
 from tfm18.src.main.dataset.NDABEV.NDANEVDatasetReader import NDANEVDatasetReader
-from tfm18.src.main.dataset.changecar.ChargeCarDatasetReader import ChargeCarDatasetReader
+from tfm18.src.main.dataset.chargecar.ChargeCarDatasetReader import ChargeCarDatasetReader
 from tfm18.src.main.dataset.classic_ev_range.ClassicEvRangeDatasetReader import ClassicEvRangeDatasetReader
 from tfm18.src.main.dataset.ved.VEDDatasetReader import VEDDatasetReader
 from tfm18.src.main.util.Formulas import convert_minutes_to_milliseconds, convert_milliseconds_to_minutes
@@ -30,7 +30,7 @@ class DatasetRepository:
             dataset_dto = VEDDatasetReader()
         elif dataset_type is DatasetType.NDANEV:
             dataset_dto = NDANEVDatasetReader()
-        elif dataset_type is DatasetType.CHANGE_CAR:
+        elif dataset_type is DatasetType.CHARGE_CAR:
             dataset_dto = ChargeCarDatasetReader()
         else:
             raise Exception("No dataset reader for the type %s is not yet implemented!" % dataset_type.value)
