@@ -62,65 +62,15 @@ class PredictorLearner:
                 "Time for %s algorithm training: %.2f" %
                 (algorithm.get_algorithm_type().value[0], algorithm_time_delta_secs)
             )
-
-            cv_scoring_dict: dict[str, Any] = dict()
-            evaluation: BaseAlgorithmEvaluation
-            for evaluation in self.config.evaluation_algorithms:
-                evaluation_type: AlgorithmEvaluationType = evaluation.get_type()
-                scikit_learn_evaluation_name: Optional[str] = evaluation_type.value[2]
-                evaluation_name: str = evaluation_type.value[0]
-                # Use Scikit-learn's algorithm name
-                if scikit_learn_evaluation_name is not None:
-                    cv_scoring_dict[evaluation_name] = scikit_learn_evaluation_name
-                # Use custom evaluation algorithm as Scikit-learn does not have its algorithm name
-                else:
-                    def scorer(y_expected_dataframe: DataFrame, y_predicted_dataframe: DataFrame):
-                        # The dataframe contains an array of arrays with one value each
-                        # and must be turned to 1 dimensional array
-                        return evaluation.evaluate(
-                            expected=y_expected_dataframe.ravel().tolist(),
-                            result=y_predicted_dataframe.ravel().tolist(),
-                            variable_count=len(input_column_name_list)
-                        )
-
-                    cv_scoring_dict[evaluation_name] = make_scorer(
-                        score_func=scorer,
-                        greater_is_better=evaluation_type.value[3]
-                    )
-
-            k_fold_k: int = 20
-            cv_scores_dict: dict[str, list[float]] = sklearn.model_selection.cross_validate(
-                estimator=algorithm.get_model(),
-                X=cv_input_dataframe.values,
-                y=cv_output_dataframe.values,
-                scoring=cv_scoring_dict,
-                cv=sklearn.model_selection.KFold(
-                    n_splits=k_fold_k
-                ),
-                return_train_score=True,
-                n_jobs=-1
-                # n_jobs=None # Disabled parallel execution
-            )
-            evaluation_type: AlgorithmEvaluationType
-            for evaluation_type in self.config.algorithm_evaluation_types:
-                evaluation_type_name: str = evaluation_type.value[0]
-                evaluation_result: float = statistics.mean(cv_scores_dict["test_%s" % evaluation_type_name])
-                scikit_learn_evaluation_name: Optional[str] = evaluation_type.value[2]
-
-                # Fix higher is worse algorithms that are negated on scikit-learn
-                if scikit_learn_evaluation_name is not None and scikit_learn_evaluation_name.startswith("neg_"):
-                    evaluation_result = -evaluation_result
-
-                print(
-                    "K=%d Fold cross validation %s performance of %s algorithm: %.6f" % (
-                        k_fold_k,
-                        evaluation_type_name,
-                        algorithm.get_algorithm_type().value[0],
-                        evaluation_result
-                    )
-                )
         train_time_delta_secs: float = (datetime.datetime.now() - train_time_start_time).total_seconds()
         print("Time for training: %.2f" % train_time_delta_secs)
+
+        self.cross_validation(
+            cv_input_dataframe=cv_input_dataframe,
+            cv_output_dataframe=cv_output_dataframe,
+            variable_count=len(input_column_name_list)
+        )
+
 
     def get_input_output_list_of_lists(
             self,
@@ -156,3 +106,71 @@ class PredictorLearner:
                 ])
 
         return input_list_of_lists, output_list_of_lists
+
+    def cross_validation(self, cv_input_dataframe: DataFrame, cv_output_dataframe: DataFrame, variable_count: int):
+        cv_start_time: datetime = datetime.datetime.now()
+        for ml_algorithm in self.config.algorithms_to_train:
+            cv_scoring_dict: dict[str, Any] = dict()
+            evaluation: BaseAlgorithmEvaluation
+            for evaluation in self.config.evaluation_algorithms:
+                evaluation_type: AlgorithmEvaluationType = evaluation.get_type()
+                scikit_learn_evaluation_name: Optional[str] = evaluation_type.value[2]
+                evaluation_name: str = evaluation_type.value[0]
+                # Use Scikit-learn's algorithm name
+                if scikit_learn_evaluation_name is not None:
+                    cv_scoring_dict[evaluation_name] = scikit_learn_evaluation_name
+                # Use custom evaluation algorithm as Scikit-learn does not have its algorithm name
+                else:
+                    def scorer(y_expected_dataframe: DataFrame, y_predicted_dataframe: DataFrame):
+                        # The dataframe contains an array of arrays with one value each
+                        # and must be turned to 1 dimensional array
+                        return evaluation.evaluate(
+                            expected=y_expected_dataframe.ravel().tolist(),
+                            result=y_predicted_dataframe.ravel().tolist(),
+                            variable_count=variable_count
+                        )
+
+                    cv_scoring_dict[evaluation_name] = make_scorer(
+                        score_func=scorer,
+                        greater_is_better=evaluation_type.value[3]
+                    )
+
+            cv_ml_algo_start_time: datetime = datetime.datetime.now()
+            k_fold_k: int = 20
+            cv_scores_dict: dict[str, list[float]] = sklearn.model_selection.cross_validate(
+                estimator=ml_algorithm.get_model(),
+                X=cv_input_dataframe.values,
+                y=cv_output_dataframe.values,
+                scoring=cv_scoring_dict,
+                cv=sklearn.model_selection.KFold(
+                    n_splits=k_fold_k
+                ),
+                return_train_score=True,
+                n_jobs=-1
+                # n_jobs=None # Disabled parallel execution
+            )
+            cv_ml_algo_time_delta_secs: float = (datetime.datetime.now() - cv_ml_algo_start_time).total_seconds()
+            print("Time for %s cross validation: %.2f" %
+                  (ml_algorithm.get_algorithm_type().value[0], cv_ml_algo_time_delta_secs)
+                  )
+
+            evaluation_type: AlgorithmEvaluationType
+            for evaluation_type in self.config.algorithm_evaluation_types:
+                evaluation_type_name: str = evaluation_type.value[0]
+                evaluation_result: float = statistics.mean(cv_scores_dict["test_%s" % evaluation_type_name])
+                scikit_learn_evaluation_name: Optional[str] = evaluation_type.value[2]
+
+                # Fix higher is worse algorithms that are negated on scikit-learn
+                if scikit_learn_evaluation_name is not None and scikit_learn_evaluation_name.startswith("neg_"):
+                    evaluation_result = -evaluation_result
+
+                print(
+                    "K=%d Fold cross validation %s performance of %s algorithm: %.3f" % (
+                        k_fold_k,
+                        evaluation_type_name,
+                        ml_algorithm.get_algorithm_type().value[0],
+                        evaluation_result
+                    )
+                )
+        cv_time_delta_secs: float = (datetime.datetime.now() - cv_start_time).total_seconds()
+        print("Time for all ML algorithms cross validation: %.2f" % cv_time_delta_secs)
