@@ -118,7 +118,7 @@ class TripExecutor:
                     algorithm_evaluation_dict[algorithm_evaluation_type] = evaluation_value
                     # Save evaluation value for printing later
                     # noinspection PyUnresolvedReferences
-                    metrics_str += "%s=%.2f, " % (algorithm_evaluation_type.value[0], evaluation_value)
+                    metrics_str += "%s=%.3f, " % (algorithm_evaluation_type.value[0], evaluation_value)
                 metrics_str = metrics_str[:-2]  # Remove last comma and space
                 metrics_str += "\n"
             print("Trip evaluation metrics:\n%s" % metrics_str)
