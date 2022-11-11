@@ -31,14 +31,14 @@ if __name__ == '__main__':
     prediction_learner_config: PredictorLearnerConfig = PredictorLearnerConfig(
         dataset_types=dataset_types,
         specific_run_trip_id=specific_trip_name,
-        min_trip_time_ms=convert_minutes_to_milliseconds(0),
+        min_trip_time_ms=convert_minutes_to_milliseconds(40),
         # timestep_ms=5000,
         timestep_ms=0,
         # algorithms_to_train_types=[AlgorithmType.ML_LINEAR_REGRESSION],
         algorithms_to_train_types=[
             AlgorithmType.ML_LINEAR_REGRESSION,
-            # AlgorithmType.ML_ENSEMBLE,
-            AlgorithmType.ML_LIGHT_GBM_REGRESSION,
+            AlgorithmType.ML_ENSEMBLE,
+            # AlgorithmType.ML_LIGHT_GBM_REGRESSION,
             # AlgorithmType.ML_XGBOOST_REGRESSION,
             # AlgorithmType.ML_LASSO_REGRESSION,
             # AlgorithmType.ML_RIDGE_REGRESSION,

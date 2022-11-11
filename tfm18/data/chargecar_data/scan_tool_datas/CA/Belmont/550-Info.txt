@@ -1,0 +1,27 @@
+Traffic Type: N/A
+Route Type: N/A
+Route Setting: N/A
+Car Type: SUV
+Car Make: Toyota
+Car Model: RAV4 EV
+Car Year: 2002
+Precipitation on Ground: N/A
+Currently Precipitating: N/A
+Precipitation Type: N/A
+Outside Temperature: 12.78° C
+Total Passenger Weight: 102.97 kg
+Total Cargo Weight: 20.41 kg
+Tire Pressure: N/A
+Curb Weight of Car: 1587.57 kg
+Frontal Area of Car: 2.66 m^2
+Drag Coefficient: 0.4
+Data based on barometric altitudes: Yes
+Energy Consumed: 5.3 kWh
+Total Charge: 0.42 kWh
+Total Discharge: -5.73 kWh
+Percentage of Power Regenerated: 7.4%
+Peak Power Usage: 79.1 kW
+Battery Duty Savings With Capacitor: 13.64%
+Heat Savings With Capacitor: 11.23%
+Peak Battery Temperature Without Capacitor: 30.55° C
+Peak Battery Temperature With Capacitor: 28.33° C

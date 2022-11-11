@@ -13,7 +13,30 @@ class MyLightGBMRegressor(MyBaseRegressor):
     __light_gbm_regressor_model: LGBMRegressor
 
     def __init__(self):
-        self.__light_gbm_regressor_model = LGBMRegressor()
+        # params = {}
+        # params["tast"] = "train"
+        # params["boosting_type"] = "gbdt"
+        # params["objective"] = "regression"
+        # params["metric"] = {"mae", "rmse"}
+        # params["num_leaves"] = 6
+        # params["eta"] = 0.05
+        #
+        # params["min_child_weight"] = 0.5
+        # params["bagging_fraction"] = 0.5
+        # params["bagging_freq"] = 1
+        # params['feature_fraction'] = 0.66
+        # params["max_bin"] = 200
+        # params["lambda_l2"] = 0.6571
+        # params["lambda_l1"] = 0.4640
+        # params["gamma"] = 0.0468
+        # params["verbose"] = 1
+        from main.algorithm.liangzhao123_range_prediction.trainer.lightgbm_model import light_params
+        params = light_params()
+        params["metric"] = ["mae", "rmse"]
+        self.__light_gbm_regressor_model = LGBMRegressor(
+            **params
+            # params
+        )
 
     def get_algorithm_type(self) -> AlgorithmType:
         return AlgorithmType.ML_LIGHT_GBM_REGRESSION
