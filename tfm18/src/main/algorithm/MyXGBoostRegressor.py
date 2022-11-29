@@ -3,6 +3,7 @@ from typing import Any
 import numpy
 from pandas import DataFrame
 from xgboost import XGBRegressor
+
 from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
 from tfm18.src.main.algorithm.MyBaseRegressor import MyBaseRegressor
 
@@ -28,7 +29,6 @@ class MyXGBoostRegressor(MyBaseRegressor):
         return self.__xgboost_regressor_model
 
     def learn_from_dataframes(self, input_dataframe: DataFrame, expected_output_dataframe: DataFrame):
-
         self.__xgboost_regressor_model.fit(X=input_dataframe.values, y=expected_output_dataframe.values)
 
     def predict_from_dataframe(self, input_dataframe: DataFrame) -> float:

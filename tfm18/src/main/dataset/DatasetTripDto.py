@@ -85,7 +85,6 @@ class DatasetTripDto:
             len_dataset_timestamp_dto_list == len(self.ac_power_kilowatt_list) and \
             len_dataset_timestamp_dto_list == len(self.distance_km_list)
 
-
     def get_visualizer_graphs(self) -> list[VisualizerGraph]:
         ret_list: list[VisualizerGraph] = list()
 

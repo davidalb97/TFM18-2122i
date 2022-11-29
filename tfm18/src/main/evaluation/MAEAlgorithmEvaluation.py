@@ -1,5 +1,3 @@
-import math
-
 from sklearn.metrics import mean_absolute_error
 
 from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType

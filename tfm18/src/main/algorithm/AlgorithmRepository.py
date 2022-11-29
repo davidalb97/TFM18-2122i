@@ -1,7 +1,5 @@
 from typing import TypeVar
 
-from tfm18.src.main.algorithm.MyLightGBMRegressor import MyLightGBMRegressor
-from tfm18.src.main.algorithm.MyXGBoostRegressor import MyXGBoostRegressor
 from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
 from tfm18.src.main.algorithm.BasicApproach import BasicApproach
 from tfm18.src.main.algorithm.HistoryBasedApproach import HistoryBasedApproach
@@ -9,9 +7,11 @@ from tfm18.src.main.algorithm.MyBayesianRidgeRegression import MyBayesianRidgeRe
 from tfm18.src.main.algorithm.MyDecisionTreeRegression import MyDecisionTreeRegression
 from tfm18.src.main.algorithm.MyEnsemble import MyEnsemble
 from tfm18.src.main.algorithm.MyLassoRegression import MyLassoRegression
+from tfm18.src.main.algorithm.MyLightGBMRegressor import MyLightGBMRegressor
 from tfm18.src.main.algorithm.MyLinearRegression import MyLinearRegression
 from tfm18.src.main.algorithm.MyRandomForestRegression import MyRandomForestRegression
 from tfm18.src.main.algorithm.MyRidgeRegression import MyRidgeRegression
+from tfm18.src.main.algorithm.MyXGBoostRegressor import MyXGBoostRegressor
 from tfm18.src.main.algorithm.StochasticDescentApproach import StochasticDescentApproach
 from tfm18.src.main.util.Formulas import convert_watts_to_kilowatts, convert_minutes_to_milliseconds
 from tfm18.src.main.util.StrUtil import replace_last

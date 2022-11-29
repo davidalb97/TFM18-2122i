@@ -6,9 +6,9 @@ import sklearn
 from pandas import DataFrame
 from sklearn.metrics import make_scorer
 
+from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
 from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
 from tfm18.src.main.evaluation.BaseAlgorithmEvaluation import BaseAlgorithmEvaluation
-from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
 from tfm18.src.main.execution.TripExecutor import TripExecutor
 from tfm18.src.main.execution.TripExecutorConfigDto import TripExecutorConfigDto
 from tfm18.src.main.ml.PredictorLearnerConfig import PredictorLearnerConfig
@@ -71,10 +71,9 @@ class PredictorLearner:
             variable_count=len(input_column_name_list)
         )
 
-
     def get_input_output_list_of_lists(
-            self,
-            dataset_trip_dto_list: list[DatasetTripDto]
+        self,
+        dataset_trip_dto_list: list[DatasetTripDto]
     ) -> Tuple[list[list], list[list]]:
         input_list_of_lists = []
         output_list_of_lists = []
@@ -91,19 +90,21 @@ class PredictorLearner:
                 output_list_of_lists.append([expected_output])
             # output_list_of_lists.append(expected_output_list)
             for timestamp in dataset_trip_dto.dataset_timestamp_dto_list:
-                input_list_of_lists.append([
-                    dataset_trip_dto.vehicle_static_data.FBD_km,
-                    dataset_trip_dto.vehicle_static_data.FBE_kWh,
-                    dataset_trip_dto.vehicle_static_data.AEC_KWh_km,
-                    timestamp.timestamp_min,
-                    timestamp.soc_percentage,
-                    timestamp.iec_power_KWh_by_100km,
-                    timestamp.current_ampers,
-                    timestamp.speed_kmh,
-                    timestamp.power_kW,
-                    timestamp.ac_power_kW,
-                    timestamp.distance_kM
-                ])
+                input_list_of_lists.append(
+                    [
+                        dataset_trip_dto.vehicle_static_data.FBD_km,
+                        dataset_trip_dto.vehicle_static_data.FBE_kWh,
+                        dataset_trip_dto.vehicle_static_data.AEC_KWh_km,
+                        timestamp.timestamp_min,
+                        timestamp.soc_percentage,
+                        timestamp.iec_power_KWh_by_100km,
+                        timestamp.current_ampers,
+                        timestamp.speed_kmh,
+                        timestamp.power_kW,
+                        timestamp.ac_power_kW,
+                        timestamp.distance_kM
+                    ]
+                )
 
         return input_list_of_lists, output_list_of_lists
 
@@ -150,9 +151,10 @@ class PredictorLearner:
                 # n_jobs=None # Disabled parallel execution
             )
             cv_ml_algo_time_delta_secs: float = (datetime.datetime.now() - cv_ml_algo_start_time).total_seconds()
-            print("Time for %s cross validation: %.2f" %
-                  (ml_algorithm.get_algorithm_type().value[0], cv_ml_algo_time_delta_secs)
-                  )
+            print(
+                "Time for %s cross validation: %.2f" %
+                (ml_algorithm.get_algorithm_type().value[0], cv_ml_algo_time_delta_secs)
+            )
 
             evaluation_type: AlgorithmEvaluationType
             for evaluation_type in self.config.algorithm_evaluation_types:

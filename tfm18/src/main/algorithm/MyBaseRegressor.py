@@ -6,7 +6,6 @@ from pandas import DataFrame
 
 from tfm18.src.main.algorithm.BaseAlgorithm import BaseAlgorithm
 from tfm18.src.main.algorithm.PredictionInput import PredictionInput
-from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
 
 
 class MyBaseRegressor(BaseAlgorithm):

@@ -45,7 +45,6 @@ class MyLightGBMRegressor(MyBaseRegressor):
         return self.__light_gbm_regressor_model
 
     def learn_from_dataframes(self, input_dataframe: DataFrame, expected_output_dataframe: DataFrame):
-
         self.__light_gbm_regressor_model.fit(X=input_dataframe.values, y=expected_output_dataframe.values)
 
     def predict_from_dataframe(self, input_dataframe: DataFrame) -> float:

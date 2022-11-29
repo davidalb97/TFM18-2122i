@@ -1,6 +1,5 @@
 import os
 import pathlib
-from typing import Optional
 
 from tfm18.src.main.dataset.BaseDatasetReader import BaseDatasetReader
 from tfm18.src.main.dataset.DatasetTimestampDto import DatasetTimestampDto

@@ -1,9 +1,8 @@
 from typing import Any
 
 import numpy
-import sklearn.ensemble
 from pandas import DataFrame
-from sklearn import linear_model, tree, ensemble
+from sklearn import ensemble
 
 from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
 from tfm18.src.main.algorithm.MyBaseRegressor import MyBaseRegressor

@@ -2,7 +2,7 @@ from typing import Any
 
 import numpy
 from pandas import DataFrame
-from sklearn import linear_model, tree
+from sklearn import tree
 
 from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
 from tfm18.src.main.algorithm.MyBaseRegressor import MyBaseRegressor

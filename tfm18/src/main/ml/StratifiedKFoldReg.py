@@ -25,7 +25,7 @@ class StratifiedKFoldReg(StratifiedKFold):
 
         # Number of labels to discretize our target variable,
         # into bins of quasi equal size
-        n_labels = int(numpy.round(n_samples/self.n_splits))
+        n_labels = int(numpy.round(n_samples / self.n_splits))
 
         # Assign a label to each bin of n_splits points
         y_labels_sorted = numpy.concatenate([numpy.repeat(ii, self.n_splits) for ii in range(n_labels)])

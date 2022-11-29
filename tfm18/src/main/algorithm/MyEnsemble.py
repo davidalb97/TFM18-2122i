@@ -138,10 +138,14 @@ class MyEnsemble(MyBaseRegressor):
             expected_output_numpy_array: numpy.ndarray = expected_output_numpy_array.ravel()
             if not self.use_regression:
                 expected_output_numpy_array: numpy.ndarray = \
-                    numpy.array(list(map(
-                        lambda x: float_to_int(x, self.int_to_float_precision),
-                        expected_output_numpy_array
-                    )))
+                    numpy.array(
+                        list(
+                            map(
+                                lambda x: float_to_int(x, self.int_to_float_precision),
+                                expected_output_numpy_array
+                            )
+                        )
+                    )
 
         elif use_approach == old_approach:
             expected_output_numpy_array = expected_output_dataframe.iloc[:, 0]
