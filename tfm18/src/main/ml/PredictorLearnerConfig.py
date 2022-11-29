@@ -2,9 +2,9 @@ import random
 from random import randrange, shuffle
 from typing import Optional
 
-from main.evaluation.AlgorithmEvaluationRepository import AlgorithmEvaluationRepository
-from main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
-from main.evaluation.BaseAlgorithmEvaluation import BaseAlgorithmEvaluation
+from tfm18.src.main.evaluation.AlgorithmEvaluationRepository import AlgorithmEvaluationRepository
+from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
+from tfm18.src.main.evaluation.BaseAlgorithmEvaluation import BaseAlgorithmEvaluation
 from tfm18.src.main.algorithm.AlgorithmRepository import AlgorithmRepository
 from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
 from tfm18.src.main.algorithm.MyBaseRegressor import MyBaseRegressor

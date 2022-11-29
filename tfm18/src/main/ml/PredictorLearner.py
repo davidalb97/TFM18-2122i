@@ -6,8 +6,8 @@ import sklearn
 from pandas import DataFrame
 from sklearn.metrics import make_scorer
 
-from main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
-from main.evaluation.BaseAlgorithmEvaluation import BaseAlgorithmEvaluation
+from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
+from tfm18.src.main.evaluation.BaseAlgorithmEvaluation import BaseAlgorithmEvaluation
 from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
 from tfm18.src.main.execution.TripExecutor import TripExecutor
 from tfm18.src.main.execution.TripExecutorConfigDto import TripExecutorConfigDto

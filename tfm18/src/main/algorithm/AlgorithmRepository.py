@@ -1,7 +1,7 @@
 from typing import TypeVar
 
-from main.algorithm.MyLightGBMRegressor import MyLightGBMRegressor
-from main.algorithm.MyXGBoostRegressor import MyXGBoostRegressor
+from tfm18.src.main.algorithm.MyLightGBMRegressor import MyLightGBMRegressor
+from tfm18.src.main.algorithm.MyXGBoostRegressor import MyXGBoostRegressor
 from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
 from tfm18.src.main.algorithm.BasicApproach import BasicApproach
 from tfm18.src.main.algorithm.HistoryBasedApproach import HistoryBasedApproach

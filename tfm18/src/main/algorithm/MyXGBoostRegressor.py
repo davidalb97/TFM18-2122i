@@ -3,8 +3,8 @@ from typing import Any
 import numpy
 from pandas import DataFrame
 from xgboost import XGBRegressor
-from main.algorithm.AlgorithmType import AlgorithmType
-from main.algorithm.MyBaseRegressor import MyBaseRegressor
+from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
+from tfm18.src.main.algorithm.MyBaseRegressor import MyBaseRegressor
 
 
 class MyXGBoostRegressor(MyBaseRegressor):

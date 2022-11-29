@@ -1,6 +1,3 @@
-import sklearn
-
-from main.ml.StratifiedKFoldReg import StratifiedKFoldReg
 from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
 from tfm18.src.main.dataset.DatasetType import DatasetType
 from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType

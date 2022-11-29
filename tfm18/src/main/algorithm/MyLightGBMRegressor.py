@@ -4,8 +4,8 @@ import numpy
 from lightgbm import LGBMRegressor
 from pandas import DataFrame
 
-from main.algorithm.AlgorithmType import AlgorithmType
-from main.algorithm.MyBaseRegressor import MyBaseRegressor
+from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
+from tfm18.src.main.algorithm.MyBaseRegressor import MyBaseRegressor
 
 
 class MyLightGBMRegressor(MyBaseRegressor):
@@ -30,7 +30,7 @@ class MyLightGBMRegressor(MyBaseRegressor):
         # params["lambda_l1"] = 0.4640
         # params["gamma"] = 0.0468
         # params["verbose"] = 1
-        from main.algorithm.liangzhao123_range_prediction.trainer.lightgbm_model import light_params
+        from tfm18.src.main.algorithm.liangzhao123_range_prediction.trainer.lightgbm_model import light_params
         params = light_params()
         params["metric"] = ["mae", "rmse"]
         self.__light_gbm_regressor_model = LGBMRegressor(
