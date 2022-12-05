@@ -130,5 +130,6 @@ class TripExecutor:
             eRange_history_aec_ma_KWh_by_100km_list=eRange_history_aec_ma_KWh_by_100km_list,
             eRange_history_aec_wma_KWh_by_100km_list=eRange_history_aec_wma_KWh_by_100km_list,
             eRange_history_aec_KWh_by_100km_list=eRange_history_aec_KWh_by_100km_list,
-            eRange_history_aec_timestamps_min_list=eRange_history_aec_timestamps_min_list
+            eRange_history_aec_timestamps_min_list=eRange_history_aec_timestamps_min_list,
+            expected_agorithm_type=expected_algorithm_type
         )

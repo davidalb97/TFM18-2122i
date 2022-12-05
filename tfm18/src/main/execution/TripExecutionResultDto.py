@@ -16,6 +16,7 @@ class TripExecutionResultDto:
     eRange_history_aec_wma_KWh_by_100km_list: list[float]
     eRange_history_aec_KWh_by_100km_list: list[float]
     eRange_history_aec_timestamps_min_list: list[float]
+    expected_agorithm_type: Optional[AlgorithmType]
 
     def __init__(
         self,
@@ -25,7 +26,8 @@ class TripExecutionResultDto:
         eRange_history_aec_wma_KWh_by_100km_list: list[float],
         eRange_history_aec_KWh_by_100km_list: list[float],
         eRange_history_aec_timestamps_min_list: list[float],
-        eRange_result_evaluation_dict: dict[AlgorithmType, dict[AlgorithmEvaluationType, float]]
+        eRange_result_evaluation_dict: dict[AlgorithmType, dict[AlgorithmEvaluationType, float]],
+        expected_agorithm_type: Optional[AlgorithmType]
     ):
         self.dataset_trip_dto = dataset_trip_dto
         self.eRange_distance_results = eRange_distance_results
@@ -34,6 +36,7 @@ class TripExecutionResultDto:
         self.eRange_history_aec_KWh_by_100km_list = eRange_history_aec_KWh_by_100km_list
         self.eRange_history_aec_timestamps_min_list = eRange_history_aec_timestamps_min_list
         self.eRange_result_evaluation_dict = eRange_result_evaluation_dict
+        self.expected_agorithm_type = expected_agorithm_type
 
     def get_visualizer_graphs(self) -> list[VisualizerGraph]:
         ret_list: list[VisualizerGraph] = self.dataset_trip_dto.get_visualizer_graphs()
@@ -100,32 +103,84 @@ class TripExecutionResultDto:
             return retStr
 
         # Multiple graphs, one for each eRange result for its algorithm
-        ret_list.extend(
-            list(
-                map(
-                    lambda result_entry: VisualizerGraph(
-                        graph_name="\"%s\" (eRange)" % result_entry[0].value[0],
-                        y_min=y_min,
-                        y_max=y_max,
-                        x_feature=VisualizerFeature(
-                            feature_name=get_x_feature_name_with_errors(result_entry[0]),
-                            feature_color=None,
-                            feature_data=self.dataset_trip_dto.timestamps_min_list,
-                            feature_enabled=True
-                        ),
-                        y_features=[
-                            VisualizerFeature(
-                                feature_name="\"%s\" eRange (km)" % result_entry[0].value[0],
-                                feature_color=result_entry[0].value[1].value,
-                                feature_data=result_entry[1],
+        if self.expected_agorithm_type is None:
+            ret_list.extend(
+                list(
+                    map(
+                        lambda result_entry: VisualizerGraph(
+                            graph_name="\"%s\" (eRange)" % result_entry[0].value[0],
+                            y_min=y_min,
+                            y_max=y_max,
+                            x_feature=VisualizerFeature(
+                                feature_name=get_x_feature_name_with_errors(result_entry[0]),
+                                feature_color=None,
+                                feature_data=self.dataset_trip_dto.timestamps_min_list,
                                 feature_enabled=True
-                            )
-                        ]
-                    ),
-                    self.eRange_distance_results.items()
+                            ),
+                            y_features=[
+                                VisualizerFeature(
+                                    feature_name="\"%s\" eRange (km)" % result_entry[0].value[0],
+                                    feature_color=result_entry[0].value[1].value,
+                                    feature_data=result_entry[1],
+                                    feature_enabled=True
+                                )
+                            ]
+                        ),
+                        self.eRange_distance_results.items()
+                    )
                 )
             )
-        )
+        else:
+            expected_y_visualizer_feature = VisualizerFeature(
+                feature_name="\"%s\" eRange (km)" % self.expected_agorithm_type.value[0],
+                feature_color=self.expected_agorithm_type.value[1].value,
+                feature_data=self.eRange_distance_results[self.expected_agorithm_type],
+                feature_enabled=True
+            )
+            ret_list.extend(
+                list(
+                    map(
+                        lambda result_entry: VisualizerGraph(
+                            graph_name="\"%s\" (eRange)" % result_entry[0].value[0],
+                            y_min=y_min,
+                            y_max=y_max,
+                            x_feature=VisualizerFeature(
+                                feature_name=get_x_feature_name_with_errors(result_entry[0]),
+                                feature_color=None,
+                                feature_data=self.dataset_trip_dto.timestamps_min_list,
+                                feature_enabled=True
+                            ),
+                            y_features=[
+                                VisualizerFeature(
+                                    feature_name="\"%s\" eRange (km)" % result_entry[0].value[0],
+                                    feature_color=result_entry[0].value[1].value,
+                                    feature_data=result_entry[1],
+                                    feature_enabled=True
+                                ),
+                                expected_y_visualizer_feature
+                            ]
+                        ),
+                        filter(
+                            lambda result_entry: result_entry[0] is not self.expected_agorithm_type,
+                            self.eRange_distance_results.items()
+                        )
+                    )
+                )
+            )
+            ret_list.append(
+                VisualizerGraph(
+                    graph_name="\"%s\" (eRange)" % self.expected_agorithm_type.value[0],
+                    y_min=y_min,
+                    y_max=y_max,
+                    x_feature=VisualizerFeature(
+                        feature_name=get_x_feature_name_with_errors(self.expected_agorithm_type),
+                        feature_color=None,
+                        feature_data=self.dataset_trip_dto.timestamps_min_list,
+                        feature_enabled=True
+                    ),
+                    y_features=[expected_y_visualizer_feature]
+                )
+            )
 
         # AEC debug information from History approach
         history_algo_enabled: bool = (AlgorithmType.HISTORY_BASED in self.eRange_distance_results) or \
