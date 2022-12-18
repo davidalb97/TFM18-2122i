@@ -105,7 +105,7 @@ class DatasetTripDto:
                 x_feature=time_feature,
                 y_features=[
                     VisualizerFeature(
-                        feature_name="SOC (%)",
+                        feature_name="SOC [%]",
                         feature_color=color_blue,
                         feature_data=self.soc_percentage_list,
                         feature_enabled=self.soc_percentage_enabled

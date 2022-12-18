@@ -73,7 +73,7 @@ class TripExecutionResultDto:
                 y_features=list(
                     map(
                         lambda result_entry: VisualizerFeature(
-                            feature_name="\"%s\" eRange (km)" % result_entry[0].value[0],
+                            feature_name="\"%s\" eRange [km]" % result_entry[0].value[0],
                             feature_color=result_entry[0].value[1].value,
                             feature_data=result_entry[1],
                             feature_enabled=is_eRange_graph_enabled
@@ -119,7 +119,7 @@ class TripExecutionResultDto:
                             ),
                             y_features=[
                                 VisualizerFeature(
-                                    feature_name="\"%s\" eRange (km)" % result_entry[0].value[0],
+                                    feature_name="\"%s\" eRange [km]" % result_entry[0].value[0],
                                     feature_color=result_entry[0].value[1].value,
                                     feature_data=result_entry[1],
                                     feature_enabled=True
@@ -132,7 +132,7 @@ class TripExecutionResultDto:
             )
         else:
             expected_y_visualizer_feature = VisualizerFeature(
-                feature_name="\"%s\" eRange (km)" % self.expected_agorithm_type.value[0],
+                feature_name="\"%s\" eRange [km] (baseline)" % self.expected_agorithm_type.value[0],
                 feature_color=self.expected_agorithm_type.value[1].value,
                 feature_data=self.eRange_distance_results[self.expected_agorithm_type],
                 feature_enabled=True
@@ -152,7 +152,7 @@ class TripExecutionResultDto:
                             ),
                             y_features=[
                                 VisualizerFeature(
-                                    feature_name="\"%s\" eRange (km)" % result_entry[0].value[0],
+                                    feature_name="\"%s\" eRange [km]" % result_entry[0].value[0],
                                     feature_color=result_entry[0].value[1].value,
                                     feature_data=result_entry[1],
                                     feature_enabled=True
