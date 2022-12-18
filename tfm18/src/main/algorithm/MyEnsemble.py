@@ -127,42 +127,10 @@ class MyEnsemble(MyBaseRegressor):
 
     def learn_from_dataframes(self, input_dataframe: DataFrame, expected_output_dataframe: DataFrame):
         input_numpy_array = input_dataframe.loc[:, :]
-
-        old_approach = 0
-        working_approach = 1
-        no_change_approach = 2
-        use_approach = no_change_approach
-
-        if use_approach == working_approach:
-            expected_output_numpy_array: numpy.ndarray = expected_output_dataframe.to_numpy()
-            expected_output_numpy_array: numpy.ndarray = expected_output_numpy_array.ravel()
-            if not self.use_regression:
-                expected_output_numpy_array: numpy.ndarray = \
-                    numpy.array(
-                        list(
-                            map(
-                                lambda x: float_to_int(x, self.int_to_float_precision),
-                                expected_output_numpy_array
-                            )
-                        )
-                    )
-
-        elif use_approach == old_approach:
-            expected_output_numpy_array = expected_output_dataframe.iloc[:, 0]
-            # expected_output_numpy_array = expected_output_dataframe.loc[:, :]
-        elif use_approach == no_change_approach:
-            self.__base_stacking_model.fit(X=input_numpy_array, y=expected_output_dataframe)
-            return
-        else:
-            raise Exception("Unknown approach!")
-
-        # print('Input type: ' + type_of_target(input_dataframe))
-        # print('Output type: ' + type_of_target(expected_output_numpy_array))
-
-        self.__base_stacking_model.fit(X=input_numpy_array, y=expected_output_numpy_array)
+        self.__base_stacking_model.fit(X=input_numpy_array, y=expected_output_dataframe.values.ravel())
 
     def predict_from_dataframe(self, input_dataframe: DataFrame) -> float:
-        eRange = self.__base_stacking_model.predict(input_dataframe.loc[:, :])[0]
+        eRange = self.__base_stacking_model.predict(input_dataframe)[0]
         if not self.use_regression:
             eRange = int_to_float(eRange, self.int_to_float_precision)
         return eRange
