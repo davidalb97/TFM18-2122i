@@ -26,7 +26,7 @@ if __name__ == '__main__':
         AlgorithmEvaluationType.R_2,
         AlgorithmEvaluationType.R_2_ADJUSTED
     ]
-    min_trip_time_ms: float = convert_minutes_to_milliseconds(10)
+    min_trip_time_ms: float = convert_minutes_to_milliseconds(0)
     prediction_learner_config: PredictorLearnerConfig = PredictorLearnerConfig(
         dataset_types=dataset_types,
         specific_run_trip_id=specific_trip_name,

@@ -34,7 +34,7 @@ if __name__ == '__main__':
             AlgorithmEvaluationType.RMSE,
             AlgorithmEvaluationType.R_2
         ],
-        min_trip_time_ms=convert_minutes_to_milliseconds(10)
+        min_trip_time_ms=convert_minutes_to_milliseconds(0)
     )
     trip_execution_result: TripExecutionResultDto = TripExecutor() \
         .execute_trip(config=config)
