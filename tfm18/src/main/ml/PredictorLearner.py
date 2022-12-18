@@ -161,7 +161,7 @@ class PredictorLearner:
             cv_scores_dict: dict[str, list[float]] = sklearn.model_selection.cross_validate(
                 estimator=ml_algorithm.get_model(),
                 X=cv_input_dataframe.values,
-                y=cv_output_dataframe.values,
+                y=cv_output_dataframe.values.ravel(),
                 scoring=cv_scoring_dict,
                 cv=sklearn.model_selection.KFold(
                     n_splits=k_fold_k
