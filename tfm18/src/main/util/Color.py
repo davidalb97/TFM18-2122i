@@ -27,3 +27,7 @@ class Color(Enum):
 
     YELLOW_GREEN = 'yellowgreen'
     OLIVE = 'olive'
+
+    SADDLE_BROWN = 'saddlebrown'
+
+    DODGER_BLUE = 'dodgerblue'

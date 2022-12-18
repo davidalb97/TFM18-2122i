@@ -6,6 +6,8 @@ from tfm18.src.main.algorithm.HistoryBasedApproach import HistoryBasedApproach
 from tfm18.src.main.algorithm.MyBayesianRidgeRegression import MyBayesianRidgeRegression
 from tfm18.src.main.algorithm.MyDecisionTreeRegression import MyDecisionTreeRegression
 from tfm18.src.main.algorithm.MyEnsemble import MyEnsemble
+from tfm18.src.main.algorithm.MyEnsembleV2 import MyEnsembleV2
+from tfm18.src.main.algorithm.MyKNearestNeighborsRegression import MyKNearestNeighborsRegression
 from tfm18.src.main.algorithm.MyLassoRegression import MyLassoRegression
 from tfm18.src.main.algorithm.MyLightGBMRegressor import MyLightGBMRegressor
 from tfm18.src.main.algorithm.MyLinearRegression import MyLinearRegression
@@ -55,6 +57,8 @@ class AlgorithmRepository:
             return MyLinearRegression()
         elif algorithm_type is AlgorithmType.ML_ENSEMBLE:
             return MyEnsemble()
+        elif algorithm_type is AlgorithmType.ML_ENSEMBLE_V2:
+            return MyEnsembleV2()
         elif algorithm_type is AlgorithmType.ML_LASSO_REGRESSION:
             return MyLassoRegression()
         elif algorithm_type is AlgorithmType.ML_RIDGE_REGRESSION:
@@ -65,6 +69,8 @@ class AlgorithmRepository:
             return MyDecisionTreeRegression()
         elif algorithm_type is AlgorithmType.ML_RANDOM_FOREST_REGRESSION:
             return MyRandomForestRegression()
+        elif algorithm_type is AlgorithmType.ML_K_NEAREST_NEIGHBORS_REGRESSION:
+            return MyKNearestNeighborsRegression()
         elif algorithm_type is AlgorithmType.ML_LIGHT_GBM_REGRESSION:
             return MyLightGBMRegressor()
         elif algorithm_type is AlgorithmType.ML_XGBOOST_REGRESSION:
