@@ -11,6 +11,7 @@ from tfm18.src.main.dataset.DatasetType import DatasetType
 from tfm18.src.main.evaluation.AlgorithmEvaluationRepository import AlgorithmEvaluationRepository
 from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
 from tfm18.src.main.evaluation.BaseAlgorithmEvaluation import BaseAlgorithmEvaluation
+from tfm18.src.main.util.Chronometer import Chronometer
 from tfm18.src.main.util.Formulas import convert_minutes_to_milliseconds
 
 
@@ -34,9 +35,15 @@ class TripExecutorConfigDto:
         expected_algorithm_type: Optional[AlgorithmType] = None,
         expected_algorithm: Optional[BaseAlgorithm] = None,
         algorithm_evaluation_types: Optional[list[AlgorithmEvaluationType]] = None,
-        print_execution_time: bool = True
+        print_execution_time: bool = True,
+        train_times_dict: Optional[dict[AlgorithmType, Chronometer]] = None
     ):
         self.print_execution_time = print_execution_time
+
+        if train_times_dict is None:
+            train_times_dict = dict()
+        self.train_times_dict = train_times_dict
+
         if dataset_trip_dto is not None:
             self.dataset_trip_dto = dataset_trip_dto
         # If the trip is missing, fetch it from dataset

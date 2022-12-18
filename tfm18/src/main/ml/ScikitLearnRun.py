@@ -6,6 +6,7 @@ from tfm18.src.main.execution.TripExecutor import TripExecutor
 from tfm18.src.main.execution.TripExecutorConfigDto import TripExecutorConfigDto
 from tfm18.src.main.ml.PredictorLearner import PredictorLearner
 from tfm18.src.main.ml.PredictorLearnerConfig import PredictorLearnerConfig
+from tfm18.src.main.util.Chronometer import Chronometer
 from tfm18.src.main.util.Formulas import convert_minutes_to_milliseconds
 from tfm18.src.main.visualizer.DatasetTripVisualizer import DatasetTripVisualizer
 
@@ -48,7 +49,7 @@ if __name__ == '__main__':
         shuffle_training_trips=False
     )
     # Train algorithms
-    PredictorLearner(config=prediction_learner_config) \
+    train_times_dict: dict[AlgorithmType, Chronometer] = PredictorLearner(config=prediction_learner_config) \
         .train_full_trip_list()
 
     # Execute demonstration trip
@@ -59,7 +60,8 @@ if __name__ == '__main__':
             enabled_algorithms=prediction_learner_config.algorithms_to_train,
             enabled_algorithm_types=[AlgorithmType.BASIC, AlgorithmType.HISTORY_BASED],
             expected_algorithm_type=expected_algorithm_type,
-            algorithm_evaluation_types=algorithm_evaluation_types
+            algorithm_evaluation_types=algorithm_evaluation_types,
+            train_times_dict=train_times_dict
         )
     )
 

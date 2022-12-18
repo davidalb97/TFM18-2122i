@@ -1,4 +1,3 @@
-import datetime
 import statistics
 from typing import Tuple, Optional, Any
 
@@ -6,12 +5,14 @@ import sklearn
 from pandas import DataFrame
 from sklearn.metrics import make_scorer
 
+from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
 from tfm18.src.main.dataset.DatasetTripDto import DatasetTripDto
 from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
 from tfm18.src.main.evaluation.BaseAlgorithmEvaluation import BaseAlgorithmEvaluation
 from tfm18.src.main.execution.TripExecutor import TripExecutor
 from tfm18.src.main.execution.TripExecutorConfigDto import TripExecutorConfigDto
 from tfm18.src.main.ml.PredictorLearnerConfig import PredictorLearnerConfig
+from tfm18.src.main.util.Chronometer import Chronometer
 
 
 class PredictorLearner:
@@ -22,9 +23,16 @@ class PredictorLearner:
         self.config = config
         self.trip_executor = TripExecutor()
 
-    def train_full_trip_list(self):
+    def train_full_trip_list(self) -> dict[AlgorithmType, Chronometer]:
+        """
+        Trains all configured machine learning algorithms, prints cross validation
+        and returns a dictionary containing each algorithm's learning time.
+        :return: A dictionary containing each algorithm's learning time.
+        """
+        train_times_dict: dict[AlgorithmType, Chronometer] = dict()
+
         # Start recording pre-training time
-        pre_train_time_start_time: datetime = datetime.datetime.now()
+        pre_train_chronometer: Chronometer = Chronometer()
 
         input_list_of_lists: list[list[float]]
         output_list_of_lists: list[list[float]]
@@ -50,26 +58,32 @@ class PredictorLearner:
         cv_input_dataframe: DataFrame = DataFrame(cv_input_list_of_lists, columns=input_column_name_list)
         cv_output_dataframe: DataFrame = DataFrame(cv_output_list_of_lists, columns=output_column_name_list)
 
-        pre_train_time_delta_secs: float = (datetime.datetime.now() - pre_train_time_start_time).total_seconds()
-        print("Time for pre training: %.2f" % pre_train_time_delta_secs)
+        print("[Pre train] Time=%s" % pre_train_chronometer.get_elapsed_str())
 
-        train_time_start_time: datetime = datetime.datetime.now()
+        train_time_chronometer: Chronometer = Chronometer()
         for algorithm in self.config.algorithms_to_train:
-            algorithm_time_start_time: datetime = datetime.datetime.now()
+
+            # Start counting algorithm's learning time
+            algorithm_time_chronometer: Chronometer = Chronometer()
+
+            # Fit the algorithm
             algorithm.learn_from_dataframes(input_dataframe=input_dataframe, expected_output_dataframe=output_dataframe)
-            algorithm_time_delta_secs: float = (datetime.datetime.now() - algorithm_time_start_time).total_seconds()
-            print(
-                "Time for %s algorithm training: %.2f" %
-                (algorithm.get_algorithm_type().value[0], algorithm_time_delta_secs)
-            )
-        train_time_delta_secs: float = (datetime.datetime.now() - train_time_start_time).total_seconds()
-        print("Time for training: %.2f" % train_time_delta_secs)
+
+            # Stop counting algorithm's learning time
+            algorithm_time_chronometer.stop()
+
+            # Save algorithm's learning time into return dict
+            train_times_dict[algorithm.get_algorithm_type()] = algorithm_time_chronometer
+
+        print("[Train] ALL: Time=%s" % train_time_chronometer.get_elapsed_str())
 
         self.cross_validation(
             cv_input_dataframe=cv_input_dataframe,
             cv_output_dataframe=cv_output_dataframe,
             variable_count=len(input_column_name_list)
         )
+
+        return train_times_dict
 
     def get_input_output_list_of_lists(
         self,
@@ -108,8 +122,14 @@ class PredictorLearner:
 
         return input_list_of_lists, output_list_of_lists
 
-    def cross_validation(self, cv_input_dataframe: DataFrame, cv_output_dataframe: DataFrame, variable_count: int):
-        cv_start_time: datetime = datetime.datetime.now()
+    def cross_validation(
+        self,
+        cv_input_dataframe: DataFrame,
+        cv_output_dataframe: DataFrame,
+        variable_count: int
+    ):
+        cv_chronometer: Chronometer = Chronometer()
+        k_fold_k: int = 20
         for ml_algorithm in self.config.algorithms_to_train:
             cv_scoring_dict: dict[str, Any] = dict()
             evaluation: BaseAlgorithmEvaluation
@@ -136,8 +156,8 @@ class PredictorLearner:
                         greater_is_better=evaluation_type.value[3]
                     )
 
-            cv_ml_algo_start_time: datetime = datetime.datetime.now()
-            k_fold_k: int = 20
+            cv_ml_algo_chronometer: Chronometer = Chronometer()
+
             cv_scores_dict: dict[str, list[float]] = sklearn.model_selection.cross_validate(
                 estimator=ml_algorithm.get_model(),
                 X=cv_input_dataframe.values,
@@ -150,14 +170,12 @@ class PredictorLearner:
                 n_jobs=-1
                 # n_jobs=None # Disabled parallel execution
             )
-            cv_ml_algo_time_delta_secs: float = (datetime.datetime.now() - cv_ml_algo_start_time).total_seconds()
-            print(
-                "Time for %s cross validation: %.2f" %
-                (ml_algorithm.get_algorithm_type().value[0], cv_ml_algo_time_delta_secs)
-            )
+            cv_ml_algo_time_str = cv_ml_algo_chronometer.get_elapsed_str()
 
             evaluation_type: AlgorithmEvaluationType
-            for evaluation_type in self.config.algorithm_evaluation_types:
+            performance_str: str = "[%d-Fold] %s: " % (k_fold_k, ml_algorithm.get_algorithm_type().value[0])
+
+            for idx, evaluation_type in enumerate(self.config.algorithm_evaluation_types):
                 evaluation_type_name: str = evaluation_type.value[0]
                 evaluation_result: float = statistics.mean(cv_scores_dict["test_%s" % evaluation_type_name])
                 scikit_learn_evaluation_name: Optional[str] = evaluation_type.value[2]
@@ -166,13 +184,9 @@ class PredictorLearner:
                 if scikit_learn_evaluation_name is not None and scikit_learn_evaluation_name.startswith("neg_"):
                     evaluation_result = -evaluation_result
 
-                print(
-                    "K=%d Fold cross validation %s performance of %s algorithm: %.3f" % (
-                        k_fold_k,
-                        evaluation_type_name,
-                        ml_algorithm.get_algorithm_type().value[0],
-                        evaluation_result
-                    )
-                )
-        cv_time_delta_secs: float = (datetime.datetime.now() - cv_start_time).total_seconds()
-        print("Time for all ML algorithms cross validation: %.2f" % cv_time_delta_secs)
+                performance_str += "%s=%.3f, " % (evaluation_type_name, evaluation_result)
+
+            performance_str += "Time(CV)=%s" % cv_ml_algo_time_str
+
+            print(performance_str)
+        print("[%d-Fold] ALL Time=%s" % (k_fold_k, cv_chronometer.get_elapsed_str()))

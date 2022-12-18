@@ -1,4 +1,3 @@
-import datetime
 from typing import Optional
 
 from tfm18.src.main.algorithm.AlgorithmRepository import AlgorithmRepository
@@ -11,6 +10,7 @@ from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluatio
 from tfm18.src.main.evaluation.BaseAlgorithmEvaluation import BaseAlgorithmEvaluation
 from tfm18.src.main.execution.TripExecutionResultDto import TripExecutionResultDto
 from tfm18.src.main.execution.TripExecutorConfigDto import TripExecutorConfigDto
+from tfm18.src.main.util.Chronometer import Chronometer
 
 
 class TripExecutor:
@@ -21,12 +21,11 @@ class TripExecutor:
     ) -> TripExecutionResultDto:
 
         # Initialize trip execution start time
-        start_time: Optional[datetime] = None
-        if config.print_execution_time:
-            start_time = datetime.datetime.now()
+        execution_chronometer = Chronometer()
 
         # Initialize eRange_distance_results dictionary
         eRange_distance_results: dict[AlgorithmType, list[float]] = dict()
+        eRange_exec_chronometer_dict: dict[AlgorithmType, Chronometer] = dict()
         history_based_approach: Optional[HistoryBasedApproach] = None
         for algorithm in config.enabled_algorithms:
             algorithm_type = algorithm.get_algorithm_type()
@@ -78,7 +77,18 @@ class TripExecutor:
                 algorithm_type = algorithm.get_algorithm_type()
 
                 # Use the algorithm to predict the eRange for this timestamp
+                curr_timestamp_algo_chronometer: Chronometer = Chronometer()
+                # Predict trip timestamp eRange with algorithm
                 eRange_distance_result = algorithm.predict(prediction_input=prediction_input)
+                # Stop counting time for trip algorithm prediction timestamp
+                curr_timestamp_algo_chronometer.stop()
+
+                # Append algorithm timestamp prediction time to algorithm trip prediction time
+                if algorithm_type in eRange_exec_chronometer_dict:
+                    curr_timestamp_algo_chronometer += eRange_exec_chronometer_dict[algorithm_type]
+                eRange_exec_chronometer_dict[algorithm_type] = curr_timestamp_algo_chronometer
+
+                # Append trip timestamp eRange algorithm prediction
                 eRange_distance_results[algorithm_type].append(eRange_distance_result)
 
             # If expected algorithm exists and is not part of enabled algorithms, predict the result explicitly
@@ -88,8 +98,8 @@ class TripExecutor:
 
         # Print trip execution time
         if config.print_execution_time:
-            time_delta_secs: float = (datetime.datetime.now() - start_time).total_seconds()
-            print("Time for trip %s's execution: %.2f" % (config.dataset_trip_dto.trip_identifier, time_delta_secs))
+            time_delta_secs: str = execution_chronometer.get_elapsed_str()
+            print("[Trip] %s's Execution time=%s" % (config.dataset_trip_dto.trip_identifier, time_delta_secs))
 
         eRange_result_evaluation_dict: dict[AlgorithmType, dict[AlgorithmEvaluationType, float]] = dict()
         algorithm_evaluation_dict: dict[AlgorithmEvaluationType, float]
@@ -104,7 +114,7 @@ class TripExecutor:
                 # Initialize algorithm evaluation results dict
                 algorithm_evaluation_dict = dict()
                 eRange_result_evaluation_dict[algorithm_type] = algorithm_evaluation_dict
-                metrics_str += algorithm_type.value[0] + ": "
+                metrics_str += "[Trip] %s: " % algorithm_type.value[0]
 
                 # Calculate each evaluation for the specific enabled algorithm
                 avaluation_algorithm: BaseAlgorithmEvaluation
@@ -119,9 +129,13 @@ class TripExecutor:
                     # Save evaluation value for printing later
                     # noinspection PyUnresolvedReferences
                     metrics_str += "%s=%.3f, " % (algorithm_evaluation_type.value[0], evaluation_value)
-                metrics_str = metrics_str[:-2]  # Remove last comma and space
-                metrics_str += "\n"
-            print("Trip evaluation metrics:\n%s" % metrics_str)
+
+                # If algorithm is machine learning, add training time
+                if algorithm_type in config.train_times_dict:
+                    metrics_str += "Time(Train)=%s," % config.train_times_dict[algorithm_type].get_elapsed_str()
+
+                metrics_str += "Time(Exec)=%s\n" % eRange_exec_chronometer_dict[algorithm_type].get_elapsed_str()
+            print(metrics_str)
 
         return TripExecutionResultDto(
             dataset_trip_dto=config.dataset_trip_dto,

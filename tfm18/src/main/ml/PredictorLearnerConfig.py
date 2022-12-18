@@ -13,6 +13,7 @@ from tfm18.src.main.evaluation.AlgorithmEvaluationRepository import AlgorithmEva
 from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
 from tfm18.src.main.evaluation.BaseAlgorithmEvaluation import BaseAlgorithmEvaluation
 from tfm18.src.main.util.Formulas import convert_minutes_to_milliseconds
+from tfm18.src.main.util.StrUtil import format_millis
 
 
 class PredictorLearnerConfig:
@@ -42,6 +43,7 @@ class PredictorLearnerConfig:
         algorithm_evaluation_types: Optional[list[AlgorithmEvaluationType]] = None,
         shuffle_training_trips: bool = True
     ):
+        print("[Pre train] Minimum trip time: %s" % format_millis(millis=min_trip_time_ms))
 
         # expected_algorithm must not be initialized
         self.expected_algorithm_type = expected_algorithm_type
