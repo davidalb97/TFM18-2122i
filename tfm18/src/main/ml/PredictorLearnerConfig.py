@@ -12,7 +12,7 @@ from tfm18.src.main.dataset.DatasetType import DatasetType
 from tfm18.src.main.evaluation.AlgorithmEvaluationRepository import AlgorithmEvaluationRepository
 from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
 from tfm18.src.main.evaluation.BaseAlgorithmEvaluation import BaseAlgorithmEvaluation
-from tfm18.src.main.util.Formulas import convert_minutes_to_milliseconds
+from tfm18.src.main.util.Constants import Constants
 from tfm18.src.main.util.StrUtil import format_millis
 
 
@@ -32,7 +32,7 @@ class PredictorLearnerConfig:
         dataset_dtos: Optional[list[DatasetDto]] = None,
         dataset_types: Optional[list[DatasetType]] = None,
         timestep_ms: int = 0,
-        min_trip_time_ms: float = convert_minutes_to_milliseconds(10),
+        min_trip_time_ms: float = Constants.default_min_trip_time_ms,
         specific_run_trip: Optional[DatasetTripDto] = None,
         specific_run_trip_id: Optional[str] = None,
         training_trip_whitelist: Optional[list[str]] = None,

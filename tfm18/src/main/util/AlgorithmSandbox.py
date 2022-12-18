@@ -4,6 +4,7 @@ from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluatio
 from tfm18.src.main.execution.TripExecutionResultDto import TripExecutionResultDto
 from tfm18.src.main.execution.TripExecutor import TripExecutor
 from tfm18.src.main.execution.TripExecutorConfigDto import TripExecutorConfigDto
+from tfm18.src.main.util.Formulas import convert_minutes_to_milliseconds
 from tfm18.src.main.visualizer.DatasetTripVisualizer import DatasetTripVisualizer
 
 if __name__ == '__main__':
@@ -32,7 +33,8 @@ if __name__ == '__main__':
             AlgorithmEvaluationType.MAPE,
             AlgorithmEvaluationType.RMSE,
             AlgorithmEvaluationType.R_2
-        ]
+        ],
+        min_trip_time_ms=convert_minutes_to_milliseconds(10)
     )
     trip_execution_result: TripExecutionResultDto = TripExecutor() \
         .execute_trip(config=config)

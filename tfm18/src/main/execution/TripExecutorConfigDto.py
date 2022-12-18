@@ -12,7 +12,7 @@ from tfm18.src.main.evaluation.AlgorithmEvaluationRepository import AlgorithmEva
 from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
 from tfm18.src.main.evaluation.BaseAlgorithmEvaluation import BaseAlgorithmEvaluation
 from tfm18.src.main.util.Chronometer import Chronometer
-from tfm18.src.main.util.Formulas import convert_minutes_to_milliseconds
+from tfm18.src.main.util.Constants import Constants
 
 
 class TripExecutorConfigDto:
@@ -25,7 +25,7 @@ class TripExecutorConfigDto:
     def __init__(
         self,
         timestep_ms: int = 0,
-        min_trip_time_ms: int = convert_minutes_to_milliseconds(10),
+        min_trip_time_ms: float = Constants.default_min_trip_time_ms,
         dataset_trip_dto_id: Optional[str] = None,
         dataset_trip_dto: Optional[DatasetTripDto] = None,
         dataset_type_list: Optional[list[DatasetType]] = None,

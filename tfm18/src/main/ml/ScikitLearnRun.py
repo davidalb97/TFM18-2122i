@@ -26,10 +26,11 @@ if __name__ == '__main__':
         AlgorithmEvaluationType.R_2,
         AlgorithmEvaluationType.R_2_ADJUSTED
     ]
+    min_trip_time_ms: float = convert_minutes_to_milliseconds(10)
     prediction_learner_config: PredictorLearnerConfig = PredictorLearnerConfig(
         dataset_types=dataset_types,
         specific_run_trip_id=specific_trip_name,
-        min_trip_time_ms=convert_minutes_to_milliseconds(0),
+        min_trip_time_ms=min_trip_time_ms,
         # timestep_ms=5000,
         timestep_ms=0,
         # algorithms_to_train_types=[AlgorithmType.ML_LINEAR_REGRESSION],
@@ -56,6 +57,7 @@ if __name__ == '__main__':
     trip_executor: TripExecutor = TripExecutor()
     trip_execution_result_dto: TripExecutionResultDto = trip_executor.execute_trip(
         config=TripExecutorConfigDto(
+            min_trip_time_ms=min_trip_time_ms,
             dataset_trip_dto=prediction_learner_config.run_dataset_trip_dto,
             enabled_algorithms=prediction_learner_config.algorithms_to_train,
             enabled_algorithm_types=[AlgorithmType.BASIC, AlgorithmType.HISTORY_BASED],

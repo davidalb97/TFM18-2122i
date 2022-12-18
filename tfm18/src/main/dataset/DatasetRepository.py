@@ -10,7 +10,8 @@ from tfm18.src.main.dataset.NDABEV.NDANEVDatasetReader import NDANEVDatasetReade
 from tfm18.src.main.dataset.chargecar.ChargeCarDatasetReader import ChargeCarDatasetReader
 from tfm18.src.main.dataset.classic_ev_range.ClassicEvRangeDatasetReader import ClassicEvRangeDatasetReader
 from tfm18.src.main.dataset.ved.VEDDatasetReader import VEDDatasetReader
-from tfm18.src.main.util.Formulas import convert_minutes_to_milliseconds, convert_milliseconds_to_minutes
+from tfm18.src.main.util.Constants import Constants
+from tfm18.src.main.util.Formulas import convert_milliseconds_to_minutes
 from tfm18.src.main.util.PickleHandler import read_pickle_file, write_pickle_file
 from tfm18.src.main.util.StrUtil import replace_last
 
@@ -49,7 +50,7 @@ class DatasetRepository:
         self,
         dataset_type_list: list[DatasetType],
         timestep_ms: int = 0,
-        min_trip_time_ms: float = convert_minutes_to_milliseconds(10),
+        min_trip_time_ms: float = Constants.default_min_trip_time_ms,
         specific_trip_id: Optional[str] = None
     ) -> Tuple[list[DatasetDto], list[DatasetTripDto]]:
         dataset_dto_list: list[DatasetDto] = []
@@ -80,7 +81,7 @@ class DatasetRepository:
         self,
         dataset_type: DatasetType,
         timestep_ms: int = 0,
-        min_trip_time_ms: float = convert_minutes_to_milliseconds(10),
+        min_trip_time_ms: float = Constants.default_min_trip_time_ms,
         specific_trip_id: Optional[str] = None
     ) -> list[DatasetTripDto]:
         if specific_trip_id is not None:
