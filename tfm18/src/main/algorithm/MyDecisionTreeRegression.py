@@ -1,3 +1,4 @@
+import math
 from typing import Any
 
 import numpy
@@ -13,11 +14,27 @@ class MyDecisionTreeRegression(MyBaseRegressor):
     __decision_tree_regressor_model: tree.DecisionTreeRegressor
 
     def __init__(self):
+        decision_tree_tree_depth = 15               # Ensemble stack article value
+        decision_tree_number_of_nodes = 9563        # Ensemble stack article value
+        decision_tree_number_of_leafs = 4782        # Ensemble stack article value
+        feature_count = 11
+        max_features = math.sqrt(feature_count)     # R^2=0.62
+        # max_features = math.log(feature_count)    # R^2=0.42
+        max_features = round(max_features)
+
         self.__decision_tree_regressor_model = tree.DecisionTreeRegressor(
-            criterion="poisson",
-            min_samples_split=100,
-            min_samples_leaf=100,
-            max_depth=25,
+            random_state=0,
+            # criterion="squared_error", # 0.823, best with min_samples_split=2, min_samples_leaf=1
+            # criterion="friedman_mse", # Worse
+            # criterion="absolute_error", # Race
+            criterion="poisson",  # 0.842, best with min_samples_split=2, min_samples_leaf=5, max_features=9
+            # min_samples_split=2,
+            # min_samples_split=2,
+            # min_samples_leaf=1,
+            # min_samples_leaf=5,
+            max_features=9,
+            # max_depth=decision_tree_tree_depth,
+            # max_leaf_nodes=decision_tree_number_of_leafs
         )
         # "squared_error"
         # "friedman_mse"

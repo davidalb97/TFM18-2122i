@@ -1,3 +1,4 @@
+import math
 from typing import Any
 
 import numpy
@@ -13,7 +14,26 @@ class MyRandomForestRegression(MyBaseRegressor):
     __random_forest_regressor_model: ensemble.RandomForestRegressor
 
     def __init__(self):
-        self.__random_forest_regressor_model = ensemble.RandomForestRegressor()
+        random_forest_min_number_of_trees = 65      # Ensemble stack article value
+        random_forest_tree_depth = 15               # Ensemble stack article value
+        feature_count = 11
+        max_features = math.sqrt(feature_count)     # R^2=0.62
+        # max_features = math.log(feature_count)    # R^2=0.42
+        max_features = round(max_features)
+        self.__random_forest_regressor_model = ensemble.RandomForestRegressor(
+            n_estimators=random_forest_min_number_of_trees,
+            # max_depth=random_forest_tree_depth,
+            # max_features=max_features,
+            # max_features=10, # 0.863
+            # max_features=8, # 0.936
+            # max_features=6, # 0.819
+            max_features=7, # 0.945
+            random_state=0,
+            # min_samples_split=2,
+            min_samples_split=2,
+            min_samples_leaf=1
+            # 835 max_depth=random_forest_tree_depth
+        )
         # "squared_error"
         # "friedman_mse"
         # "absolute_error"
