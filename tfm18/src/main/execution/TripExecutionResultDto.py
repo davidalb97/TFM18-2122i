@@ -167,6 +167,40 @@ class TripExecutionResultDto:
                     )
                 )
             )
+
+            # Get features of all machine learning algorithms
+            all_eRange_algs_features: list[VisualizerFeature] = list(
+                map(
+                    lambda result_entry: VisualizerFeature(
+                        feature_name="\"%s\" eRange [km]" % result_entry[0].value[0],
+                        feature_color=result_entry[0].value[1].value,
+                        feature_data=result_entry[1],
+                        feature_enabled=True
+                    ),
+                    filter(
+                        lambda result_entry: result_entry[0].value[2],
+                        self.eRange_distance_results.items()
+                    )
+                )
+            )
+            # Add baseline visualizer feature to graph of  machine learning algorithms
+            all_eRange_algs_features.append(expected_y_visualizer_feature)
+
+            # Add graph with only machine learning baseline algorithms
+            ret_list.append(
+                VisualizerGraph(
+                    graph_name="All ML eRange algs.",
+                    y_min=y_min,
+                    y_max=y_max,
+                    x_feature=VisualizerFeature(
+                        feature_name=get_x_feature_name_with_errors(self.expected_agorithm_type),
+                        feature_color=None,
+                        feature_data=self.dataset_trip_dto.timestamps_min_list,
+                        feature_enabled=True
+                    ),
+                    y_features=all_eRange_algs_features
+                )
+            )
             ret_list.append(
                 VisualizerGraph(
                     graph_name="\"%s\" (eRange)" % self.expected_agorithm_type.value[0],
