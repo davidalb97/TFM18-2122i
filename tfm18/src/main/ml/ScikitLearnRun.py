@@ -37,13 +37,15 @@ if __name__ == '__main__':
         algorithms_to_train_types=[
             AlgorithmType.ML_LINEAR_REGRESSION,
             AlgorithmType.ML_ENSEMBLE,
+            AlgorithmType.ML_ENSEMBLE_V2,
             # AlgorithmType.ML_LIGHT_GBM_REGRESSION,
             # AlgorithmType.ML_XGBOOST_REGRESSION,
             # AlgorithmType.ML_LASSO_REGRESSION,
             # AlgorithmType.ML_RIDGE_REGRESSION,
             # AlgorithmType.ML_BAYESIAN_RIDGE_REGRESSION,
             # AlgorithmType.ML_DECISION_TREE_REGRESSION,
-            # AlgorithmType.ML_RANDOM_FOREST_REGRESSION
+            # AlgorithmType.ML_RANDOM_FOREST_REGRESSION,
+            # AlgorithmType.ML_K_NEAREST_NEIGHBORS_REGRESSION
         ],
         expected_algorithm_type=expected_algorithm_type,
         algorithm_evaluation_types=algorithm_evaluation_types,
