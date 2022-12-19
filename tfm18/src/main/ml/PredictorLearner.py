@@ -157,7 +157,7 @@ class PredictorLearner:
                         greater_is_better=evaluation_type.value[3]
                     )
 
-            cv_ml_algo_chronometer: Chronometer = Chronometer()
+            # cv_ml_algo_chronometer: Chronometer = Chronometer()
 
             cv_scores_dict: dict[str, list[float]] = sklearn.model_selection.cross_validate(
                 estimator=ml_algorithm.get_model(),
@@ -171,7 +171,7 @@ class PredictorLearner:
                 n_jobs=-1
                 # n_jobs=None # Disabled parallel execution
             )
-            cv_ml_algo_chronometer.stop()
+            # cv_ml_algo_chronometer.stop()
 
             evaluation_type: AlgorithmEvaluationType
             performance_str: str = "[%d-Fold] %s: " % (k_fold_k, ml_algorithm.get_algorithm_type().value[3])
@@ -193,13 +193,14 @@ class PredictorLearner:
             cv_avg_train_time_millis: float = convert_seconds_to_milliseconds(
                 statistics.mean(cv_all_train_time_secs_list)
             )
-            cv_all_test_time_millis = cv_ml_algo_chronometer.get_elapsed_millis() - cv_all_train_time_millis
-            cv_avg_test_time_millis = cv_all_test_time_millis / k_fold_k
-            performance_str += "Time(All test)=%s, " % format_millis(cv_all_test_time_millis)
-            performance_str += "Time(Avg test)=%s, " % format_millis(cv_avg_test_time_millis)
+            # CV All time, All Test time, AVG test time are wrong due to parellelism, unkown time for all CV
+            # cv_all_test_time_millis = cv_ml_algo_chronometer.get_elapsed_millis() - cv_all_train_time_millis
+            # cv_avg_test_time_millis = cv_all_test_time_millis / k_fold_k
+            # performance_str += "Time(All test)=%s, " % format_millis(cv_all_test_time_millis)
+            # performance_str += "Time(Avg test)=%s, " % format_millis(cv_avg_test_time_millis)
             performance_str += "Time(All train)=%s, " % format_millis(cv_all_train_time_millis)
             performance_str += "Time(Avg train)=%s, " % format_millis(cv_avg_train_time_millis)
-            performance_str += "Time(All)=%s" % cv_ml_algo_chronometer.get_elapsed_str()
+            # performance_str += "Time(All)=%s" % cv_ml_algo_chronometer.get_elapsed_str()
 
             print(performance_str)
         print("[%d-Fold] ALL Time=%s" % (k_fold_k, cv_chronometer.get_elapsed_str()))
