@@ -26,6 +26,7 @@ class PredictorLearnerConfig:
     run_dataset_dto: DatasetDto
     algorithm_evaluation_types: list[AlgorithmEvaluationType]
     evaluation_algorithms: list[BaseAlgorithmEvaluation]
+    min_trip_time_ms: float
 
     def __init__(
         self,
@@ -43,7 +44,7 @@ class PredictorLearnerConfig:
         algorithm_evaluation_types: Optional[list[AlgorithmEvaluationType]] = None,
         shuffle_training_trips: bool = True
     ):
-        print("[Pre train] Minimum trip time: %s" % format_millis(millis=min_trip_time_ms))
+        self.min_trip_time_ms = min_trip_time_ms
 
         # expected_algorithm must not be initialized
         self.expected_algorithm_type = expected_algorithm_type

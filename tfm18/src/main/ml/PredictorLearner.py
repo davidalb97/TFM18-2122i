@@ -60,7 +60,13 @@ class PredictorLearner:
         cv_input_dataframe: DataFrame = DataFrame(cv_input_list_of_lists, columns=input_column_name_list)
         cv_output_dataframe: DataFrame = DataFrame(cv_output_list_of_lists, columns=output_column_name_list)
 
-        print("[Pre train] Time=%s" % pre_train_chronometer.get_elapsed_str())
+        pre_train_chronometer.stop()
+
+        print("[Pre train] MTT=%s, Trip_count=%d, Time=%s" % (
+            format_millis(millis=self.config.min_trip_time_ms),
+            len(self.config.training_dataset_trip_list),
+            pre_train_chronometer.get_elapsed_str())
+        )
 
         train_time_chronometer: Chronometer = Chronometer()
         for algorithm in self.config.algorithms_to_train:
@@ -199,7 +205,8 @@ class PredictorLearner:
             # performance_str += "Time(All test)=%s, " % format_millis(cv_all_test_time_millis)
             # performance_str += "Time(Avg test)=%s, " % format_millis(cv_avg_test_time_millis)
             performance_str += "Time(All train)=%s, " % format_millis(cv_all_train_time_millis)
-            performance_str += "Time(Avg train)=%s, " % format_millis(cv_avg_train_time_millis)
+            performance_str += "Time(Avg train)=%s" % format_millis(cv_avg_train_time_millis)
+            # performance_str += "Time(Avg train)=%s, " % format_millis(cv_avg_train_time_millis)
             # performance_str += "Time(All)=%s" % cv_ml_algo_chronometer.get_elapsed_str()
 
             print(performance_str)
