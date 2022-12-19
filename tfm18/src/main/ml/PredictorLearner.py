@@ -13,6 +13,8 @@ from tfm18.src.main.execution.TripExecutor import TripExecutor
 from tfm18.src.main.execution.TripExecutorConfigDto import TripExecutorConfigDto
 from tfm18.src.main.ml.PredictorLearnerConfig import PredictorLearnerConfig
 from tfm18.src.main.util.Chronometer import Chronometer
+from tfm18.src.main.util.Formulas import convert_seconds_to_milliseconds
+from tfm18.src.main.util.StrUtil import format_millis
 
 
 class PredictorLearner:
@@ -62,7 +64,6 @@ class PredictorLearner:
 
         train_time_chronometer: Chronometer = Chronometer()
         for algorithm in self.config.algorithms_to_train:
-
             # Start counting algorithm's learning time
             algorithm_time_chronometer: Chronometer = Chronometer()
 
@@ -170,7 +171,7 @@ class PredictorLearner:
                 n_jobs=-1
                 # n_jobs=None # Disabled parallel execution
             )
-            cv_ml_algo_time_str = cv_ml_algo_chronometer.get_elapsed_str()
+            cv_ml_algo_chronometer.stop()
 
             evaluation_type: AlgorithmEvaluationType
             performance_str: str = "[%d-Fold] %s: " % (k_fold_k, ml_algorithm.get_algorithm_type().value[0])
@@ -186,7 +187,19 @@ class PredictorLearner:
 
                 performance_str += "%s=%.3f, " % (evaluation_type_name, evaluation_result)
 
-            performance_str += "Time(CV)=%s" % cv_ml_algo_time_str
+            # Calculate CV test time from all CV time minus train times
+            cv_all_train_time_secs_list: list[float] = cv_scores_dict["fit_time"]
+            cv_all_train_time_millis: float = convert_seconds_to_milliseconds(sum(cv_all_train_time_secs_list))
+            cv_avg_train_time_millis: float = convert_seconds_to_milliseconds(
+                statistics.mean(cv_all_train_time_secs_list)
+            )
+            cv_all_test_time_millis = cv_ml_algo_chronometer.get_elapsed_millis() - cv_all_train_time_millis
+            cv_avg_test_time_millis = cv_all_test_time_millis / k_fold_k
+            performance_str += "Time(All test)=%s, " % format_millis(cv_all_test_time_millis)
+            performance_str += "Time(Avg test)=%s, " % format_millis(cv_avg_test_time_millis)
+            performance_str += "Time(All train)=%s, " % format_millis(cv_all_train_time_millis)
+            performance_str += "Time(Avg train)=%s, " % format_millis(cv_avg_train_time_millis)
+            performance_str += "Time(All)=%s" % cv_ml_algo_chronometer.get_elapsed_str()
 
             print(performance_str)
         print("[%d-Fold] ALL Time=%s" % (k_fold_k, cv_chronometer.get_elapsed_str()))

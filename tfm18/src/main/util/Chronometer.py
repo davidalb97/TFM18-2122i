@@ -45,3 +45,7 @@ class Chronometer:
     def get_elapsed_str(self) -> str:
         self.stop()
         return format_time_delta(self.__time_delta)
+
+    def get_elapsed_millis(self) -> float:
+        self.stop()
+        return self.__time_delta.total_seconds() * 1000

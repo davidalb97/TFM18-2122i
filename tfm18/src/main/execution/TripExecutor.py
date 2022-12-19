@@ -11,6 +11,7 @@ from tfm18.src.main.evaluation.BaseAlgorithmEvaluation import BaseAlgorithmEvalu
 from tfm18.src.main.execution.TripExecutionResultDto import TripExecutionResultDto
 from tfm18.src.main.execution.TripExecutorConfigDto import TripExecutorConfigDto
 from tfm18.src.main.util.Chronometer import Chronometer
+from tfm18.src.main.util.StrUtil import format_millis
 
 
 class TripExecutor:
@@ -132,9 +133,15 @@ class TripExecutor:
 
                 # If algorithm is machine learning, add training time
                 if algorithm_type in config.train_times_dict:
-                    metrics_str += "Time(Train)=%s," % config.train_times_dict[algorithm_type].get_elapsed_str()
+                    metrics_str += "Time(All train)=%s, " % config.train_times_dict[algorithm_type].get_elapsed_str()
 
-                metrics_str += "Time(Exec)=%s\n" % eRange_exec_chronometer_dict[algorithm_type].get_elapsed_str()
+                # Average time of algorithm execution
+                metrics_str += "Time(Avg test)=%s, " % format_millis(
+                    millis=eRange_exec_chronometer_dict[algorithm_type] \
+                               .get_elapsed_millis() / len(config.dataset_trip_dto.timestamps_min_list)
+                )
+                # All time of algorithm execution
+                metrics_str += "Time(All test)=%s\n" % eRange_exec_chronometer_dict[algorithm_type].get_elapsed_str()
             print(metrics_str)
 
         return TripExecutionResultDto(
