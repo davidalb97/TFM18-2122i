@@ -115,7 +115,7 @@ class TripExecutor:
                 # Initialize algorithm evaluation results dict
                 algorithm_evaluation_dict = dict()
                 eRange_result_evaluation_dict[algorithm_type] = algorithm_evaluation_dict
-                metrics_str += "[Trip] %s: " % algorithm_type.value[0]
+                metrics_str += "[Trip] %s: " % algorithm_type.value[3]
 
                 # Calculate each evaluation for the specific enabled algorithm
                 avaluation_algorithm: BaseAlgorithmEvaluation

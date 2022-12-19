@@ -174,7 +174,7 @@ class PredictorLearner:
             cv_ml_algo_chronometer.stop()
 
             evaluation_type: AlgorithmEvaluationType
-            performance_str: str = "[%d-Fold] %s: " % (k_fold_k, ml_algorithm.get_algorithm_type().value[0])
+            performance_str: str = "[%d-Fold] %s: " % (k_fold_k, ml_algorithm.get_algorithm_type().value[3])
 
             for idx, evaluation_type in enumerate(self.config.algorithm_evaluation_types):
                 evaluation_type_name: str = evaluation_type.value[0]
