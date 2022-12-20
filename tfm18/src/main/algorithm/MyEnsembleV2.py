@@ -38,7 +38,7 @@ class MyEnsembleV2(MyBaseRegressor):
         # max_features = math.log(feature_count)    # R^2=0.42
         max_features = 7
         # k_nearest_neighbor = 10                   # Ensemble stack article value
-        k_nearest_neighbor = 70                     # Best value tested
+        k_nearest_neighbor = 7                      # Best value tested
         k_nearest_neighbor_p = 1                    # Best value tested
         # k_nearest_neighbor_metric = 'euclidean'   # Ensemble stack article value
         k_nearest_neighbor_metric = 'minkowski'     # Best value tested

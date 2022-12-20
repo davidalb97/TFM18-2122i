@@ -23,7 +23,10 @@ class MyKNearestNeighborsRegression(MyBaseRegressor):
             # n_neighbors=100,  # 0.593, metric="euclidean"
             # n_neighbors=100,  # 0.599, metric="minkowski", p=1
             # n_neighbors=70,  # 0.607  metric="minkowski", p=1
-            n_neighbors=70,
+            # n_neighbors=69,  # 0.993 metric="minkowski", p=1
+            # n_neighbors=59,  # 0.994 metric="minkowski", p=1
+            # n_neighbors=11,  # 0.994 metric="minkowski", p=1
+            n_neighbors=7,
             # metric=k_nearest_neighbor_metric,
             metric="minkowski",
             p=1,
