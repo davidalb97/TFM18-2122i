@@ -1,1 +1,56 @@
-*.py text eof=lf
+# Set the default behavior for all files.
+* text eol=lf
+* binary auto
+
+# Ignore all differences in line endings
+# * -crlf
+
+# Normalized and converts to
+# native line endings on checkout.
+*.c text
+*.h text
+*.py text
+*.java text
+*.kt text
+*.cpp text
+*.js text
+*.xml text
+*.json text
+*.txt text
+*.gradle text
+*.properties text
+*.toml text
+*.yml text
+*.rs
+*.tex text
+*.cls text
+*.bib text
+*.csv text
+
+# Convert to CRLF line endings on checkout (Windows).
+*.sln text eol=crlf
+*.bat text eol=crlf
+
+# Convert to LF line endings on checkout (Unix).
+*.sh text eol=lf
+
+# Binary files.
+*.png binary
+*.jpg binary
+*.drawio binary
+*.pdf binary
+*.jar binary
+*.class binary
+*.obj binary
+*.exe binary
+*.bin binary
+*.pickle binary
+*.zip binary
+*.7zip binary
+*.gz binary
+*.tar binary
+*.gantt binary
+*.bin binary
+*.obj binary
+*.tgn binary
+*.ods binary
