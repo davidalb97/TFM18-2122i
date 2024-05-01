@@ -13,6 +13,7 @@ from tfm18.src.main.visualizer.DatasetTripVisualizer import DatasetTripVisualize
 if __name__ == '__main__':
 
     specific_trip_name = 'E1/VED_171213_week_772_455-AC_ON.csv'
+    # specific_trip_name = 'E0/VED_180808_week_2874_10-AC_ON.csv'
     # specific_trip_name = None
     expected_algorithm_type: AlgorithmType = AlgorithmType.HISTORY_BASED
     # expected_algorithm_type: AlgorithmType = AlgorithmType.BASIC
@@ -36,6 +37,7 @@ if __name__ == '__main__':
         # algorithms_to_train_types=[AlgorithmType.ML_LINEAR_REGRESSION],
         algorithms_to_train_types=[
             AlgorithmType.ML_LINEAR_REGRESSION,
+            # AlgorithmType.ML_LINEAR_REGRESSION_STOCHASTIC_DESCENT,
             AlgorithmType.ML_ENSEMBLE,
             AlgorithmType.ML_ENSEMBLE_V2,
             # AlgorithmType.ML_LIGHT_GBM_REGRESSION,
