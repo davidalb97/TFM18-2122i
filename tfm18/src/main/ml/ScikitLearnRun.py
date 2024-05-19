@@ -38,8 +38,8 @@ if __name__ == '__main__':
         algorithms_to_train_types=[
             AlgorithmType.ML_LINEAR_REGRESSION,
             # AlgorithmType.ML_LINEAR_REGRESSION_STOCHASTIC_DESCENT,
-            AlgorithmType.ML_ENSEMBLE,
-            AlgorithmType.ML_ENSEMBLE_V2,
+            # AlgorithmType.ML_ENSEMBLE,
+            # AlgorithmType.ML_ENSEMBLE_V2,
             # AlgorithmType.ML_LIGHT_GBM_REGRESSION,
             # AlgorithmType.ML_XGBOOST_REGRESSION,
             # AlgorithmType.ML_LASSO_REGRESSION,
