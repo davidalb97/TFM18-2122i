@@ -135,7 +135,7 @@ class VEDDatasetReader(BaseDatasetReader):
 
                 # File of ../../data/valid_trip_data/E1/TripId_VehId_AC_ON.csv
                 # File of ../../data/valid_trip_data/E2/TripId_VehId_AC_OFF.csv
-                electric_vehicle_path: str = "%s/E%s" % (self.valid_trip_dataset_path, vehicle_index)
+                electric_vehicle_path: str = "%sE%s" % (self.valid_trip_dataset_path + os.path.sep, vehicle_index)
                 original_file_name_without_extension = filename.replace(".csv", "")
                 current_trip_file_path: str = "%s/%s_%s_%s-AC_%s.csv" % (
                     electric_vehicle_path,

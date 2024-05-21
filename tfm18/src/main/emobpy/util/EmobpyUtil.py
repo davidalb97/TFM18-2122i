@@ -41,7 +41,7 @@ def purge_database() -> None:
     Clears the database from previous runs
     """
     (
-        Seq(glob.glob(emobpy_db_location + '/*'))
+        Seq(glob.glob(emobpy_db_location + os.path.sep + '*'))
         .filter(lambda file_name: os.path.isfile(file_name))
         .foreach(lambda file_name: os.remove(file_name))
     )

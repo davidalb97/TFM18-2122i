@@ -1,3 +1,5 @@
+import os
+
 from tfm18.src.main.algorithm.AlgorithmType import AlgorithmType
 from tfm18.src.main.dataset.DatasetType import DatasetType
 from tfm18.src.main.evaluation.AlgorithmEvaluationType import AlgorithmEvaluationType
@@ -12,8 +14,8 @@ from tfm18.src.main.visualizer.DatasetTripVisualizer import DatasetTripVisualize
 
 if __name__ == '__main__':
 
-    specific_trip_name = 'E1/VED_171213_week_772_455-AC_ON.csv'
-    # specific_trip_name = 'E0/VED_180808_week_2874_10-AC_ON.csv'
+    specific_trip_name = 'E1' + os.path.sep + 'VED_171213_week_772_455-AC_ON.csv'
+    # specific_trip_name = 'E0' + os.path.sep + 'VED_180808_week_2874_10-AC_ON.csv'
     # specific_trip_name = None
     expected_algorithm_type: AlgorithmType = AlgorithmType.HISTORY_BASED
     # expected_algorithm_type: AlgorithmType = AlgorithmType.BASIC

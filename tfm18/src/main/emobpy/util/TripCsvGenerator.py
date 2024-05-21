@@ -1,5 +1,7 @@
 from __future__ import annotations  # Allow postponed evaluation of annotations
 
+import os
+
 import pkg_resources
 
 
@@ -97,7 +99,7 @@ if __name__ == '__main__':
     # provider = pkg_resources.ZipProvider(pkg_resources)
     # resource_manager = pkg_resources.ResourceManager()
     # resource_manager.resource_listdir(resource_manager, "data.emobpy_data.config_files.rules.yml")
-    test = pkg_resources.resource_listdir('tfm18', 'data/emobpy_data')
+    test = pkg_resources.resource_listdir('tfm18', 'data' + os.path.sep + 'emobpy_data')
     # path = pkg_resources.resource_filename('data.emobpy_data.config_files', 'rules.yml')
     # print(path)
     print(test)

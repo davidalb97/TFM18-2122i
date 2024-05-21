@@ -86,7 +86,7 @@ class DatasetRepository:
     ) -> list[DatasetTripDto]:
         if specific_trip_id is not None:
             # Do not use os.path.sep as it can cause exception when it changes host
-            trip_name: str = replace_last(original_str=specific_trip_id, old="/", new="-", occurrences=1)
+            trip_name: str = replace_last(original_str=specific_trip_id, old=os.path.sep, new="-", occurrences=1)
             trip_name: str = replace_last(original_str=trip_name, old="\\", new="-", occurrences=1)
             pickle_file_name = "%s_%d_%.2f_%s%s" % (
                 dataset_type.value, timestep_ms, min_trip_time_ms, trip_name, self.__pickle_file_extension

@@ -6,7 +6,7 @@ from infixpy import *
 from tfm18.src.main.util.Aliases import Function, OrangeTable
 
 module_name = "tfm18"
-data_submodule_prefix = 'data/'
+data_submodule_prefix = 'data' + os.path.sep
 
 
 def data_list_subdirectories(data_subdir_path: str = "") -> list[str]:
